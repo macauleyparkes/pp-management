@@ -332,9 +332,9 @@
   <div class="notif-msg" id="notif-msg"></div>
 </div>
  
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
  
 const firebaseConfig = {
   apiKey: "AIzaSyCRIcqBYll20y6oHLHiBJkHtCjB9YtB9Kg",
@@ -346,8 +346,8 @@ const firebaseConfig = {
   measurementId: "G-54FN5ZLEGD"
 };
  
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
  
 // ─── TASK DATA ───────────────────────────────────────────────────────────────
 const TASKS = {
@@ -364,17 +364,20 @@ const TASKS = {
 };
  
 // Default colour labels for calendar
+// payDays: how many days this colour counts toward pay log (1=full day, 0.5=half day, 0=none)
 const DEFAULT_COLOURS = [
-  {id:1, hex:'#e74c3c', label:'Van MOT / Service'},
-  {id:2, hex:'#e67e22', label:'Appointment / Meeting'},
-  {id:3, hex:'#f39c12', label:'Off Sick'},
-  {id:4, hex:'#27ae60', label:'On Site'},
-  {id:5, hex:'#2471a3', label:'Annual Leave'},
-  {id:6, hex:'#8e44ad', label:''},
-  {id:7, hex:'#16a085', label:''},
-  {id:8, hex:'#c0392b', label:''},
-  {id:9, hex:'#795548', label:''},
-  {id:10, hex:'#607d8b', label:''},
+  {id:1, hex:'#27ae60', label:'On Site',            payDays:1},
+  {id:2, hex:'#8B1A4A', label:'Half Day',           payDays:0.5},
+  {id:3, hex:'#2471a3', label:'Annual Leave',       payDays:0},
+  {id:4, hex:'#6c3483', label:'Bank Holiday',       payDays:0},
+  {id:5, hex:'#c0392b', label:'Van in Garage',      payDays:0},
+  {id:6, hex:'#f1c40f', label:'Off Sick',           payDays:0},
+  {id:7, hex:'#e67e22', label:'Appointment/Meeting',payDays:0},
+  {id:8, hex:'#16a085', label:'',                   payDays:0},
+  {id:9, hex:'#795548', label:'',                   payDays:0},
+  {id:10,hex:'#607d8b', label:'',                   payDays:0},
+  {id:11,hex:'#2c3e50', label:'',                   payDays:0},
+  {id:12,hex:'#d35400', label:'',                   payDays:0},
 ];
  
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -393,14 +396,18 @@ const fmtDisplayDate = d => d.toLocaleDateString('en-GB',{weekday:'long',day:'nu
 const dateToKey = d => d.toISOString().split('T')[0];
  
 // ─── FIREBASE HELPERS ────────────────────────────────────────────────────────
+function dbDoc(path) {
+  const parts = path.split('/');
+  return db.collection(parts[0]).doc(parts[1]);
+}
 async function fbSet(path, data) {
-  try { await setDoc(doc(db, path), data); } catch(e) { console.error('Save error:', e); }
+  try { await dbDoc(path).set(data); } catch(e) { console.error('Save error:', e); }
 }
 async function fbGet(path, def) {
-  try { const s = await getDoc(doc(db, path)); return s.exists() ? s.data() : def; } catch(e) { return def; }
+  try { const s = await dbDoc(path).get(); return s.exists ? s.data() : def; } catch(e) { return def; }
 }
 function fbListen(path, callback) {
-  const unsub = onSnapshot(doc(db, path), snap => { if(snap.exists()) callback(snap.data()); });
+  const unsub = dbDoc(path).onSnapshot(snap => { if(snap.exists) callback(snap.data()); });
   unsubscribers.push(unsub);
   return unsub;
 }
@@ -700,8 +707,15 @@ function renderCalendar() {
     const memberOptions=teamMembers.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
     const colourOptions=colourLabels.map(c=>`<option value="${c.id}">${c.label||'Colour '+c.id}</option>`).join('');
  
+    // Check if previous day has entries for copy button
+    const prevDateKey = (()=>{ const pd=new Date(selectedCalDate+'T12:00:00'); pd.setDate(pd.getDate()-1); return pd.toISOString().split('T')[0]; })();
+    const prevEntries = calEntries[prevDateKey]||[];
+ 
     html+=`<div class="day-panel">
-      <div class="day-panel-header"><div class="day-panel-title">${displayDate}</div></div>
+      <div class="day-panel-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="day-panel-title">${displayDate}</div>
+        ${prevEntries.length>0?`<button onclick="copyPrevDay('${selectedCalDate}','${prevDateKey}')" style="background:var(--gold);color:var(--black);border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;">Copy Previous Day</button>`:''}
+      </div>
       <div class="day-panel-body">
         <div class="add-entry-form">
           <div class="form-group"><label>Person</label><select id="cal-person">${memberOptions}</select></div>
@@ -725,6 +739,16 @@ function renderCalendar() {
   }
  
   document.getElementById('view-calendar').innerHTML=html;
+}
+ 
+async function copyPrevDay(targetDateKey, sourceDateKey) {
+  const sourceEntries = calEntries[sourceDateKey]||[];
+  if(!sourceEntries.length) return;
+  const existing = calEntries[targetDateKey]||[];
+  const toAdd = sourceEntries.filter(se => !existing.some(ex=>ex.person===se.person && ex.job===se.job));
+  calEntries[targetDateKey] = [...existing, ...toAdd];
+  await fbSet('app/calendar', calEntries);
+  renderCalendar();
 }
  
 function changeMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
@@ -884,6 +908,14 @@ function getPayWeekLabel(offset){
   return offset===0?`This Week (${fmt(mon)} – ${fmt(fri)})`:`${fmt(mon)} – ${fmt(fri)}`;
 }
  
+function getColourPayDays(colourId) {
+  // Check loaded colourLabels first, then defaults
+  const c = colourLabels.find(c=>c.id===colourId);
+  if(c && c.payDays !== undefined) return c.payDays;
+  const d = DEFAULT_COLOURS.find(c=>c.id===colourId);
+  return d ? (d.payDays||0) : 0;
+}
+ 
 function getCalDaysForWeek(personName, weekStartKey){
   const mon=new Date(weekStartKey+'T12:00:00');
   let count=0;
@@ -891,9 +923,12 @@ function getCalDaysForWeek(personName, weekStartKey){
     const d=new Date(mon);d.setDate(d.getDate()+i);
     const dk=d.toISOString().split('T')[0];
     const entries=calEntries[dk]||[];
-    // Count days where this person has any calendar entry (excluding annual leave)
-    const hasEntry = entries.some(e => e.person===personName);
-    if(hasEntry) count++;
+    entries.forEach(e=>{
+      if(e.person===personName) {
+        const pd = getColourPayDays(e.colourId||0);
+        count += pd;
+      }
+    });
   }
   return count;
 }
@@ -909,7 +944,15 @@ function calcEntryAmount(e) {
   return base + ot;
 }
  
+let _payFocusId = null;
+let _payFocusVal = null;
+ 
 function renderPayLog(){
+  // Save focused input before re-render
+  if(document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fieldkey) {
+    _payFocusId = document.activeElement.dataset.fieldkey;
+    _payFocusVal = document.activeElement.value;
+  }
   const wk=getPayWeekKey(payLogWeekOffset);
   const entries=payLog[wk]?JSON.parse(JSON.stringify(payLog[wk])):[];
   const existingIds=entries.map(e=>e.personId);
@@ -957,30 +1000,30 @@ function renderPayLog(){
         ${e.basis==='day-rate'?`
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
           <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Days Worked</label>
-            <input class="paylog-input" type="number" min="0" step="0.5" value="${e.days}" placeholder="${calDays>0?calDays+' in cal':'0'}" oninput="updatePayField('${wk}','${pid}','days',this.value)"/>
+            <input class="paylog-input" type="number" min="0" step="0.5" value="${e.days}" placeholder="${calDays>0?calDays+' in cal':'0'}" data-fieldkey="${pid}-days" oninput="updatePayField('${wk}','${pid}','days',this.value)"/>
             ${calDays>0?`<div class="cal-days-info">📅 ${calDays} days in calendar</div>`:''}
           </div>
           <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Day Rate £</label>
-            <input class="paylog-input" type="number" min="0" step="1" value="${e.rate}" placeholder="e.g. 180" oninput="updatePayField('${wk}','${pid}','rate',this.value)"/>
+            <input class="paylog-input" type="number" min="0" step="1" value="${e.rate}" placeholder="e.g. 180" data-fieldkey="${pid}-rate" oninput="updatePayField('${wk}','${pid}','rate',this.value)"/>
           </div>
         </div>`:
         `<div style="margin-bottom:10px;"><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Price Work Total £</label>
-          <input class="paylog-input" type="number" min="0" step="1" value="${e.priceTotal||''}" placeholder="e.g. 1200" oninput="updatePayField('${wk}','${pid}','priceTotal',this.value)"/>
+          <input class="paylog-input" type="number" min="0" step="1" value="${e.priceTotal||''}" placeholder="e.g. 1200" data-fieldkey="${pid}-priceTotal" oninput="updatePayField('${wk}','${pid}','priceTotal',this.value)"/>
         </div>`}
         <div style="border-top:1px solid var(--beige-mid);padding-top:12px;margin-bottom:10px;">
           <div class="ot-label">⏱ Overtime / Evenings</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">OT Hours</label>
-              <input class="paylog-input" type="number" min="0" step="0.5" value="${e.otHours||''}" placeholder="e.g. 3" oninput="updatePayField('${wk}','${pid}','otHours',this.value)"/>
+              <input class="paylog-input" type="number" min="0" step="0.5" value="${e.otHours||''}" placeholder="e.g. 3" data-fieldkey="${pid}-otHours" oninput="updatePayField('${wk}','${pid}','otHours',this.value)"/>
             </div>
             <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">OT Rate £/hr</label>
-              <input class="paylog-input" type="number" min="0" step="1" value="${e.otRate||''}" placeholder="e.g. 25" oninput="updatePayField('${wk}','${pid}','otRate',this.value)"/>
+              <input class="paylog-input" type="number" min="0" step="1" value="${e.otRate||''}" placeholder="e.g. 25" data-fieldkey="${pid}-otRate" oninput="updatePayField('${wk}','${pid}','otRate',this.value)"/>
             </div>
           </div>
           <div class="pay-ot-total" style="font-size:12px;color:var(--gold);margin-top:4px;">${otAmt>0?`OT total: £${otAmt.toFixed(2)}`:''}</div>
         </div>
         <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Note</label>
-          <input class="paylog-input" type="text" value="${e.note||''}" placeholder="Optional note" oninput="updatePayField('${wk}','${pid}','note',this.value)"/>
+          <input class="paylog-input" type="text" value="${e.note||''}" placeholder="Optional note" data-fieldkey="${pid}-note" oninput="updatePayField('${wk}','${pid}','note',this.value)"/>
         </div>
       </div>
     </div>`;
@@ -1032,6 +1075,11 @@ function renderPayLog(){
   }
  
   document.getElementById('view-paylog').innerHTML=html;
+  // Restore focus after re-render
+  if(_payFocusId) {
+    const el = document.querySelector('[data-fieldkey="'+_payFocusId+'"]');
+    if(el) { el.focus(); el.value = _payFocusVal||el.value; _payFocusId=null; }
+  }
 }
  
 function changePayWeek(dir){payLogWeekOffset+=dir;renderPayLog();}
@@ -1071,20 +1119,23 @@ async function savePayLog(wk){
  
 // ─── SETTINGS ────────────────────────────────────────────────────────────────
 function renderSettings() {
-  let html = `<div class="view-header"><div class="view-title">Settings</div><div class="view-subtitle">Customise your calendar colours — name each one however you like</div></div>
-  <div class="settings-section">
-    <div class="settings-header"><div class="settings-header-title">Calendar Colour Labels</div></div>
-    <div class="settings-body">
-      ${colourLabels.map(c=>`
-        <div class="colour-row">
-          <div class="colour-swatch" style="background:${c.hex}"></div>
-          <input class="colour-input" type="text" value="${c.label}" placeholder="Name this colour..." oninput="updateColourLabel(${c.id},this.value)"/>
-        </div>
-      `).join('')}
-      <button class="notes-save-btn" style="margin-top:14px;" onclick="saveColourLabels()">Save Labels</button>
-      <span class="saved-msg" id="colours-saved-msg" style="margin-left:10px;">Saved ✓</span>
-    </div>
-  </div>`;
+  // Merge defaults with loaded labels so payDays is always present
+  const merged = DEFAULT_COLOURS.map(dc => {
+    const loaded = colourLabels.find(c=>c.id===dc.id);
+    return loaded ? {...dc, ...loaded} : dc;
+  });
+  let html = '<div class="view-header"><div class="view-title">Settings</div><div class="view-subtitle">Name each colour and set whether it counts as a paid day on the pay log</div></div>'
+  + '<div class="settings-section"><div class="settings-header"><div class="settings-header-title">Calendar Colour Labels</div></div><div class="settings-body">';
+  merged.forEach(c => {
+    const pd = c.payDays!==undefined ? c.payDays : 0;
+    html += '<div class="colour-row">'
+      + '<div class="colour-swatch" style="background:'+c.hex+'"></div>'
+      + '<input class="colour-input" type="text" value="'+c.label+'" placeholder="Name this colour..." oninput="updateColourLabel('+c.id+',this.value)"/>'
+      + '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:'+(pd>0?'var(--green)':'var(--text-light)')+';min-width:60px;text-align:right;">'+(pd===1?'Full day':pd===0.5?'Half day':'No pay')+'</div>'
+      + '</div>';
+  });
+  html += '<div style="font-size:12px;color:var(--text-mid);margin-top:12px;padding:10px;background:var(--beige-light);border:1px solid var(--beige-mid);">🟢 <strong>On Site</strong> = full day pay &nbsp;|&nbsp; 🟣 <strong>Half Day</strong> = 0.5 days pay &nbsp;|&nbsp; All other colours = no pay counted</div>';
+  html += '<button class="notes-save-btn" style="margin-top:14px;" onclick="saveColourLabels()">Save Labels</button><span class="saved-msg" id="colours-saved-msg" style="margin-left:10px;">Saved ✓</span></div></div>';
   document.getElementById('view-settings').innerHTML=html;
 }
  
@@ -1093,7 +1144,13 @@ function updateColourLabel(id, val) {
 }
  
 async function saveColourLabels() {
-  await fbSet('app/colours', {list:colourLabels});
+  // Preserve payDays from defaults when saving
+  const toSave = colourLabels.map(c => {
+    const def = DEFAULT_COLOURS.find(d=>d.id===c.id);
+    return {...c, payDays: def ? def.payDays : (c.payDays||0)};
+  });
+  colourLabels = toSave;
+  await fbSet('app/colours', {list:toSave});
   const msg=document.getElementById('colours-saved-msg');
   if(msg){msg.style.opacity='1';setTimeout(()=>msg.style.opacity='0',2000);}
 }
@@ -1159,7 +1216,7 @@ window.sendNudge=sendNudge;
 window.addMember=addMember; window.removeMember=removeMember;
 window.startMemberEdit=startMemberEdit; window.cancelMemberEdit=cancelMemberEdit; window.saveMemberEdit=saveMemberEdit;
 window.changePayWeek=changePayWeek; window.updatePayField=updatePayField; window.savePayLog=savePayLog; window.setPayBasis=setPayBasis; window.ensurePayEntry=ensurePayEntry;
-window.updateColourLabel=updateColourLabel; window.saveColourLabels=saveColourLabels;
+window.updateColourLabel=updateColourLabel; window.saveColourLabels=saveColourLabels; window.copyPrevDay=copyPrevDay;
 </script>
 </body>
 </html>
