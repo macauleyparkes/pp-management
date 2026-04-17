@@ -698,7 +698,7 @@ function renderCalendar() {
   if(selectedCalDate){
     const entries=calEntries[selectedCalDate]||[];
     const displayDate=new Date(selectedCalDate+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    const memberOptions=teamMembers.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
+    const memberOptions='<option value="— General —">— General —</option>'+teamMembers.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
     const colourOptions=colourLabels.map(c=>`<option value="${c.id}">${c.label||'Colour '+c.id}</option>`).join('');
 
     // Check if previous day has entries for copy button
@@ -723,7 +723,7 @@ function renderCalendar() {
           ${entries.length===0?`<div class="no-entries">No entries for this day yet</div>`:
           entries.map((e,i)=>`<div class="entry-row" style="border-left-color:${getColour(e.colourId||0)}">
             <div style="width:12px;height:12px;border-radius:50%;background:${getColour(e.colourId||0)};flex-shrink:0;"></div>
-            <div class="entry-person">${e.person}</div>
+            ${e.person!=='— General —'?`<div class="entry-person">${e.person}</div>`:''}
             <div class="entry-job">${e.job} <span style="font-size:11px;color:#999990">${getColourLabel(e.colourId||0)}</span></div>
             <button class="entry-remove" onclick="removeCalEntry(${i})">×</button>
           </div>`).join('')}
