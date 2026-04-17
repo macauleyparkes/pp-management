@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,262 +8,261 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #1a1a18; font-family: 'Barlow', sans-serif; min-height: 100vh; color: #2a2a26; }
-
-/* LOGIN */
-#login-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; background:#1a1a18; background-image:radial-gradient(ellipse at 20% 50%, rgba(184,150,90,0.06) 0%, transparent 60%); }
-.login-logo { text-align:center; margin-bottom:48px; }
-.login-logo .company-name { font-family:‘Playfair Display’,serif; font-weight:900; font-size:36px; color:#e8dcc8; letter-spacing:3px; }
-.login-logo .company-sub { font-size:11px; color:#999990; letter-spacing:5px; text-transform:uppercase; margin-top:6px; }
-.login-logo .gold-rule { width:60px; height:2px; background:#b8965a; margin:14px auto 0; }
-.login-title { font-size:13px; color:#999990; letter-spacing:2px; text-transform:uppercase; margin-bottom:36px; }
-.profile-cards { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
-.profile-card { background:#222220; border:1px solid rgba(184,150,90,0.2); padding:32px 40px; cursor:pointer; transition:all 0.2s; text-align:center; min-width:170px; position:relative; }
-.profile-card::before { content:’’; position:absolute; top:0;left:0;right:0; height:2px; background:#b8965a; transform:scaleX(0); transition:transform 0.2s; }
-.profile-card:hover { border-color:#b8965a; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.profile-card:hover::before { transform:scaleX(1); }
-.profile-avatar { width:60px; height:60px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:22px; color:#1a1a18; margin:0 auto 14px; }
-.profile-card .name { font-family:‘Playfair Display’,serif; font-size:19px; color:#e8dcc8; font-weight:700; }
-.profile-card .role-label { font-size:11px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-top:5px; }
-
-/* APP */
-#app { display:none; min-height:100vh; background:#f5f0e8; }
-.app-header { background:#1a1a18; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:60px; border-bottom:2px solid #b8965a; position:sticky; top:0; z-index:100; }
-.header-logo { font-family:‘Playfair Display’,serif; font-weight:900; font-size:17px; color:#e8dcc8; letter-spacing:2px; }
-.header-logo span { color:#b8965a; }
-.header-right { display:flex; align-items:center; gap:14px; }
-.user-avatar-sm { width:30px; height:30px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:12px; color:#1a1a18; }
-.user-name-sm { font-size:13px; color:#e8dcc8; font-weight:500; }
-.switch-btn { background:transparent; border:1px solid rgba(184,150,90,0.4); color:#999990; font-family:‘Barlow’,sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; cursor:pointer; transition:all 0.15s; }
-.switch-btn:hover { border-color:#b8965a; color:#b8965a; }
-.sync-indicator { font-size:10px; color:#999990; letter-spacing:1px; }
-.sync-indicator.live { color:#2ecc71; }
-
-/* TABS */
-.tab-bar { background:#222220; display:flex; border-bottom:1px solid rgba(184,150,90,0.15); padding:0 24px; overflow-x:auto; }
-.tab { padding:13px 16px; font-size:12px; font-weight:500; color:#999990; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s; }
-.tab:hover { color:#e8dcc8; }
-.tab.active { color:#b8965a; border-bottom-color:#b8965a; }
-
-/* BODY */
-.app-body { max-width:920px; margin:0 auto; padding:26px 20px 70px; }
-.view-header { margin-bottom:24px; }
-.view-title { font-family:‘Playfair Display’,serif; font-size:26px; color:#1a1a18; font-weight:700; }
-.view-subtitle { font-size:13px; color:#666660; margin-top:3px; }
-
-/* PROGRESS */
-.progress-summary { background:#fdfaf5; border:1px solid #d4c4a8; padding:18px 22px; margin-bottom:24px; display:flex; align-items:center; gap:18px; }
-.progress-bar-wrap { flex:1; height:5px; background:#d4c4a8; border-radius:3px; overflow:hidden; }
-.progress-bar-fill { height:100%; background:#b8965a; border-radius:3px; transition:width 0.4s; }
-.progress-text { font-size:12px; color:#666660; }
-.progress-pct { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:#b8965a; min-width:48px; text-align:right; }
-
-/* TASKS */
-.task-section { margin-bottom:28px; }
-.section-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#999990; }
-.section-rule { flex:1; height:1px; background:#d4c4a8; }
-.section-count { font-size:11px; color:#999990; }
-.task-card { background:#fdfaf5; border:1px solid #d4c4a8; border-left:3px solid #d4c4a8; padding:13px 16px; margin-bottom:7px; display:flex; align-items:flex-start; gap:12px; transition:all 0.15s; cursor:pointer; user-select:none; }
-.task-card:hover { border-color:#b8965a; }
-.task-card.done { background:#e8f5ee; border-left-color:#2e7d52; opacity:0.85; }
-.task-check { width:20px; height:20px; border:2px solid #d4c4a8; border-radius:3px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; background:white; font-size:12px; }
-.task-card.done .task-check { background:#2e7d52; border-color:#2e7d52; color:white; }
-.task-text { flex:1; font-size:14px; line-height:1.5; color:#2a2a26; }
-.task-card.done .task-text { text-decoration:line-through; color:#666660; }
-
-/* NOTES */
-.notes-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:28px; }
-.notes-header { background:#1a1a18; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
-.notes-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
-.notes-date { font-size:11px; color:#999990; }
-.notes-body { padding:16px; }
-.notes-textarea { width:100%; min-height:90px; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:14px; color:#2a2a26; padding:10px 12px; resize:vertical; outline:none; line-height:1.5; }
-.notes-textarea:focus { border-color:#b8965a; }
-.notes-save-btn { margin-top:8px; background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; cursor:pointer; transition:all 0.15s; }
-.notes-save-btn:hover { background:#b8965a; color:#1a1a18; }
-.saved-msg { font-size:11px; color:#2e7d52; margin-left:10px; opacity:0; transition:opacity 0.3s; }
-.other-notes-box { border-top:1px solid #d4c4a8; padding:14px 16px; background:#f5f0e8; }
-.other-notes-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#999990; margin-bottom:6px; }
-.other-notes-text { font-size:13px; color:#666660; line-height:1.5; white-space:pre-wrap; }
-.other-notes-empty { font-size:13px; color:#999990; font-style:italic; }
-.notes-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; background:#fdfaf5; border:1px solid #d4c4a8; padding:10px 14px; }
-.notes-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:30px; height:30px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; font-family:‘Barlow’,sans-serif; }
-.notes-nav-btn:hover { background:#b8965a; color:#1a1a18; }
-.notes-nav-date { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#1a1a18; text-align:center; flex:1; }
-.notes-nav-today { font-size:11px; color:#b8965a; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; background:none; border:none; font-family:‘Barlow’,sans-serif; }
-
-/* CALENDAR */
-.cal-nav { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
-.cal-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:32px; height:32px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
-.cal-nav-btn:hover { background:#b8965a; color:#1a1a18; }
-.cal-month-label { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:#1a1a18; }
-.cal-legend { display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
-.cal-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#666660; }
-.cal-legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:#d4c4a8; border:1px solid #d4c4a8; margin-bottom:24px; }
-.cal-day-header { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-align:center; padding:8px 2px; }
-.cal-day { background:#fdfaf5; min-height:72px; padding:5px; cursor:pointer; transition:background 0.12s; overflow:hidden; }
-.cal-day:hover { background:#f5f0e8; }
-.cal-day.other-month { background:#f0ece4; }
-.cal-day.today { outline:2px solid #b8965a; outline-offset:-2px; }
-.cal-day.selected { background:#e8dcc8; }
-.cal-day-num { font-size:11px; font-weight:600; color:#666660; margin-bottom:3px; }
-.cal-day.today .cal-day-num { color:#b8965a; font-weight:700; }
-.entry-pill { font-size:9px; font-weight:600; padding:1px 4px; border-radius:2px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:white; }
-
-/* DAY PANEL */
-.day-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
-.day-panel-header { background:#1a1a18; padding:14px 18px; }
-.day-panel-title { font-family:‘Playfair Display’,serif; font-size:16px; color:#e8dcc8; font-weight:700; }
-.day-panel-body { padding:18px; }
-.add-entry-form { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:10px; align-items:end; margin-bottom:18px; }
-.form-group label { display:block; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#999990; margin-bottom:5px; }
-.form-group select, .form-group input { width:100%; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:8px 10px; outline:none; }
-.form-group select:focus, .form-group input:focus { border-color:#b8965a; }
-.add-entry-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 16px; cursor:pointer; transition:all 0.15s; height:36px; white-space:nowrap; }
-.add-entry-btn:hover { background:#b8965a; color:#1a1a18; }
-.entries-list { display:flex; flex-direction:column; gap:8px; }
-.entry-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f5f0e8; border:1px solid #d4c4a8; border-left:4px solid #999; }
-.entry-person { font-weight:600; font-size:13px; color:#1a1a18; min-width:90px; }
-.entry-job { flex:1; font-size:13px; color:#2a2a26; }
-.entry-remove { background:none; border:none; color:#999990; cursor:pointer; font-size:16px; padding:0 4px; margin-left:auto; }
-.entry-remove:hover { color:#c0392b; }
-.no-entries { font-size:13px; color:#999990; font-style:italic; text-align:center; padding:16px 0; }
-
-/* TEAM */
-.team-card { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:18px; }
-.team-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #d4c4a8; }
-.team-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:18px; color:#1a1a18; }
-.team-name { font-family:‘Playfair Display’,serif; font-size:19px; font-weight:700; color:#1a1a18; }
-.team-roles { font-size:12px; color:#666660; margin-top:2px; }
-.team-progress-row { display:flex; gap:10px; flex-wrap:wrap; }
-.team-stat { flex:1; min-width:90px; background:#f5f0e8; border:1px solid #d4c4a8; padding:10px 14px; text-align:center; }
-.team-stat-val { font-family:‘Playfair Display’,serif; font-size:22px; font-weight:700; color:#b8965a; }
-.team-stat-label { font-size:10px; color:#666660; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
-.missed-tasks-list { margin-top:14px; }
-.missed-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #d4c4a8; font-size:13px; }
-.missed-item:last-child { border-bottom:none; }
-.missed-dot { width:7px; height:7px; background:#c0392b; border-radius:50%; flex-shrink:0; }
-.missed-freq { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-left:auto; }
-
-/* STREAKS & LEADERBOARD */
-.leaderboard-card { background:#1a1a18; border:2px solid #b8965a; padding:22px; margin-bottom:22px; }
-.leaderboard-title { font-family:‘Playfair Display’,serif; font-size:20px; color:#b8965a; font-weight:700; margin-bottom:18px; text-align:center; letter-spacing:1px; }
-.leaderboard-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(184,150,90,0.2); }
-.leaderboard-row:last-child { border-bottom:none; }
-.leaderboard-pos { font-family:‘Playfair Display’,serif; font-size:28px; font-weight:900; color:#b8965a; min-width:36px; }
-.leaderboard-pos.second { color:#d4c4a8; }
-.leaderboard-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:16px; color:#1a1a18; flex-shrink:0; }
-.leaderboard-avatar.second { background:#d4c4a8; }
-.leaderboard-info { flex:1; }
-.leaderboard-name { font-family:‘Playfair Display’,serif; font-size:17px; color:#e8dcc8; font-weight:700; }
-.leaderboard-streaks { display:flex; gap:8px; margin-top:5px; flex-wrap:wrap; }
-.streak-badge { display:flex; align-items:center; gap:4px; background:rgba(184,150,90,0.15); border:1px solid rgba(184,150,90,0.3); padding:3px 9px; border-radius:2px; }
-.streak-badge.active { background:rgba(184,150,90,0.25); border-color:#b8965a; }
-.streak-val { font-family:‘Playfair Display’,serif; font-size:14px; font-weight:700; color:#b8965a; }
-.streak-label { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
-.streak-fire { font-size:13px; }
-.leaderboard-score { text-align:right; }
-.leaderboard-total { font-family:‘Playfair Display’,serif; font-size:26px; font-weight:900; color:#b8965a; line-height:1; }
-.leaderboard-total.second { color:#d4c4a8; }
-.leaderboard-pts { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
-
-/* NUDGE */
-.nudge-section { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:22px; }
-.nudge-title { font-family:‘Playfair Display’,serif; font-size:17px; font-weight:700; color:#1a1a18; margin-bottom:14px; }
-.nudge-row { display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid #d4c4a8; }
-.nudge-row:last-child { border-bottom:none; }
-.nudge-avatar { width:38px; height:38px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:15px; color:#1a1a18; flex-shrink:0; }
-.nudge-info { flex:1; }
-.nudge-name { font-weight:600; font-size:13px; color:#1a1a18; }
-.nudge-stats { font-size:12px; color:#666660; margin-top:2px; }
-.nudge-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:7px 14px; cursor:pointer; transition:all 0.15s; }
-.nudge-btn:hover { background:#b8965a; color:#1a1a18; }
-.nudge-btn:disabled { opacity:0.4; cursor:default; }
-
-/* MANAGE */
-.manage-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
-.manage-header { background:#1a1a18; padding:12px 18px; }
-.manage-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
-.manage-body { padding:18px; }
-.member-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #d4c4a8; }
-.member-row:last-child { border-bottom:none; }
-.member-av { width:34px; height:34px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:13px; color:#1a1a18; flex-shrink:0; }
-.member-info { flex:1; }
-.member-name { font-size:14px; font-weight:600; color:#1a1a18; }
-.member-role { font-size:11px; color:#666660; }
-.type-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:2px; flex-shrink:0; }
-.type-badge.director { background:#1a1a18; color:#e8dcc8; }
-.type-badge.operative { background:#d4c4a8; color:#2a2a26; }
-.rm-btn { background:none; border:1px solid rgba(192,57,43,0.3); color:#c0392b; font-family:‘Barlow’,sans-serif; font-size:11px; padding:4px 10px; cursor:pointer; transition:all 0.15s; }
-.rm-btn:hover { background:#c0392b; color:white; border-color:#c0392b; }
-.add-member-form { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-top:16px; padding-top:16px; border-top:1px solid #d4c4a8; }
-
-/* PAY LOG */
-.paylog-week-selector { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-.paylog-week-label { font-family:‘Playfair Display’,serif; font-size:18px; font-weight:700; color:#1a1a18; }
-.paylog-table { width:100%; border-collapse:collapse; background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
-.paylog-table th { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:10px 10px; text-align:left; }
-.paylog-table td { padding:9px 10px; border-bottom:1px solid #d4c4a8; font-size:13px; color:#2a2a26; vertical-align:middle; }
-.paylog-table tr:last-child td { border-bottom:none; }
-.paylog-table tr:hover td { background:#f5f0e8; }
-.paylog-input { border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
-.paylog-input:focus { border-color:#b8965a; }
-.paylog-select { border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:12px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
-.paylog-total-row td { background:#e8dcc8; font-weight:700; border-top:2px solid #b8965a; }
-.paylog-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#b8965a; }
-.paylog-total-row .paylog-amount { font-size:17px; color:#1a1a18; }
-.cal-days-info { font-size:11px; color:#2471a3; font-style:italic; }
-.paylog-save-row { display:flex; align-items:center; gap:12px; margin-top:4px; margin-bottom:28px; }
-.paylog-history { background:#fdfaf5; border:1px solid #d4c4a8; }
-.paylog-history-header { background:#222220; padding:12px 16px; }
-.paylog-history-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
-.paylog-hist-week { border-bottom:1px solid #d4c4a8; }
-.paylog-hist-week:last-child { border-bottom:none; }
-.paylog-hist-week-label { padding:10px 16px; font-weight:600; font-size:13px; color:#666660; background:#f5f0e8; border-bottom:1px solid #d4c4a8; }
-.paylog-hist-row { display:flex; align-items:center; padding:9px 16px; border-bottom:1px solid #d4c4a8; gap:12px; }
-.paylog-hist-row:last-child { border-bottom:none; }
-.paylog-hist-name { font-weight:600; font-size:13px; color:#1a1a18; min-width:130px; }
-.paylog-hist-detail { font-size:12px; color:#666660; flex:1; }
-.paylog-hist-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#b8965a; }
-.basis-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 6px; border-radius:2px; }
-.basis-badge.day-rate { background:#b8965a; color:#1a1a18; }
-.basis-badge.price-work { background:#1a1a18; color:#e8dcc8; }
-.ot-row { background:rgba(184,150,90,0.06); }
-.ot-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#b8965a; margin-bottom:3px; }
-
-/* SETTINGS */
-.settings-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
-.settings-header { background:#1a1a18; padding:12px 18px; }
-.settings-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
-.settings-body { padding:18px; }
-.colour-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid #d4c4a8; }
-.colour-row:last-child { border-bottom:none; }
-.colour-swatch { width:28px; height:28px; border-radius:4px; flex-shrink:0; border:2px solid rgba(0,0,0,0.1); }
-.colour-input { flex:1; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:6px 10px; outline:none; }
-.colour-input:focus { border-color:#b8965a; }
-
-/* NOTIFICATION */
-.notif-bar { position:fixed; top:68px; right:16px; background:#1a1a18; border:1px solid #b8965a; border-left:4px solid #b8965a; padding:12px 32px 12px 14px; max-width:280px; z-index:999; animation:slideIn 0.3s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.notif-from { font-size:10px; color:#b8965a; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
-.notif-msg { font-size:13px; color:#e8dcc8; line-height:1.4; }
-.notif-close { position:absolute; top:8px; right:8px; background:none; border:none; color:#999990; cursor:pointer; font-size:14px; }
-@keyframes slideIn { from{transform:translateX(20px);opacity:0;} to{transform:translateX(0);opacity:1;} }
-
-@media(max-width:600px){
-.profile-cards{flex-direction:column;align-items:center;}
-.app-body{padding:16px 12px 70px;}
-.add-entry-form{grid-template-columns:1fr 1fr;}
-.add-member-form{grid-template-columns:1fr;}
-.team-progress-row{gap:6px;}
-.cal-day{min-height:52px;}
-.paylog-table th:nth-child(3),.paylog-table td:nth-child(3){display:none;}
-}
+ 
+  /* LOGIN */
+  #login-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; background:#1a1a18; background-image:radial-gradient(ellipse at 20% 50%, rgba(184,150,90,0.06) 0%, transparent 60%); }
+  .login-logo { text-align:center; margin-bottom:48px; }
+  .login-logo .company-name { font-family:'Playfair Display',serif; font-weight:900; font-size:36px; color:#e8dcc8; letter-spacing:3px; }
+  .login-logo .company-sub { font-size:11px; color:#999990; letter-spacing:5px; text-transform:uppercase; margin-top:6px; }
+  .login-logo .gold-rule { width:60px; height:2px; background:#b8965a; margin:14px auto 0; }
+  .login-title { font-size:13px; color:#999990; letter-spacing:2px; text-transform:uppercase; margin-bottom:36px; }
+  .profile-cards { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+  .profile-card { background:#222220; border:1px solid rgba(184,150,90,0.2); padding:32px 40px; cursor:pointer; transition:all 0.2s; text-align:center; min-width:170px; position:relative; }
+  .profile-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:#b8965a; transform:scaleX(0); transition:transform 0.2s; }
+  .profile-card:hover { border-color:#b8965a; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+  .profile-card:hover::before { transform:scaleX(1); }
+  .profile-avatar { width:60px; height:60px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:22px; color:#1a1a18; margin:0 auto 14px; }
+  .profile-card .name { font-family:'Playfair Display',serif; font-size:19px; color:#e8dcc8; font-weight:700; }
+  .profile-card .role-label { font-size:11px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-top:5px; }
+ 
+  /* APP */
+  #app { display:none; min-height:100vh; background:#f5f0e8; }
+  .app-header { background:#1a1a18; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:60px; border-bottom:2px solid #b8965a; position:sticky; top:0; z-index:100; }
+  .header-logo { font-family:'Playfair Display',serif; font-weight:900; font-size:17px; color:#e8dcc8; letter-spacing:2px; }
+  .header-logo span { color:#b8965a; }
+  .header-right { display:flex; align-items:center; gap:14px; }
+  .user-avatar-sm { width:30px; height:30px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:12px; color:#1a1a18; }
+  .user-name-sm { font-size:13px; color:#e8dcc8; font-weight:500; }
+  .switch-btn { background:transparent; border:1px solid rgba(184,150,90,0.4); color:#999990; font-family:'Barlow',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; cursor:pointer; transition:all 0.15s; }
+  .switch-btn:hover { border-color:#b8965a; color:#b8965a; }
+  .sync-indicator { font-size:10px; color:#999990; letter-spacing:1px; }
+  .sync-indicator.live { color:#2ecc71; }
+ 
+  /* TABS */
+  .tab-bar { background:#222220; display:flex; border-bottom:1px solid rgba(184,150,90,0.15); padding:0 24px; overflow-x:auto; }
+  .tab { padding:13px 16px; font-size:12px; font-weight:500; color:#999990; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s; }
+  .tab:hover { color:#e8dcc8; }
+  .tab.active { color:#b8965a; border-bottom-color:#b8965a; }
+ 
+  /* BODY */
+  .app-body { max-width:920px; margin:0 auto; padding:26px 20px 70px; }
+  .view-header { margin-bottom:24px; }
+  .view-title { font-family:'Playfair Display',serif; font-size:26px; color:#1a1a18; font-weight:700; }
+  .view-subtitle { font-size:13px; color:#666660; margin-top:3px; }
+ 
+  /* PROGRESS */
+  .progress-summary { background:#fdfaf5; border:1px solid #d4c4a8; padding:18px 22px; margin-bottom:24px; display:flex; align-items:center; gap:18px; }
+  .progress-bar-wrap { flex:1; height:5px; background:#d4c4a8; border-radius:3px; overflow:hidden; }
+  .progress-bar-fill { height:100%; background:#b8965a; border-radius:3px; transition:width 0.4s; }
+  .progress-text { font-size:12px; color:#666660; }
+  .progress-pct { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:#b8965a; min-width:48px; text-align:right; }
+ 
+  /* TASKS */
+  .task-section { margin-bottom:28px; }
+  .section-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#999990; }
+  .section-rule { flex:1; height:1px; background:#d4c4a8; }
+  .section-count { font-size:11px; color:#999990; }
+  .task-card { background:#fdfaf5; border:1px solid #d4c4a8; border-left:3px solid #d4c4a8; padding:13px 16px; margin-bottom:7px; display:flex; align-items:flex-start; gap:12px; transition:all 0.15s; cursor:pointer; user-select:none; }
+  .task-card:hover { border-color:#b8965a; }
+  .task-card.done { background:#e8f5ee; border-left-color:#2e7d52; opacity:0.85; }
+  .task-check { width:20px; height:20px; border:2px solid #d4c4a8; border-radius:3px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; background:white; font-size:12px; }
+  .task-card.done .task-check { background:#2e7d52; border-color:#2e7d52; color:white; }
+  .task-text { flex:1; font-size:14px; line-height:1.5; color:#2a2a26; }
+  .task-card.done .task-text { text-decoration:line-through; color:#666660; }
+ 
+  /* NOTES */
+  .notes-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:28px; }
+  .notes-header { background:#1a1a18; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
+  .notes-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+  .notes-date { font-size:11px; color:#999990; }
+  .notes-body { padding:16px; }
+  .notes-textarea { width:100%; min-height:90px; border:1px solid #d4c4a8; background:#f5f0e8; font-family:'Barlow',sans-serif; font-size:14px; color:#2a2a26; padding:10px 12px; resize:vertical; outline:none; line-height:1.5; }
+  .notes-textarea:focus { border-color:#b8965a; }
+  .notes-save-btn { margin-top:8px; background:#1a1a18; color:#e8dcc8; border:none; font-family:'Barlow',sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; cursor:pointer; transition:all 0.15s; }
+  .notes-save-btn:hover { background:#b8965a; color:#1a1a18; }
+  .saved-msg { font-size:11px; color:#2e7d52; margin-left:10px; opacity:0; transition:opacity 0.3s; }
+  .other-notes-box { border-top:1px solid #d4c4a8; padding:14px 16px; background:#f5f0e8; }
+  .other-notes-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#999990; margin-bottom:6px; }
+  .other-notes-text { font-size:13px; color:#666660; line-height:1.5; white-space:pre-wrap; }
+  .other-notes-empty { font-size:13px; color:#999990; font-style:italic; }
+  .notes-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; background:#fdfaf5; border:1px solid #d4c4a8; padding:10px 14px; }
+  .notes-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:30px; height:30px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; font-family:'Barlow',sans-serif; }
+  .notes-nav-btn:hover { background:#b8965a; color:#1a1a18; }
+  .notes-nav-date { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:#1a1a18; text-align:center; flex:1; }
+  .notes-nav-today { font-size:11px; color:#b8965a; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; background:none; border:none; font-family:'Barlow',sans-serif; }
+ 
+  /* CALENDAR */
+  .cal-nav { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+  .cal-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:32px; height:32px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+  .cal-nav-btn:hover { background:#b8965a; color:#1a1a18; }
+  .cal-month-label { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:#1a1a18; }
+  .cal-legend { display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+  .cal-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#666660; }
+  .cal-legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:#d4c4a8; border:1px solid #d4c4a8; margin-bottom:24px; }
+  .cal-day-header { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-align:center; padding:8px 2px; }
+  .cal-day { background:#fdfaf5; min-height:72px; padding:5px; cursor:pointer; transition:background 0.12s; overflow:hidden; }
+  .cal-day:hover { background:#f5f0e8; }
+  .cal-day.other-month { background:#f0ece4; }
+  .cal-day.today { outline:2px solid #b8965a; outline-offset:-2px; }
+  .cal-day.selected { background:#e8dcc8; }
+  .cal-day-num { font-size:11px; font-weight:600; color:#666660; margin-bottom:3px; }
+  .cal-day.today .cal-day-num { color:#b8965a; font-weight:700; }
+  .entry-pill { font-size:9px; font-weight:600; padding:1px 4px; border-radius:2px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:white; }
+ 
+  /* DAY PANEL */
+  .day-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+  .day-panel-header { background:#1a1a18; padding:14px 18px; }
+  .day-panel-title { font-family:'Playfair Display',serif; font-size:16px; color:#e8dcc8; font-weight:700; }
+  .day-panel-body { padding:18px; }
+  .add-entry-form { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:10px; align-items:end; margin-bottom:18px; }
+  .form-group label { display:block; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#999990; margin-bottom:5px; }
+  .form-group select, .form-group input { width:100%; border:1px solid #d4c4a8; background:#f5f0e8; font-family:'Barlow',sans-serif; font-size:13px; color:#2a2a26; padding:8px 10px; outline:none; }
+  .form-group select:focus, .form-group input:focus { border-color:#b8965a; }
+  .add-entry-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:'Barlow',sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 16px; cursor:pointer; transition:all 0.15s; height:36px; white-space:nowrap; }
+  .add-entry-btn:hover { background:#b8965a; color:#1a1a18; }
+  .entries-list { display:flex; flex-direction:column; gap:8px; }
+  .entry-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f5f0e8; border:1px solid #d4c4a8; border-left:4px solid #999; }
+  .entry-person { font-weight:600; font-size:13px; color:#1a1a18; min-width:90px; }
+  .entry-job { flex:1; font-size:13px; color:#2a2a26; }
+  .entry-remove { background:none; border:none; color:#999990; cursor:pointer; font-size:16px; padding:0 4px; margin-left:auto; }
+  .entry-remove:hover { color:#c0392b; }
+  .no-entries { font-size:13px; color:#999990; font-style:italic; text-align:center; padding:16px 0; }
+ 
+  /* TEAM */
+  .team-card { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:18px; }
+  .team-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #d4c4a8; }
+  .team-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:18px; color:#1a1a18; }
+  .team-name { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:#1a1a18; }
+  .team-roles { font-size:12px; color:#666660; margin-top:2px; }
+  .team-progress-row { display:flex; gap:10px; flex-wrap:wrap; }
+  .team-stat { flex:1; min-width:90px; background:#f5f0e8; border:1px solid #d4c4a8; padding:10px 14px; text-align:center; }
+  .team-stat-val { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:#b8965a; }
+  .team-stat-label { font-size:10px; color:#666660; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .missed-tasks-list { margin-top:14px; }
+  .missed-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #d4c4a8; font-size:13px; }
+  .missed-item:last-child { border-bottom:none; }
+  .missed-dot { width:7px; height:7px; background:#c0392b; border-radius:50%; flex-shrink:0; }
+  .missed-freq { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-left:auto; }
+ 
+  /* STREAKS & LEADERBOARD */
+  .leaderboard-card { background:#1a1a18; border:2px solid #b8965a; padding:22px; margin-bottom:22px; }
+  .leaderboard-title { font-family:'Playfair Display',serif; font-size:20px; color:#b8965a; font-weight:700; margin-bottom:18px; text-align:center; letter-spacing:1px; }
+  .leaderboard-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(184,150,90,0.2); }
+  .leaderboard-row:last-child { border-bottom:none; }
+  .leaderboard-pos { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:#b8965a; min-width:36px; }
+  .leaderboard-pos.second { color:#d4c4a8; }
+  .leaderboard-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:16px; color:#1a1a18; flex-shrink:0; }
+  .leaderboard-avatar.second { background:#d4c4a8; }
+  .leaderboard-info { flex:1; }
+  .leaderboard-name { font-family:'Playfair Display',serif; font-size:17px; color:#e8dcc8; font-weight:700; }
+  .leaderboard-streaks { display:flex; gap:8px; margin-top:5px; flex-wrap:wrap; }
+  .streak-badge { display:flex; align-items:center; gap:4px; background:rgba(184,150,90,0.15); border:1px solid rgba(184,150,90,0.3); padding:3px 9px; border-radius:2px; }
+  .streak-badge.active { background:rgba(184,150,90,0.25); border-color:#b8965a; }
+  .streak-val { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; color:#b8965a; }
+  .streak-label { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
+  .streak-fire { font-size:13px; }
+  .leaderboard-score { text-align:right; }
+  .leaderboard-total { font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:#b8965a; line-height:1; }
+  .leaderboard-total.second { color:#d4c4a8; }
+  .leaderboard-pts { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
+ 
+  /* NUDGE */
+  .nudge-section { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:22px; }
+  .nudge-title { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:#1a1a18; margin-bottom:14px; }
+  .nudge-row { display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid #d4c4a8; }
+  .nudge-row:last-child { border-bottom:none; }
+  .nudge-avatar { width:38px; height:38px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:15px; color:#1a1a18; flex-shrink:0; }
+  .nudge-info { flex:1; }
+  .nudge-name { font-weight:600; font-size:13px; color:#1a1a18; }
+  .nudge-stats { font-size:12px; color:#666660; margin-top:2px; }
+  .nudge-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:'Barlow',sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:7px 14px; cursor:pointer; transition:all 0.15s; }
+  .nudge-btn:hover { background:#b8965a; color:#1a1a18; }
+  .nudge-btn:disabled { opacity:0.4; cursor:default; }
+ 
+  /* MANAGE */
+  .manage-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+  .manage-header { background:#1a1a18; padding:12px 18px; }
+  .manage-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+  .manage-body { padding:18px; }
+  .member-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #d4c4a8; }
+  .member-row:last-child { border-bottom:none; }
+  .member-av { width:34px; height:34px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:13px; color:#1a1a18; flex-shrink:0; }
+  .member-info { flex:1; }
+  .member-name { font-size:14px; font-weight:600; color:#1a1a18; }
+  .member-role { font-size:11px; color:#666660; }
+  .type-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:2px; flex-shrink:0; }
+  .type-badge.director { background:#1a1a18; color:#e8dcc8; }
+  .type-badge.operative { background:#d4c4a8; color:#2a2a26; }
+  .rm-btn { background:none; border:1px solid rgba(192,57,43,0.3); color:#c0392b; font-family:'Barlow',sans-serif; font-size:11px; padding:4px 10px; cursor:pointer; transition:all 0.15s; }
+  .rm-btn:hover { background:#c0392b; color:white; border-color:#c0392b; }
+  .add-member-form { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-top:16px; padding-top:16px; border-top:1px solid #d4c4a8; }
+ 
+  /* PAY LOG */
+  .paylog-week-selector { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+  .paylog-week-label { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:#1a1a18; }
+  .paylog-table { width:100%; border-collapse:collapse; background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+  .paylog-table th { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:10px 10px; text-align:left; }
+  .paylog-table td { padding:9px 10px; border-bottom:1px solid #d4c4a8; font-size:13px; color:#2a2a26; vertical-align:middle; }
+  .paylog-table tr:last-child td { border-bottom:none; }
+  .paylog-table tr:hover td { background:#f5f0e8; }
+  .paylog-input { border:1px solid #d4c4a8; background:#f5f0e8; font-family:'Barlow',sans-serif; font-size:13px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
+  .paylog-input:focus { border-color:#b8965a; }
+  .paylog-select { border:1px solid #d4c4a8; background:#f5f0e8; font-family:'Barlow',sans-serif; font-size:12px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
+  .paylog-total-row td { background:#e8dcc8; font-weight:700; border-top:2px solid #b8965a; }
+  .paylog-amount { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:#b8965a; }
+  .paylog-total-row .paylog-amount { font-size:17px; color:#1a1a18; }
+  .cal-days-info { font-size:11px; color:#2471a3; font-style:italic; }
+  .paylog-save-row { display:flex; align-items:center; gap:12px; margin-top:4px; margin-bottom:28px; }
+  .paylog-history { background:#fdfaf5; border:1px solid #d4c4a8; }
+  .paylog-history-header { background:#222220; padding:12px 16px; }
+  .paylog-history-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+  .paylog-hist-week { border-bottom:1px solid #d4c4a8; }
+  .paylog-hist-week:last-child { border-bottom:none; }
+  .paylog-hist-week-label { padding:10px 16px; font-weight:600; font-size:13px; color:#666660; background:#f5f0e8; border-bottom:1px solid #d4c4a8; }
+  .paylog-hist-row { display:flex; align-items:center; padding:9px 16px; border-bottom:1px solid #d4c4a8; gap:12px; }
+  .paylog-hist-row:last-child { border-bottom:none; }
+  .paylog-hist-name { font-weight:600; font-size:13px; color:#1a1a18; min-width:130px; }
+  .paylog-hist-detail { font-size:12px; color:#666660; flex:1; }
+  .paylog-hist-amount { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:#b8965a; }
+  .basis-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 6px; border-radius:2px; }
+  .basis-badge.day-rate { background:#b8965a; color:#1a1a18; }
+  .basis-badge.price-work { background:#1a1a18; color:#e8dcc8; }
+  .ot-row { background:rgba(184,150,90,0.06); }
+  .ot-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#b8965a; margin-bottom:3px; }
+ 
+  /* SETTINGS */
+  .settings-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+  .settings-header { background:#1a1a18; padding:12px 18px; }
+  .settings-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+  .settings-body { padding:18px; }
+  .colour-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid #d4c4a8; }
+  .colour-row:last-child { border-bottom:none; }
+  .colour-swatch { width:28px; height:28px; border-radius:4px; flex-shrink:0; border:2px solid rgba(0,0,0,0.1); }
+  .colour-input { flex:1; border:1px solid #d4c4a8; background:#f5f0e8; font-family:'Barlow',sans-serif; font-size:13px; color:#2a2a26; padding:6px 10px; outline:none; }
+  .colour-input:focus { border-color:#b8965a; }
+ 
+  /* NOTIFICATION */
+  .notif-bar { position:fixed; top:68px; right:16px; background:#1a1a18; border:1px solid #b8965a; border-left:4px solid #b8965a; padding:12px 32px 12px 14px; max-width:280px; z-index:999; animation:slideIn 0.3s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+  .notif-from { font-size:10px; color:#b8965a; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
+  .notif-msg { font-size:13px; color:#e8dcc8; line-height:1.4; }
+  .notif-close { position:absolute; top:8px; right:8px; background:none; border:none; color:#999990; cursor:pointer; font-size:14px; }
+  @keyframes slideIn { from{transform:translateX(20px);opacity:0;} to{transform:translateX(0);opacity:1;} }
+ 
+  @media(max-width:600px){
+    .profile-cards{flex-direction:column;align-items:center;}
+    .app-body{padding:16px 12px 70px;}
+    .add-entry-form{grid-template-columns:1fr 1fr;}
+    .add-member-form{grid-template-columns:1fr;}
+    .team-progress-row{gap:6px;}
+    .cal-day{min-height:52px;}
+    .paylog-table th:nth-child(3),.paylog-table td:nth-child(3){display:none;}
+  }
 </style>
-
 </head>
 <body>
-
+ 
 <div id="login-screen">
   <div class="login-logo">
     <div class="company-name">PERRY & PARKES</div>
@@ -285,7 +283,7 @@
     </div>
   </div>
 </div>
-
+ 
 <div id="app">
   <div class="app-header">
     <div class="header-logo">P<span>&</span>P</div>
@@ -321,19 +319,17 @@
     <div id="view-settings" style="display:none"></div>
   </div>
 </div>
-
+ 
 <div id="notification" style="display:none" class="notif-bar">
   <button class="notif-close" onclick="document.getElementById('notification').style.display='none'">✕</button>
   <div class="notif-from" id="notif-from"></div>
   <div class="notif-msg" id="notif-msg"></div>
 </div>
-
+ 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 <script>
-
+ 
 const firebaseConfig = {
   apiKey: "AIzaSyCRIcqBYll20y6oHLHiBJkHtCjB9YtB9Kg",
   authDomain: "pp-management-83b13.firebaseapp.com",
@@ -343,10 +339,10 @@ const firebaseConfig = {
   appId: "1:729949123103:web:45790402510cb1d1a55b2a",
   measurementId: "G-54FN5ZLEGD"
 };
-
+ 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
+ 
 // ─── TASK DATA ───────────────────────────────────────────────────────────────
 const TASKS = {
   macauly: {
@@ -360,7 +356,7 @@ const TASKS = {
     monthly: ["Review upcoming jobs and plan the programme in advance","Assess subcontractor performance — who's working well, who isn't?","Feed resource requirements into Macauly for planning","Review any snagging or defects from completed jobs — are they closed out?","Check plant, tools, and equipment — anything needing servicing or replacing?","Review the company's financial position with Macauly and Daisy","Look at the business as a whole — are we growing in the right direction?","Review any compliance or legal matters — insurance renewals, accreditations","Assess resource — do we have the right people and are they performing?","Set priorities for the month ahead across operations and sales","Full cash flow review — what's the position for the next 4--8 weeks?","Reconcile Xero — make sure everything is coded correctly","Review job costs against budgets — are we making the margins we quoted?","Submit CIS returns and make sure deductions are recorded correctly","Check VAT position ahead of the next VAT return"]
   }
 };
-
+ 
 // Default colour labels for calendar
 // payDays: how many days this colour counts toward pay log (1=full day, 0.5=half day, 0=none)
 const DEFAULT_COLOURS = [
@@ -377,14 +373,14 @@ const DEFAULT_COLOURS = [
   {id:11, hex:'#607d8b', label:'',                    payDays:0},
   {id:12, hex:'#795548', label:'',                    payDays:0},
 ];
-
+ 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let currentUser = null;
 let taskState={}, notes={}, calEntries={}, teamMembers=[], nudges=[], payLog={}, streaks={}, colourLabels=DEFAULT_COLOURS;
 let calYear, calMonth, selectedCalDate=null, editingMemberIdx=-1, payLogWeekOffset=0;
 let notesViewDate = new Date();
 let unsubscribers = [];
-
+ 
 const todayKey = () => new Date().toISOString().split('T')[0];
 const weekKey = () => { const d=new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1); return new Date(new Date().setDate(diff)).toISOString().split('T')[0]; };
 const monthKey = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; };
@@ -392,7 +388,7 @@ const fmtDate = (y,m,d) => `${y}-${String(m+1).padStart(2,'0')}-${String(d).padS
 const keys = () => ({daily:todayKey(), weekly:weekKey(), monthly:monthKey()});
 const fmtDisplayDate = d => d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const dateToKey = d => d.toISOString().split('T')[0];
-
+ 
 // ─── FIREBASE HELPERS ────────────────────────────────────────────────────────
 function dbDoc(path) {
   const parts = path.split('/');
@@ -409,7 +405,7 @@ function fbListen(path, callback) {
   unsubscribers.push(unsub);
   return unsub;
 }
-
+ 
 // ─── LOAD & SYNC ─────────────────────────────────────────────────────────────
 async function loadAll() {
   taskState  = await fbGet('app/tasks', {});
@@ -427,7 +423,7 @@ async function loadAll() {
     {id:'op2',name:'Gary Kimber',initials:'GK',role:'Plasterer',isDirector:false},
     {id:'op3',name:'Jensen Sunderland',initials:'JS',role:'Improver',isDirector:false}
   ]})).members;
-
+ 
   unsubscribers.forEach(u=>u());
   unsubscribers=[];
   fbListen('app/tasks',    d => { taskState=d;    if(isVisible('tasks'))renderTasks(); if(isVisible('streaks'))renderStreaks(); if(isVisible('team'))renderTeam(); });
@@ -439,16 +435,16 @@ async function loadAll() {
   fbListen('app/streaks',  d => { streaks=d;      if(isVisible('streaks'))renderStreaks(); });
   fbListen('app/colours',  d => { if(d.list)colourLabels=d.list; if(isVisible('calendar'))renderCalendar(); if(isVisible('settings'))renderSettings(); });
 }
-
+ 
 const isVisible = v => document.getElementById('view-'+v) && document.getElementById('view-'+v).style.display !== 'none';
-
+ 
 // ─── STREAKS ─────────────────────────────────────────────────────────────────
 function isAllDone(u, freq) {
   const tasks = TASKS[u][freq];
   const k = keys()[freq];
   return tasks.every((_,i) => taskState[u]?.[freq]?.[k]?.[i] === true);
 }
-
+ 
 async function checkAndUpdateStreaks() {
   const dk = todayKey(), wk = weekKey(), mk = monthKey();
   if(!streaks[currentUser]) streaks[currentUser] = {
@@ -459,7 +455,7 @@ async function checkAndUpdateStreaks() {
   };
   const s = streaks[currentUser];
   let changed = false;
-
+ 
   // Daily streak
   if(isAllDone(currentUser,'daily') && s.daily.lastKey !== dk) {
     const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
@@ -470,7 +466,7 @@ async function checkAndUpdateStreaks() {
     if(s.daily.streak > (s.daily.longestDaily||0)) s.daily.longestDaily = s.daily.streak;
     changed = true;
   }
-
+ 
   // Weekly streak
   if(isAllDone(currentUser,'weekly') && s.weekly.lastKey !== wk) {
     s.weekly.streak = (s.weekly.streak||0) + 1;
@@ -478,7 +474,7 @@ async function checkAndUpdateStreaks() {
     if(s.weekly.streak > (s.weekly.longestWeekly||0)) s.weekly.longestWeekly = s.weekly.streak;
     changed = true;
   }
-
+ 
   // Monthly streak
   if(isAllDone(currentUser,'monthly') && s.monthly.lastKey !== mk) {
     s.monthly.streak = (s.monthly.streak||0) + 1;
@@ -486,7 +482,7 @@ async function checkAndUpdateStreaks() {
     if(s.monthly.streak > (s.monthly.longestMonthly||0)) s.monthly.longestMonthly = s.monthly.streak;
     changed = true;
   }
-
+ 
   // Points: daily=1, weekly=5, monthly=20
   const m = streaks.macauly||{daily:{streak:0},weekly:{streak:0},monthly:{streak:0}};
   const b = streaks.brad||{daily:{streak:0},weekly:{streak:0},monthly:{streak:0}};
@@ -494,26 +490,26 @@ async function checkAndUpdateStreaks() {
   streaks.brad = streaks.brad || b;
   streaks.macauly.totalPoints = ((streaks.macauly.daily||{}).streak||0)*1 + ((streaks.macauly.weekly||{}).streak||0)*5 + ((streaks.macauly.monthly||{}).streak||0)*20;
   streaks.brad.totalPoints    = ((streaks.brad.daily||{}).streak||0)*1    + ((streaks.brad.weekly||{}).streak||0)*5    + ((streaks.brad.monthly||{}).streak||0)*20;
-
+ 
   if(changed) await fbSet('app/streaks', streaks);
 }
-
+ 
 function renderStreaks() {
   const m = streaks.macauly || {daily:{streak:0,longestDaily:0},weekly:{streak:0,longestWeekly:0},monthly:{streak:0,longestMonthly:0},totalPoints:0};
   const b = streaks.brad    || {daily:{streak:0,longestDaily:0},weekly:{streak:0,longestWeekly:0},monthly:{streak:0,longestMonthly:0},totalPoints:0};
-
+ 
   const mPts = (m.totalPoints||0), bPts = (b.totalPoints||0);
   const mFirst = mPts >= bPts;
-
+ 
   const row = (user, data, initials, name, isFirst) => {
     const cls = isFirst ? '' : ' second';
     const ds = data.daily?.streak||0, ws = data.weekly?.streak||0, ms = data.monthly?.streak||0;
     const ld = data.daily?.longestDaily||0, lw = data.weekly?.longestWeekly||0, lm = data.monthly?.longestMonthly||0;
     const pts = data.totalPoints||0;
-
+ 
     // Live status
     const dDone = isAllDone(user,'daily'), wDone = isAllDone(user,'weekly'), moDone = isAllDone(user,'monthly');
-
+ 
     return `<div class="leaderboard-row">
       <div class="leaderboard-pos${cls}">${isFirst?'🥇':'🥈'}</div>
       <div class="leaderboard-avatar${cls}">${initials}</div>
@@ -544,10 +540,10 @@ function renderStreaks() {
       </div>
     </div>`;
   };
-
+ 
   const first  = mFirst ? {u:'macauly',d:m,i:'MP',n:'Macauly'} : {u:'brad',d:b,i:'BP',n:'Brad'};
   const second = mFirst ? {u:'brad',d:b,i:'BP',n:'Brad'}       : {u:'macauly',d:m,i:'MP',n:'Macauly'};
-
+ 
   document.getElementById('view-streaks').innerHTML = `
     <div class="view-header"><div class="view-title">Streaks & Leaderboard</div><div class="view-subtitle">Complete all tasks to keep your streak alive</div></div>
     <div class="leaderboard-card">
@@ -565,11 +561,11 @@ function renderStreaks() {
       </div>
     </div>`;
 }
-
+ 
 // ─── TASKS ───────────────────────────────────────────────────────────────────
 const isTaskDone = (u,f,i) => taskState[u]?.[f]?.[keys()[f]]?.[i]===true;
 const getStats = (u,f) => { const t=TASKS[u][f]; return {done:t.filter((_,i)=>isTaskDone(u,f,i)).length,total:t.length}; };
-
+ 
 async function toggleTask(u,f,i) {
   if(u!==currentUser) return;
   const k=keys()[f];
@@ -581,7 +577,7 @@ async function toggleTask(u,f,i) {
   await checkAndUpdateStreaks();
   renderTasks();
 }
-
+ 
 function renderTasks() {
   const u=currentUser;
   const s=getStats(u,'daily');
@@ -599,7 +595,7 @@ function renderTasks() {
   });
   document.getElementById('view-tasks').innerHTML=html;
 }
-
+ 
 // ─── NOTES ───────────────────────────────────────────────────────────────────
 function renderNotes() {
   const other=currentUser==='macauly'?'brad':'macauly';
@@ -610,7 +606,7 @@ function renderNotes() {
   const myNote=notes[currentUser]?.[dk]||'';
   const otherNote=notes[other]?.[dk]||'';
   const displayDate=fmtDisplayDate(notesViewDate);
-
+ 
   document.getElementById('view-notes').innerHTML=`
     <div class="view-header"><div class="view-title">Daily Notes</div><div class="view-subtitle">Shared in real time between you and ${otherName}</div></div>
     <div class="notes-nav">
@@ -623,197 +619,200 @@ function renderNotes() {
       <div class="notes-header"><div class="notes-header-title">📝 ${myName}'s Note</div><div class="notes-date">${displayDate}</div></div>
       <div class="notes-body">
         <textarea class="notes-textarea" id="my-note-input" placeholder="Add your notes for ${isToday?'today':'this day'}...">${myNote}</textarea>
-
-```
-    <div style="display:flex;align-items:center;margin-top:8px;">
-      <button class="notes-save-btn" onclick="saveNote()">Save Note</button>
-      <span class="saved-msg" id="notes-saved-msg">Saved ✓</span>
-    </div>
-  </div>
-  <div class="other-notes-box">
-    <div class="other-notes-label">${otherName}'s Note — ${isToday?'Today':displayDate}</div>
-    ${otherNote?`<div class="other-notes-text">${otherNote.replace(/</g,'&lt;')}</div>`:`<div class="other-notes-empty">Nothing added for this day</div>`}
-  </div>
-</div>`;
-```
-
+        <div style="display:flex;align-items:center;margin-top:8px;">
+          <button class="notes-save-btn" onclick="saveNote()">Save Note</button>
+          <span class="saved-msg" id="notes-saved-msg">Saved ✓</span>
+        </div>
+      </div>
+      <div class="other-notes-box">
+        <div class="other-notes-label">${otherName}'s Note — ${isToday?'Today':displayDate}</div>
+        ${otherNote?`<div class="other-notes-text">${otherNote.replace(/</g,'&lt;')}</div>`:`<div class="other-notes-empty">Nothing added for this day</div>`}
+      </div>
+    </div>`;
 }
-
+ 
 async function saveNote() {
-const val=document.getElementById(‘my-note-input’).value;
-const dk=dateToKey(notesViewDate);
-if(!notes[currentUser]) notes[currentUser]={};
-notes[currentUser][dk]=val;
-await fbSet(‘app/notes’, notes);
-const msg=document.getElementById(‘notes-saved-msg’);
-msg.style.opacity=‘1’; setTimeout(()=>msg.style.opacity=‘0’,2000);
+  const val=document.getElementById('my-note-input').value;
+  const dk=dateToKey(notesViewDate);
+  if(!notes[currentUser]) notes[currentUser]={};
+  notes[currentUser][dk]=val;
+  await fbSet('app/notes', notes);
+  const msg=document.getElementById('notes-saved-msg');
+  msg.style.opacity='1'; setTimeout(()=>msg.style.opacity='0',2000);
 }
-
+ 
 function changeNotesDate(dir) {
-const d=new Date(notesViewDate);
-d.setDate(d.getDate()+dir);
-if(dateToKey(d)<=todayKey()) { notesViewDate=d; renderNotes(); }
+  const d=new Date(notesViewDate);
+  d.setDate(d.getDate()+dir);
+  if(dateToKey(d)<=todayKey()) { notesViewDate=d; renderNotes(); }
 }
-
+ 
 function goNotesToday() { notesViewDate=new Date(); renderNotes(); }
-
+ 
 // ─── CALENDAR ────────────────────────────────────────────────────────────────
 function getColour(id) {
-const c = colourLabels.find(c=>c.id===id);
-return c ? c.hex : ‘#999’;
+  const c = colourLabels.find(c=>c.id===id);
+  return c ? c.hex : '#999';
 }
 function getColourLabel(id) {
-const c = colourLabels.find(c=>c.id===id);
-return c && c.label ? c.label : `Colour ${id}`;
+  const c = colourLabels.find(c=>c.id===id);
+  return c && c.label ? c.label : `Colour ${id}`;
 }
-
+ 
 function renderCalendar() {
-const now=new Date();
-if(calYear===undefined){calYear=now.getFullYear();calMonth=now.getMonth();}
-const firstDay=new Date(calYear,calMonth,1).getDay();
-const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-const startOffset=(firstDay===0)?6:firstDay-1;
-const monthNames=[‘January’,‘February’,‘March’,‘April’,‘May’,‘June’,‘July’,‘August’,‘September’,‘October’,‘November’,‘December’];
-const dayNames=[‘Mon’,‘Tue’,‘Wed’,‘Thu’,‘Fri’,‘Sat’,‘Sun’];
-
-// Build legend from colour labels that have a name
-const legendHtml = colourLabels.filter(c=>c.label).map(c=>
-`<div class="cal-legend-item"><div class="cal-legend-dot" style="background:${c.hex}"></div>${c.label}</div>`
-).join(’’);
-
-let html=`<div class="view-header"><div class="view-title">Team Calendar</div><div class="view-subtitle">Jobs, rotas, and events — visible to everyone</div></div>
-
+  const now=new Date();
+  if(calYear===undefined){calYear=now.getFullYear();calMonth=now.getMonth();}
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const startOffset=(firstDay===0)?6:firstDay-1;
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+ 
+  // Build legend from colour labels that have a name
+  const legendHtml = colourLabels.filter(c=>c.label).map(c=>
+    `<div class="cal-legend-item"><div class="cal-legend-dot" style="background:${c.hex}"></div>${c.label}</div>`
+  ).join('');
+ 
+  let html=`<div class="view-header"><div class="view-title">Team Calendar</div><div class="view-subtitle">Jobs, rotas, and events — visible to everyone</div></div>
   <div class="cal-legend">${legendHtml}</div>
   <div class="cal-nav"><button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button><div class="cal-month-label">${monthNames[calMonth]} ${calYear}</div><button class="cal-nav-btn" onclick="changeMonth(1)">›</button></div>
   <div class="cal-grid">${dayNames.map(d=>`<div class="cal-day-header">${d}</div>`).join('')}`;
-
-const prevDays=new Date(calYear,calMonth,0).getDate();
-for(let i=startOffset-1;i>=0;i–){html+=`<div class="cal-day other-month"><div class="cal-day-num">${prevDays-i}</div></div>`;}
-
-for(let d=1;d<=daysInMonth;d++){
-const dk=fmtDate(calYear,calMonth,d);
-const entries=calEntries[dk]||[];
-html+=`<div class="cal-day${dk===todayKey()?' today':''}${dk===selectedCalDate?' selected':''}" onclick="selectCalDay('${dk}')"> <div class="cal-day-num">${d}</div> ${entries.slice(0,3).map(e=>`<span class="entry-pill" style="background:${getColour(e.colourId||0)}">${e.person.split(’ ’)[0]}</span>`).join('')} ${entries.length>3?`<span style="font-size:9px;color:#999990">+${entries.length-3}</span>`:''} </div>`;
-}
-
-const totalCells=Math.ceil((startOffset+daysInMonth)/7)*7;
-for(let i=1;i<=totalCells-startOffset-daysInMonth;i++){html+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;}
-html+=`</div>`;
-
-if(selectedCalDate){
-const entries=calEntries[selectedCalDate]||[];
-const displayDate=new Date(selectedCalDate+‘T12:00:00’).toLocaleDateString(‘en-GB’,{weekday:‘long’,day:‘numeric’,month:‘long’,year:‘numeric’});
-const memberOptions=teamMembers.map(m=>`<option value="${m.name}">${m.name}</option>`).join(’’);
-const colourOptions=colourLabels.map(c=>`<option value="${c.id}">${c.label||'Colour '+c.id}</option>`).join(’’);
-
-```
-// Check if previous day has entries for copy button
-const prevDateKey = (()=>{ const pd=new Date(selectedCalDate+'T12:00:00'); pd.setDate(pd.getDate()-1); return pd.toISOString().split('T')[0]; })();
-const prevEntries = calEntries[prevDateKey]||[];
-
-html+=`<div class="day-panel">
-  <div class="day-panel-header" style="display:flex;align-items:center;justify-content:space-between;">
-    <div class="day-panel-title">${displayDate}</div>
-    ${prevEntries.length>0?`<button onclick="copyPrevDay('${selectedCalDate}','${prevDateKey}')" style="background:#b8965a;color:#1a1a18;border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;">Copy Previous Day</button>`:''}
-  </div>
-  <div class="day-panel-body">
-    <div class="add-entry-form">
-      <div class="form-group"><label>Person</label><select id="cal-person">${memberOptions}</select></div>
-      <div class="form-group"><label>Note / Job</label><input type="text" id="cal-job" placeholder="e.g. AWE Site"/></div>
-      <div class="form-group"><label>Colour</label>
-        <select id="cal-colour">${colourOptions}</select>
+ 
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  for(let i=startOffset-1;i>=0;i--){html+=`<div class="cal-day other-month"><div class="cal-day-num">${prevDays-i}</div></div>`;}
+ 
+  for(let d=1;d<=daysInMonth;d++){
+    const dk=fmtDate(calYear,calMonth,d);
+    const entries=calEntries[dk]||[];
+    html+=`<div class="cal-day${dk===todayKey()?' today':''}${dk===selectedCalDate?' selected':''}" onclick="selectCalDay('${dk}')">
+      <div class="cal-day-num">${d}</div>
+      ${entries.slice(0,3).map(e=>`<span class="entry-pill" style="background:${getColour(e.colourId||0)}">${e.person.split(' ')[0]}</span>`).join('')}
+      ${entries.length>3?`<span style="font-size:9px;color:#999990">+${entries.length-3}</span>`:''}
+    </div>`;
+  }
+ 
+  const totalCells=Math.ceil((startOffset+daysInMonth)/7)*7;
+  for(let i=1;i<=totalCells-startOffset-daysInMonth;i++){html+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;}
+  html+=`</div>`;
+ 
+  if(selectedCalDate){
+    const entries=calEntries[selectedCalDate]||[];
+    const displayDate=new Date(selectedCalDate+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const memberOptions=teamMembers.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
+    const colourOptions=colourLabels.map(c=>`<option value="${c.id}">${c.label||'Colour '+c.id}</option>`).join('');
+ 
+    // Check if previous day has entries for copy button
+    const prevDateKey = (()=>{ const pd=new Date(selectedCalDate+'T12:00:00'); pd.setDate(pd.getDate()-1); return pd.toISOString().split('T')[0]; })();
+    const prevEntries = calEntries[prevDateKey]||[];
+ 
+    html+=`<div class="day-panel">
+      <div class="day-panel-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="day-panel-title">${displayDate}</div>
+        ${prevEntries.length>0?`<button onclick="copyPrevDay('${selectedCalDate}','${prevDateKey}')" style="background:#b8965a;color:#1a1a18;border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;">Copy Previous Day</button>`:''}
       </div>
-      <button class="add-entry-btn" onclick="addCalEntry()">+ Add</button>
-    </div>
-    <div class="entries-list">
-      ${entries.length===0?`<div class="no-entries">No entries for this day yet</div>`:
-      entries.map((e,i)=>`<div class="entry-row" style="border-left-color:${getColour(e.colourId||0)}">
-        <div style="width:12px;height:12px;border-radius:50%;background:${getColour(e.colourId||0)};flex-shrink:0;"></div>
-        <div class="entry-person">${e.person}</div>
-        <div class="entry-job">${e.job} <span style="font-size:11px;color:#999990">${getColourLabel(e.colourId||0)}</span></div>
-        <button class="entry-remove" onclick="removeCalEntry(${i})">×</button>
-      </div>`).join('')}
-    </div>
-  </div>
-</div>`;
-```
-
+      <div class="day-panel-body">
+        <div class="add-entry-form">
+          <div class="form-group"><label>Person</label><select id="cal-person">${memberOptions}</select></div>
+          <div class="form-group"><label>Note / Job</label><input type="text" id="cal-job" placeholder="e.g. AWE Site"/></div>
+          <div class="form-group"><label>Colour</label>
+            <select id="cal-colour">${colourOptions}</select>
+          </div>
+          <button class="add-entry-btn" onclick="addCalEntry()">+ Add</button>
+        </div>
+        <div class="entries-list">
+          ${entries.length===0?`<div class="no-entries">No entries for this day yet</div>`:
+          entries.map((e,i)=>`<div class="entry-row" style="border-left-color:${getColour(e.colourId||0)}">
+            <div style="width:12px;height:12px;border-radius:50%;background:${getColour(e.colourId||0)};flex-shrink:0;"></div>
+            <div class="entry-person">${e.person}</div>
+            <div class="entry-job">${e.job} <span style="font-size:11px;color:#999990">${getColourLabel(e.colourId||0)}</span></div>
+            <button class="entry-remove" onclick="removeCalEntry(${i})">×</button>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+ 
+  document.getElementById('view-calendar').innerHTML=html;
 }
-
-document.getElementById(‘view-calendar’).innerHTML=html;
-}
-
+ 
 async function copyPrevDay(targetDateKey, sourceDateKey) {
-const sourceEntries = calEntries[sourceDateKey]||[];
-if(!sourceEntries.length) return;
-const existing = calEntries[targetDateKey]||[];
-const toAdd = sourceEntries.filter(se => !existing.some(ex=>ex.person===se.person && ex.job===se.job));
-calEntries[targetDateKey] = […existing, …toAdd];
-await fbSet(‘app/calendar’, calEntries);
-renderCalendar();
+  const sourceEntries = calEntries[sourceDateKey]||[];
+  if(!sourceEntries.length) return;
+  const existing = calEntries[targetDateKey]||[];
+  const toAdd = sourceEntries.filter(se => !existing.some(ex=>ex.person===se.person && ex.job===se.job));
+  calEntries[targetDateKey] = [...existing, ...toAdd];
+  await fbSet('app/calendar', calEntries);
+  renderCalendar();
 }
-
-function changeMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear–;}renderCalendar();}
+ 
+function changeMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
 function selectCalDay(dk){selectedCalDate=dk;renderCalendar();}
-
+ 
 async function addCalEntry(){
-const person=document.getElementById(‘cal-person’).value;
-const job=document.getElementById(‘cal-job’).value.trim();
-const colourId=parseInt(document.getElementById(‘cal-colour’).value);
-if(!job){document.getElementById(‘cal-job’).focus();return;}
-if(!calEntries[selectedCalDate]) calEntries[selectedCalDate]=[];
-calEntries[selectedCalDate].push({person,job,colourId});
-await fbSet(‘app/calendar’, calEntries);
-renderCalendar();
+  const person=document.getElementById('cal-person').value;
+  const job=document.getElementById('cal-job').value.trim();
+  const colourId=parseInt(document.getElementById('cal-colour').value);
+  if(!job){document.getElementById('cal-job').focus();return;}
+  if(!calEntries[selectedCalDate]) calEntries[selectedCalDate]=[];
+  calEntries[selectedCalDate].push({person,job,colourId});
+  await fbSet('app/calendar', calEntries);
+  renderCalendar();
 }
-
+ 
 async function removeCalEntry(idx){
-calEntries[selectedCalDate].splice(idx,1);
-await fbSet(‘app/calendar’, calEntries);
-renderCalendar();
+  calEntries[selectedCalDate].splice(idx,1);
+  await fbSet('app/calendar', calEntries);
+  renderCalendar();
 }
-
+ 
 // ─── TEAM VIEW ───────────────────────────────────────────────────────────────
 function getMissed(u,f){
-const tasks=TASKS[u][f]; let prevKey;
-if(f===‘daily’){const d=new Date();d.setDate(d.getDate()-1);prevKey=d.toISOString().split(‘T’)[0];}
-else if(f===‘weekly’){const d=new Date();d.setDate(d.getDate()-7);const day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);prevKey=new Date(d.setDate(diff)).toISOString().split(‘T’)[0];}
-else{const d=new Date();d.setMonth(d.getMonth()-1);prevKey=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
-return tasks.map((t,i)=>({text:t,idx:i})).filter((_,i)=>!(taskState[u]?.[f]?.[prevKey]?.[i]===true));
+  const tasks=TASKS[u][f]; let prevKey;
+  if(f==='daily'){const d=new Date();d.setDate(d.getDate()-1);prevKey=d.toISOString().split('T')[0];}
+  else if(f==='weekly'){const d=new Date();d.setDate(d.getDate()-7);const day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);prevKey=new Date(d.setDate(diff)).toISOString().split('T')[0];}
+  else{const d=new Date();d.setMonth(d.getMonth()-1);prevKey=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+  return tasks.map((t,i)=>({text:t,idx:i})).filter((_,i)=>!(taskState[u]?.[f]?.[prevKey]?.[i]===true));
 }
-
+ 
 function renderTeam(){
-let html=`<div class="view-header"><div class="view-title">Team Overview</div><div class="view-subtitle">Live — syncs in real time</div></div>`;
-[‘macauly’,‘brad’].forEach(u=>{
-const uName=u===‘macauly’?‘Macauly’:‘Brad’,uInit=u===‘macauly’?‘MP’:‘BP’;
-const uRoles=u===‘macauly’?‘Operations · Sales · Marketing’:‘General · Site · Finance’;
-const daily=getStats(u,‘daily’),weekly=getStats(u,‘weekly’),monthly=getStats(u,‘monthly’);
-const missed=getMissed(u,‘daily’);
-const us=streaks[u]||{};
-html+=`<div class="team-card"><div class="team-card-header"><div class="team-avatar">${uInit}</div><div><div class="team-name">${uName}</div><div class="team-roles">${uRoles}</div></div> <div style="margin-left:auto;text-align:right;"><div style="font-size:10px;color:#999990;letter-spacing:1px;text-transform:uppercase;">Daily Streak</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#b8965a;">${(us.daily&&us.daily.streak)||0} 🔥</div></div> </div> <div class="team-progress-row"> <div class="team-stat"><div class="team-stat-val">${daily.done}/${daily.total}</div><div class="team-stat-label">Today</div></div> <div class="team-stat"><div class="team-stat-val">${weekly.done}/${weekly.total}</div><div class="team-stat-label">This Week</div></div> <div class="team-stat"><div class="team-stat-val">${monthly.done}/${monthly.total}</div><div class="team-stat-label">This Month</div></div> </div> ${missed.length>0?`<div class="missed-tasks-list"><div class="section-header" style="margin-top:14px;margin-bottom:7px"><div class="section-label" style="color:#c0392b">Missed Yesterday</div><div class="section-rule"></div></div>${missed.slice(0,5).map(m=>`<div class="missed-item"><div class="missed-dot"></div><div>${m.text}</div><div class="missed-freq">daily</div></div>`).join(’’)}${missed.length>5?`<div style="font-size:12px;color:#999990;padding-top:6px;">+${missed.length-5} more</div>`:’’}</div>`:''}</div>`;
-});
-document.getElementById(‘view-team’).innerHTML=html;
+  let html=`<div class="view-header"><div class="view-title">Team Overview</div><div class="view-subtitle">Live — syncs in real time</div></div>`;
+  ['macauly','brad'].forEach(u=>{
+    const uName=u==='macauly'?'Macauly':'Brad',uInit=u==='macauly'?'MP':'BP';
+    const uRoles=u==='macauly'?'Operations · Sales · Marketing':'General · Site · Finance';
+    const daily=getStats(u,'daily'),weekly=getStats(u,'weekly'),monthly=getStats(u,'monthly');
+    const missed=getMissed(u,'daily');
+    const us=streaks[u]||{};
+    html+=`<div class="team-card"><div class="team-card-header"><div class="team-avatar">${uInit}</div><div><div class="team-name">${uName}</div><div class="team-roles">${uRoles}</div></div>
+    <div style="margin-left:auto;text-align:right;"><div style="font-size:10px;color:#999990;letter-spacing:1px;text-transform:uppercase;">Daily Streak</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#b8965a;">${(us.daily&&us.daily.streak)||0} 🔥</div></div>
+    </div>
+    <div class="team-progress-row">
+      <div class="team-stat"><div class="team-stat-val">${daily.done}/${daily.total}</div><div class="team-stat-label">Today</div></div>
+      <div class="team-stat"><div class="team-stat-val">${weekly.done}/${weekly.total}</div><div class="team-stat-label">This Week</div></div>
+      <div class="team-stat"><div class="team-stat-val">${monthly.done}/${monthly.total}</div><div class="team-stat-label">This Month</div></div>
+    </div>
+    ${missed.length>0?`<div class="missed-tasks-list"><div class="section-header" style="margin-top:14px;margin-bottom:7px"><div class="section-label" style="color:#c0392b">Missed Yesterday</div><div class="section-rule"></div></div>${missed.slice(0,5).map(m=>`<div class="missed-item"><div class="missed-dot"></div><div>${m.text}</div><div class="missed-freq">daily</div></div>`).join('')}${missed.length>5?`<div style="font-size:12px;color:#999990;padding-top:6px;">+${missed.length-5} more</div>`:''}</div>`:''}</div>`;
+  });
+  document.getElementById('view-team').innerHTML=html;
 }
-
+ 
 // ─── NUDGE ───────────────────────────────────────────────────────────────────
 let lastNudgeCount = 0;
 function checkNewNudges(){
-const mine=nudges.filter(n=>n.to===currentUser&&n.date===todayKey());
-if(mine.length > lastNudgeCount && lastNudgeCount > 0){
-const latest=mine[mine.length-1];
-showNotif(`👋 Nudge from ${latest.from==='macauly'?'Macauly':'Brad'}`, latest.message);
+  const mine=nudges.filter(n=>n.to===currentUser&&n.date===todayKey());
+  if(mine.length > lastNudgeCount && lastNudgeCount > 0){
+    const latest=mine[mine.length-1];
+    showNotif(`👋 Nudge from ${latest.from==='macauly'?'Macauly':'Brad'}`, latest.message);
+  }
+  lastNudgeCount=mine.length;
 }
-lastNudgeCount=mine.length;
-}
-
+ 
 function renderNudge(){
-const other=currentUser===‘macauly’?‘brad’:‘macauly’;
-const otherName=other===‘macauly’?‘Macauly’:‘Brad’,otherInit=other===‘macauly’?‘MP’:‘BP’;
-const stats=getStats(other,‘daily’);
-const alreadyNudged=nudges.some(n=>n.from===currentUser&&n.to===other&&n.date===todayKey());
-const myNudges=nudges.filter(n=>n.to===currentUser);
-let html=`<div class="view-header"><div class="view-title">Send a Nudge</div><div class="view-subtitle">Syncs instantly — they’ll see it straight away</div></div>
-
+  const other=currentUser==='macauly'?'brad':'macauly';
+  const otherName=other==='macauly'?'Macauly':'Brad',otherInit=other==='macauly'?'MP':'BP';
+  const stats=getStats(other,'daily');
+  const alreadyNudged=nudges.some(n=>n.from===currentUser&&n.to===other&&n.date===todayKey());
+  const myNudges=nudges.filter(n=>n.to===currentUser);
+  let html=`<div class="view-header"><div class="view-title">Send a Nudge</div><div class="view-subtitle">Syncs instantly — they'll see it straight away</div></div>
   <div class="nudge-section"><div class="nudge-title">Send to</div>
     <div class="nudge-row"><div class="nudge-avatar">${otherInit}</div>
       <div class="nudge-info"><div class="nudge-name">${otherName}</div><div class="nudge-stats">${stats.done}/${stats.total} daily tasks done today</div></div>
@@ -828,21 +827,20 @@ let html=`<div class="view-header"><div class="view-title">Send a Nudge</div><di
   }
   document.getElementById('view-nudge').innerHTML=html;
 }
-
+ 
 async function sendNudge(to){
-const st=getStats(to,‘daily’);
-let msg=`${currentUser==='macauly'?'Macauly':'Brad'} is checking in — `;
-msg+=st.done===st.total?`all daily tasks ticked off, nice one!`:`${st.total-st.done} daily task${st.total-st.done>1?'s':''} still to go today.`;
-nudges.push({from:currentUser,to,date:todayKey(),message:msg});
-await fbSet(‘app/nudges’, {list:nudges});
-renderNudge();
-showNotif(`Nudge sent to ${to==='macauly'?'Macauly':'Brad'}`, msg);
+  const st=getStats(to,'daily');
+  let msg=`${currentUser==='macauly'?'Macauly':'Brad'} is checking in — `;
+  msg+=st.done===st.total?`all daily tasks ticked off, nice one!`:`${st.total-st.done} daily task${st.total-st.done>1?'s':''} still to go today.`;
+  nudges.push({from:currentUser,to,date:todayKey(),message:msg});
+  await fbSet('app/nudges', {list:nudges});
+  renderNudge();
+  showNotif(`Nudge sent to ${to==='macauly'?'Macauly':'Brad'}`, msg);
 }
-
+ 
 // ─── MANAGE TEAM ─────────────────────────────────────────────────────────────
 function renderManage(){
-let html=`<div class="view-header"><div class="view-title">Manage Team</div><div class="view-subtitle">Add or remove operatives as the team changes</div></div>
-
+  let html=`<div class="view-header"><div class="view-title">Manage Team</div><div class="view-subtitle">Add or remove operatives as the team changes</div></div>
   <div class="manage-section"><div class="manage-header"><div class="manage-header-title">Current Team</div></div><div class="manage-body">`;
   teamMembers.forEach((m,i)=>{
     const isEditing=editingMemberIdx===i;
@@ -868,343 +866,340 @@ let html=`<div class="view-header"><div class="view-title">Manage Team</div><div
   </div></div></div>`;
   document.getElementById('view-manage').innerHTML=html;
 }
-
+ 
 async function addMember(){
-const name=document.getElementById(‘new-member-name’).value.trim();
-const role=document.getElementById(‘new-member-role’).value.trim();
-if(!name){document.getElementById(‘new-member-name’).focus();return;}
-const initials=name.split(’ ‘).map(p=>p[0].toUpperCase()).join(’’).slice(0,2);
-teamMembers.push({id:‘op_’+Date.now(),name,initials,role:role||‘Operative’,isDirector:false});
-await fbSet(‘app/team’,{members:teamMembers});
-renderManage();
+  const name=document.getElementById('new-member-name').value.trim();
+  const role=document.getElementById('new-member-role').value.trim();
+  if(!name){document.getElementById('new-member-name').focus();return;}
+  const initials=name.split(' ').map(p=>p[0].toUpperCase()).join('').slice(0,2);
+  teamMembers.push({id:'op_'+Date.now(),name,initials,role:role||'Operative',isDirector:false});
+  await fbSet('app/team',{members:teamMembers});
+  renderManage();
 }
 function startMemberEdit(idx){editingMemberIdx=idx;renderManage();}
 function cancelMemberEdit(){editingMemberIdx=-1;renderManage();}
 async function saveMemberEdit(idx){
-const name=document.getElementById(`edit-name-${idx}`).value.trim();
-const role=document.getElementById(`edit-role-${idx}`).value.trim();
-if(!name)return;
-teamMembers[idx]={…teamMembers[idx],name,role:role||‘Operative’,initials:name.split(’ ‘).map(p=>p[0].toUpperCase()).join(’’).slice(0,2)};
-editingMemberIdx=-1;
-await fbSet(‘app/team’,{members:teamMembers});
-renderManage();
+  const name=document.getElementById(`edit-name-${idx}`).value.trim();
+  const role=document.getElementById(`edit-role-${idx}`).value.trim();
+  if(!name)return;
+  teamMembers[idx]={...teamMembers[idx],name,role:role||'Operative',initials:name.split(' ').map(p=>p[0].toUpperCase()).join('').slice(0,2)};
+  editingMemberIdx=-1;
+  await fbSet('app/team',{members:teamMembers});
+  renderManage();
 }
-async function removeMember(idx){teamMembers.splice(idx,1);await fbSet(‘app/team’,{members:teamMembers});renderManage();}
-
+async function removeMember(idx){teamMembers.splice(idx,1);await fbSet('app/team',{members:teamMembers});renderManage();}
+ 
 // ─── PAY LOG ─────────────────────────────────────────────────────────────────
 function getPayWeekKey(offset){
-const d=new Date();d.setDate(d.getDate()+offset*7);
-const day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);
-return new Date(d.setDate(diff)).toISOString().split(‘T’)[0];
+  const d=new Date();d.setDate(d.getDate()+offset*7);
+  const day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);
+  return new Date(d.setDate(diff)).toISOString().split('T')[0];
 }
 function getPayWeekLabel(offset){
-const wk=getPayWeekKey(offset);
-const mon=new Date(wk+‘T12:00:00’),fri=new Date(mon);fri.setDate(fri.getDate()+4);
-const fmt=d=>d.toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’});
-return offset===0?`This Week (${fmt(mon)} – ${fmt(fri)})`:`${fmt(mon)} – ${fmt(fri)}`;
+  const wk=getPayWeekKey(offset);
+  const mon=new Date(wk+'T12:00:00'),fri=new Date(mon);fri.setDate(fri.getDate()+4);
+  const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  return offset===0?`This Week (${fmt(mon)} – ${fmt(fri)})`:`${fmt(mon)} – ${fmt(fri)}`;
 }
-
+ 
 function getColourPayDays(colourId) {
-// Check loaded colourLabels first, then defaults
-const c = colourLabels.find(c=>c.id===colourId);
-if(c && c.payDays !== undefined) return c.payDays;
-const d = DEFAULT_COLOURS.find(c=>c.id===colourId);
-return d ? (d.payDays||0) : 0;
+  // Check loaded colourLabels first, then defaults
+  const c = colourLabels.find(c=>c.id===colourId);
+  if(c && c.payDays !== undefined) return c.payDays;
+  const d = DEFAULT_COLOURS.find(c=>c.id===colourId);
+  return d ? (d.payDays||0) : 0;
 }
-
+ 
 function getCalDaysForWeek(personName, weekStartKey){
-const mon=new Date(weekStartKey+‘T12:00:00’);
-let count=0;
-for(let i=0;i<7;i++){
-const d=new Date(mon);d.setDate(d.getDate()+i);
-const dk=d.toISOString().split(‘T’)[0];
-const entries=calEntries[dk]||[];
-entries.forEach(e=>{
-if(e.person===personName) {
-const pd = getColourPayDays(e.colourId||0);
-count += pd;
+  const mon=new Date(weekStartKey+'T12:00:00');
+  let count=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(mon);d.setDate(d.getDate()+i);
+    const dk=d.toISOString().split('T')[0];
+    const entries=calEntries[dk]||[];
+    entries.forEach(e=>{
+      if(e.person===personName) {
+        const pd = getColourPayDays(e.colourId||0);
+        count += pd;
+      }
+    });
+  }
+  return count;
 }
-});
-}
-return count;
-}
-
+ 
 function calcEntryAmount(e) {
-let base = 0;
-const days = parseFloat(e.days);
-const rate = parseFloat(e.rate);
-const price = parseFloat(e.priceTotal);
-if(e.basis===‘day-rate’ && !isNaN(days) && !isNaN(rate)) base = days * rate;
-else if(e.basis===‘price-work’ && !isNaN(price)) base = price;
-const ot = (parseFloat(e.otHours)||0) * (parseFloat(e.otRate)||0);
-return base + ot;
+  let base = 0;
+  const days = parseFloat(e.days);
+  const rate = parseFloat(e.rate);
+  const price = parseFloat(e.priceTotal);
+  if(e.basis==='day-rate' && !isNaN(days) && !isNaN(rate)) base = days * rate;
+  else if(e.basis==='price-work' && !isNaN(price)) base = price;
+  const ot = (parseFloat(e.otHours)||0) * (parseFloat(e.otRate)||0);
+  return base + ot;
 }
-
+ 
 let _payFocusId = null;
 let _payFocusVal = null;
-
+ 
 function renderPayLog(){
-// Save focused input before re-render
-if(document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fieldkey) {
-_payFocusId = document.activeElement.dataset.fieldkey;
-_payFocusVal = document.activeElement.value;
-}
-const wk=getPayWeekKey(payLogWeekOffset);
-const entries=payLog[wk]?JSON.parse(JSON.stringify(payLog[wk])):[];
-const existingIds=entries.map(e=>e.personId);
-teamMembers.forEach(m=>{
-if(!existingIds.includes(m.id)){
-const calDays=getCalDaysForWeek(m.name, wk);
-entries.push({personId:m.id,name:m.name,role:m.role,days:calDays>0?calDays:’’,rate:’’,basis:‘day-rate’,priceTotal:’’,otHours:’’,otRate:’’,note:’’,amount:0});
-}
-});
-
-// Auto-fill days from calendar for any entry where days is still blank
-entries.forEach(e => {
-if(!e.days || e.days === ‘’) {
-const calDays = getCalDaysForWeek(e.name, wk);
-if(calDays > 0) e.days = calDays;
-}
-// Recalculate amount with current values
-if(!e.basis) e.basis = ‘day-rate’;
-e.amount = calcEntryAmount(e);
-});
-
-const total=entries.reduce((sum,e)=>sum+(parseFloat(e.amount)||0),0);
-const pastWeeks=Object.keys(payLog).sort().reverse().filter(k=>k!==wk);
-
-let html=`<div class="view-header"><div class="view-title">Pay Log</div><div class="view-subtitle">Weekly pay — days auto-filled from calendar where possible</div></div>
-
+  // Save focused input before re-render
+  if(document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fieldkey) {
+    _payFocusId = document.activeElement.dataset.fieldkey;
+    _payFocusVal = document.activeElement.value;
+  }
+  const wk=getPayWeekKey(payLogWeekOffset);
+  const entries=payLog[wk]?JSON.parse(JSON.stringify(payLog[wk])):[];
+  const existingIds=entries.map(e=>e.personId);
+  teamMembers.forEach(m=>{
+    if(!existingIds.includes(m.id)){
+      const calDays=getCalDaysForWeek(m.name, wk);
+      entries.push({personId:m.id,name:m.name,role:m.role,days:calDays>0?calDays:'',rate:'',basis:'day-rate',priceTotal:'',otHours:'',otRate:'',note:'',amount:0});
+    }
+  });
+ 
+  // Auto-fill days from calendar for any entry where days is still blank
+  entries.forEach(e => {
+    if(!e.days || e.days === '') {
+      const calDays = getCalDaysForWeek(e.name, wk);
+      if(calDays > 0) e.days = calDays;
+    }
+    // Recalculate amount with current values
+    if(!e.basis) e.basis = 'day-rate';
+    e.amount = calcEntryAmount(e);
+  });
+ 
+  const total=entries.reduce((sum,e)=>sum+(parseFloat(e.amount)||0),0);
+  const pastWeeks=Object.keys(payLog).sort().reverse().filter(k=>k!==wk);
+ 
+  let html=`<div class="view-header"><div class="view-title">Pay Log</div><div class="view-subtitle">Weekly pay — days auto-filled from calendar where possible</div></div>
   <div class="paylog-week-selector"><button class="cal-nav-btn" onclick="changePayWeek(-1)">‹</button><div class="paylog-week-label">${getPayWeekLabel(payLogWeekOffset)}</div><button class="cal-nav-btn" onclick="changePayWeek(1)">›</button></div>`;
-
-entries.forEach((e) => {
-const calDays = getCalDaysForWeek(e.name, wk);
-const amt = calcEntryAmount(e);
-const otAmt = (parseFloat(e.otHours)||0) * (parseFloat(e.otRate)||0);
-const pid = e.personId;
-
-```
-html += `<div data-person-id="${pid}" style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;border-left:4px solid #b8965a;">
-  <div style="background:#1a1a18;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
-    <div><span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#e8dcc8;">${e.name}</span>
-    <span style="font-size:11px;color:#999990;margin-left:8px;">${e.role||''}</span></div>
-    <span class="pay-card-total" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#b8965a;">£${amt.toFixed(2)}</span>
-  </div>
-  <div style="padding:14px;">
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button onclick="setPayBasis('${wk}','${pid}','day-rate')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='day-rate'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Day Rate</button>
-      <button onclick="setPayBasis('${wk}','${pid}','price-work')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='price-work'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Price Work</button>
-    </div>
-    ${e.basis==='day-rate'?`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Days Worked</label>
-        <input class="paylog-input" type="number" min="0" step="0.5" value="${e.days}" placeholder="${calDays>0?calDays+' in cal':'0'}" data-fieldkey="${pid}-days" oninput="updatePayField('${wk}','${pid}','days',this.value)"/>
-        ${calDays>0?`<div class="cal-days-info">📅 ${calDays} days in calendar</div>`:''}
+ 
+  entries.forEach((e) => {
+    const calDays = getCalDaysForWeek(e.name, wk);
+    const amt = calcEntryAmount(e);
+    const otAmt = (parseFloat(e.otHours)||0) * (parseFloat(e.otRate)||0);
+    const pid = e.personId;
+ 
+    html += `<div data-person-id="${pid}" style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;border-left:4px solid #b8965a;">
+      <div style="background:#1a1a18;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <div><span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#e8dcc8;">${e.name}</span>
+        <span style="font-size:11px;color:#999990;margin-left:8px;">${e.role||''}</span></div>
+        <span class="pay-card-total" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#b8965a;">£${amt.toFixed(2)}</span>
       </div>
-      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Day Rate £</label>
-        <input class="paylog-input" type="number" min="0" step="1" value="${e.rate}" placeholder="e.g. 180" data-fieldkey="${pid}-rate" oninput="updatePayField('${wk}','${pid}','rate',this.value)"/>
-      </div>
-    </div>`:
-    `<div style="margin-bottom:10px;"><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Price Work Total £</label>
-      <input class="paylog-input" type="number" min="0" step="1" value="${e.priceTotal||''}" placeholder="e.g. 1200" data-fieldkey="${pid}-priceTotal" oninput="updatePayField('${wk}','${pid}','priceTotal',this.value)"/>
-    </div>`}
-    <div style="border-top:1px solid #d4c4a8;padding-top:12px;margin-bottom:10px;">
-      <div class="ot-label">⏱ Overtime / Evenings</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Hours</label>
-          <input class="paylog-input" type="number" min="0" step="0.5" value="${e.otHours||''}" placeholder="e.g. 3" data-fieldkey="${pid}-otHours" oninput="updatePayField('${wk}','${pid}','otHours',this.value)"/>
+      <div style="padding:14px;">
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <button onclick="setPayBasis('${wk}','${pid}','day-rate')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='day-rate'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Day Rate</button>
+          <button onclick="setPayBasis('${wk}','${pid}','price-work')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='price-work'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Price Work</button>
         </div>
-        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Rate £/hr</label>
-          <input class="paylog-input" type="number" min="0" step="1" value="${e.otRate||''}" placeholder="e.g. 25" data-fieldkey="${pid}-otRate" oninput="updatePayField('${wk}','${pid}','otRate',this.value)"/>
+        ${e.basis==='day-rate'?`
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Days Worked</label>
+            <input class="paylog-input" type="number" min="0" step="0.5" value="${e.days}" placeholder="${calDays>0?calDays+' in cal':'0'}" data-fieldkey="${pid}-days" oninput="updatePayField('${wk}','${pid}','days',this.value)"/>
+            ${calDays>0?`<div class="cal-days-info">📅 ${calDays} days in calendar</div>`:''}
+          </div>
+          <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Day Rate £</label>
+            <input class="paylog-input" type="number" min="0" step="1" value="${e.rate}" placeholder="e.g. 180" data-fieldkey="${pid}-rate" oninput="updatePayField('${wk}','${pid}','rate',this.value)"/>
+          </div>
+        </div>`:
+        `<div style="margin-bottom:10px;"><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Price Work Total £</label>
+          <input class="paylog-input" type="number" min="0" step="1" value="${e.priceTotal||''}" placeholder="e.g. 1200" data-fieldkey="${pid}-priceTotal" oninput="updatePayField('${wk}','${pid}','priceTotal',this.value)"/>
+        </div>`}
+        <div style="border-top:1px solid #d4c4a8;padding-top:12px;margin-bottom:10px;">
+          <div class="ot-label">⏱ Overtime / Evenings</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Hours</label>
+              <input class="paylog-input" type="number" min="0" step="0.5" value="${e.otHours||''}" placeholder="e.g. 3" data-fieldkey="${pid}-otHours" oninput="updatePayField('${wk}','${pid}','otHours',this.value)"/>
+            </div>
+            <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Rate £/hr</label>
+              <input class="paylog-input" type="number" min="0" step="1" value="${e.otRate||''}" placeholder="e.g. 25" data-fieldkey="${pid}-otRate" oninput="updatePayField('${wk}','${pid}','otRate',this.value)"/>
+            </div>
+          </div>
+          <div class="pay-ot-total" style="font-size:12px;color:#b8965a;margin-top:4px;">${otAmt>0?`OT total: £${otAmt.toFixed(2)}`:''}</div>
+        </div>
+        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Note</label>
+          <input class="paylog-input" type="text" value="${e.note||''}" placeholder="Optional note" data-fieldkey="${pid}-note" oninput="updatePayField('${wk}','${pid}','note',this.value)"/>
         </div>
       </div>
-      <div class="pay-ot-total" style="font-size:12px;color:#b8965a;margin-top:4px;">${otAmt>0?`OT total: £${otAmt.toFixed(2)}`:''}</div>
-    </div>
-    <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Note</label>
-      <input class="paylog-input" type="text" value="${e.note||''}" placeholder="Optional note" data-fieldkey="${pid}-note" oninput="updatePayField('${wk}','${pid}','note',this.value)"/>
-    </div>
-  </div>
-</div>`;
-```
-
-});
-
-// Breakdown + total
-const breakdownRows = entries.map(e => {
-const amt = calcEntryAmount(e);
-const otAmt = (parseFloat(e.otHours)||0)*(parseFloat(e.otRate)||0);
-const baseAmt = amt - otAmt;
-if(amt === 0) return ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #d4c4a8;"><span style="font-weight:600;font-size:13px;color:#2a2a26;">’+e.name+’</span><span style="font-size:12px;color:#999990;font-style:italic;">Not entered</span></div>’;
-let detail = ‘’;
-if(e.basis===‘day-rate’ && e.days) detail += e.days+’ days x £’+e.rate+’ = £’+baseAmt.toFixed(2);
-if(e.basis===‘price-work’ && e.priceTotal) detail += ‘Price work: £’+parseFloat(e.priceTotal).toFixed(2);
-if(otAmt>0) detail += ’ + ‘+e.otHours+‘hr OT x £’+e.otRate+’ = £’+otAmt.toFixed(2);
-return ‘<div style="padding:10px 16px;border-bottom:1px solid #d4c4a8;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><span style="font-weight:600;font-size:14px;color:#2a2a26;">’+e.name+’</span><span style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:#b8965a;">£’+amt.toFixed(2)+’</span></div><div style="font-size:12px;color:#666660;">’+detail+’</div></div>’;
-}).join(’’);
-
-html += ‘<div style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;">’
-+ ‘<div style="background:#222220;padding:10px 16px;"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e8dcc8;">This Week — Breakdown</div></div>’
-+ breakdownRows
-+ ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#e8dcc8;"><span style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#1a1a18;">Total Wages This Week</span><span style="font-family:Playfair Display,serif;font-size:20px;font-weight:900;color:#1a1a18;">£’+total.toFixed(2)+’</span></div>’
-+ ‘</div>’;
-
-html += ‘<div class="paylog-save-row"><button class="notes-save-btn" onclick="savePayLog(\'' + wk + '\')">Save Pay Log</button><span class="saved-msg" id="pay-saved-msg">Saved ✓</span></div>’;
-
-if(pastWeeks.length>0){
-html+=`<div class="paylog-history"><div class="paylog-history-header"><div class="paylog-history-title">Previous Weeks</div></div>`;
-pastWeeks.forEach(wkKey=>{
-const wkEntries=payLog[wkKey]||[],wkTotal=wkEntries.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-const mon=new Date(wkKey+‘T12:00:00’),fri=new Date(mon);fri.setDate(fri.getDate()+4);
-const fmt=d=>d.toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’});
-html+=`<div class="paylog-hist-week"><div class="paylog-hist-week-label">w/c ${fmt(mon)} — Total: £${wkTotal.toFixed(2)}</div> ${wkEntries.filter(e=>calcEntryAmount(e)>0).map(e=>`
-<div class="paylog-hist-row">
-<div class="paylog-hist-name">${e.name}</div>
-<div class="paylog-hist-detail">
-${e.basis===‘day-rate’&&e.days?`${e.days} days @ £${e.rate}/day`:’’}
-${e.basis===‘price-work’&&e.priceTotal?`Price work £${e.priceTotal}`:’’}
-<span class="basis-badge ${e.basis}" style="margin-left:6px;">${e.basis===‘day-rate’?‘Day Rate’:‘Price Work’}</span>
-${(parseFloat(e.otHours)||0)>0?`<span style="color:#b8965a;margin-left:8px;">+${e.otHours}hr OT</span>`:’’}
-${e.note?`<span style="color:#999990;margin-left:8px;">${e.note}</span>`:’’}
-</div>
-<div class="paylog-hist-amount">£${calcEntryAmount(e).toFixed(2)}</div>
-</div>`).join('')} </div>`;
-});
-html+=`</div>`;
+    </div>`;
+  });
+ 
+  // Breakdown + total
+  const breakdownRows = entries.map(e => {
+    const amt = calcEntryAmount(e);
+    const otAmt = (parseFloat(e.otHours)||0)*(parseFloat(e.otRate)||0);
+    const baseAmt = amt - otAmt;
+    if(amt === 0) return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #d4c4a8;"><span style="font-weight:600;font-size:13px;color:#2a2a26;">'+e.name+'</span><span style="font-size:12px;color:#999990;font-style:italic;">Not entered</span></div>';
+    let detail = '';
+    if(e.basis==='day-rate' && e.days) detail += e.days+' days x £'+e.rate+' = £'+baseAmt.toFixed(2);
+    if(e.basis==='price-work' && e.priceTotal) detail += 'Price work: £'+parseFloat(e.priceTotal).toFixed(2);
+    if(otAmt>0) detail += ' + '+e.otHours+'hr OT x £'+e.otRate+' = £'+otAmt.toFixed(2);
+    return '<div style="padding:10px 16px;border-bottom:1px solid #d4c4a8;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><span style="font-weight:600;font-size:14px;color:#2a2a26;">'+e.name+'</span><span style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:#b8965a;">£'+amt.toFixed(2)+'</span></div><div style="font-size:12px;color:#666660;">'+detail+'</div></div>';
+  }).join('');
+ 
+  html += '<div style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;">'
+        + '<div style="background:#222220;padding:10px 16px;"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e8dcc8;">This Week — Breakdown</div></div>'
+        + breakdownRows
+        + '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#e8dcc8;"><span style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#1a1a18;">Total Wages This Week</span><span style="font-family:Playfair Display,serif;font-size:20px;font-weight:900;color:#1a1a18;">£'+total.toFixed(2)+'</span></div>'
+        + '</div>';
+ 
+  html += '<div class="paylog-save-row"><button class="notes-save-btn" onclick="savePayLog(\'' + wk + '\')">Save Pay Log</button><span class="saved-msg" id="pay-saved-msg">Saved ✓</span></div>';
+ 
+  if(pastWeeks.length>0){
+    html+=`<div class="paylog-history"><div class="paylog-history-header"><div class="paylog-history-title">Previous Weeks</div></div>`;
+    pastWeeks.forEach(wkKey=>{
+      const wkEntries=payLog[wkKey]||[],wkTotal=wkEntries.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
+      const mon=new Date(wkKey+'T12:00:00'),fri=new Date(mon);fri.setDate(fri.getDate()+4);
+      const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+      html+=`<div class="paylog-hist-week"><div class="paylog-hist-week-label">w/c ${fmt(mon)} — Total: £${wkTotal.toFixed(2)}</div>
+        ${wkEntries.filter(e=>calcEntryAmount(e)>0).map(e=>`
+          <div class="paylog-hist-row">
+            <div class="paylog-hist-name">${e.name}</div>
+            <div class="paylog-hist-detail">
+              ${e.basis==='day-rate'&&e.days?`${e.days} days @ £${e.rate}/day`:''}
+              ${e.basis==='price-work'&&e.priceTotal?`Price work £${e.priceTotal}`:''}
+              <span class="basis-badge ${e.basis}" style="margin-left:6px;">${e.basis==='day-rate'?'Day Rate':'Price Work'}</span>
+              ${(parseFloat(e.otHours)||0)>0?`<span style="color:#b8965a;margin-left:8px;">+${e.otHours}hr OT</span>`:''}
+              ${e.note?`<span style="color:#999990;margin-left:8px;">${e.note}</span>`:''}
+            </div>
+            <div class="paylog-hist-amount">£${calcEntryAmount(e).toFixed(2)}</div>
+          </div>`).join('')}
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+ 
+  document.getElementById('view-paylog').innerHTML=html;
+  // Restore focus after re-render
+  if(_payFocusId) {
+    const el = document.querySelector('[data-fieldkey="'+_payFocusId+'"]');
+    if(el) { el.focus(); el.value = _payFocusVal||el.value; _payFocusId=null; }
+  }
 }
-
-document.getElementById(‘view-paylog’).innerHTML=html;
-// Restore focus after re-render
-if(_payFocusId) {
-const el = document.querySelector(’[data-fieldkey=”’+_payFocusId+’”]’);
-if(el) { el.focus(); el.value = _payFocusVal||el.value; _payFocusId=null; }
-}
-}
-
+ 
 function changePayWeek(dir){payLogWeekOffset+=dir;renderPayLog();}
-
+ 
 function ensurePayEntry(wk, personId) {
-if(!payLog[wk]) payLog[wk]=[];
-let entry = payLog[wk].find(e=>e.personId===personId);
-if(!entry) {
-const m = teamMembers.find(m=>m.id===personId) || {};
-entry = {personId,name:m.name||’’,role:m.role||’’,days:’’,rate:’’,basis:‘day-rate’,priceTotal:’’,otHours:’’,otRate:’’,note:’’,amount:0};
-payLog[wk].push(entry);
+  if(!payLog[wk]) payLog[wk]=[];
+  let entry = payLog[wk].find(e=>e.personId===personId);
+  if(!entry) {
+    const m = teamMembers.find(m=>m.id===personId) || {};
+    entry = {personId,name:m.name||'',role:m.role||'',days:'',rate:'',basis:'day-rate',priceTotal:'',otHours:'',otRate:'',note:'',amount:0};
+    payLog[wk].push(entry);
+  }
+  // Always ensure basis is set — older saved entries may be missing it
+  if(!entry.basis) entry.basis = 'day-rate';
+  return entry;
 }
-// Always ensure basis is set — older saved entries may be missing it
-if(!entry.basis) entry.basis = ‘day-rate’;
-return entry;
-}
-
+ 
 function setPayBasis(wk, personId, basis) {
-const entry = ensurePayEntry(wk, personId);
-entry.basis = basis;
-entry.amount = calcEntryAmount(entry);
-renderPayLog();
+  const entry = ensurePayEntry(wk, personId);
+  entry.basis = basis;
+  entry.amount = calcEntryAmount(entry);
+  renderPayLog();
 }
-
+ 
 function updatePayField(wk, personId, field, val) {
-const entry = ensurePayEntry(wk, personId);
-entry[field] = val;
-entry.amount = calcEntryAmount(entry);
-renderPayLog();
+  const entry = ensurePayEntry(wk, personId);
+  entry[field] = val;
+  entry.amount = calcEntryAmount(entry);
+  renderPayLog();
 }
-
+ 
 async function savePayLog(wk){
-await fbSet(‘app/paylog’, payLog);
-const msg=document.getElementById(‘pay-saved-msg’);
-if(msg){msg.style.opacity=‘1’;setTimeout(()=>msg.style.opacity=‘0’,2000);}
+  await fbSet('app/paylog', payLog);
+  const msg=document.getElementById('pay-saved-msg');
+  if(msg){msg.style.opacity='1';setTimeout(()=>msg.style.opacity='0',2000);}
 }
-
+ 
 // ─── SETTINGS ────────────────────────────────────────────────────────────────
 function renderSettings() {
-// Merge defaults with loaded labels so payDays is always present
-const merged = DEFAULT_COLOURS.map(dc => {
-const loaded = colourLabels.find(c=>c.id===dc.id);
-return loaded ? {…dc, …loaded} : dc;
-});
-let html = ‘<div class="view-header"><div class="view-title">Settings</div><div class="view-subtitle">Name each colour and set whether it counts as a paid day on the pay log</div></div>’
-
-- ‘<div class="settings-section"><div class="settings-header"><div class="settings-header-title">Calendar Colour Labels</div></div><div class="settings-body">’;
+  // Merge defaults with loaded labels so payDays is always present
+  const merged = DEFAULT_COLOURS.map(dc => {
+    const loaded = colourLabels.find(c=>c.id===dc.id);
+    return loaded ? {...dc, ...loaded} : dc;
+  });
+  let html = '<div class="view-header"><div class="view-title">Settings</div><div class="view-subtitle">Name each colour and set whether it counts as a paid day on the pay log</div></div>'
+  + '<div class="settings-section"><div class="settings-header"><div class="settings-header-title">Calendar Colour Labels</div></div><div class="settings-body">';
   merged.forEach(c => {
-  const pd = c.payDays!==undefined ? c.payDays : 0;
-  html += ‘<div class="colour-row">’
-  - ‘<div class="colour-swatch" style="background:'+c.hex+'"></div>’
-  - ‘<input class="colour-input" type="text" value="'+c.label+'" placeholder="Name this colour..." oninput="updateColourLabel('+c.id+',this.value)"/>’
-  - ‘<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:'+(pd>0?'#2e7d52':'#999990')+';min-width:60px;text-align:right;">’+(pd===1?‘Full day’:pd===0.5?‘Half day’:‘No pay’)+’</div>’
-  - ‘</div>’;
-    });
-    html += ‘<div style="font-size:12px;color:#666660;margin-top:12px;padding:10px;background:#f5f0e8;border:1px solid #d4c4a8;">🟢 <strong>On Site</strong> = full day pay  |  🟣 <strong>Half Day</strong> = 0.5 days pay  |  All other colours = no pay counted</div>’;
-    html += ‘<button class="notes-save-btn" style="margin-top:14px;" onclick="saveColourLabels()">Save Labels</button><span class="saved-msg" id="colours-saved-msg" style="margin-left:10px;">Saved ✓</span></div></div>’;
-    document.getElementById(‘view-settings’).innerHTML=html;
-    }
-
+    const pd = c.payDays!==undefined ? c.payDays : 0;
+    html += '<div class="colour-row">'
+      + '<div class="colour-swatch" style="background:'+c.hex+'"></div>'
+      + '<input class="colour-input" type="text" value="'+c.label+'" placeholder="Name this colour..." oninput="updateColourLabel('+c.id+',this.value)"/>'
+      + '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:'+(pd>0?'#2e7d52':'#999990')+';min-width:60px;text-align:right;">'+(pd===1?'Full day':pd===0.5?'Half day':'No pay')+'</div>'
+      + '</div>';
+  });
+  html += '<div style="font-size:12px;color:#666660;margin-top:12px;padding:10px;background:#f5f0e8;border:1px solid #d4c4a8;">🟢 <strong>On Site</strong> = full day pay &nbsp;|&nbsp; 🟣 <strong>Half Day</strong> = 0.5 days pay &nbsp;|&nbsp; All other colours = no pay counted</div>';
+  html += '<button class="notes-save-btn" style="margin-top:14px;" onclick="saveColourLabels()">Save Labels</button><span class="saved-msg" id="colours-saved-msg" style="margin-left:10px;">Saved ✓</span></div></div>';
+  document.getElementById('view-settings').innerHTML=html;
+}
+ 
 function updateColourLabel(id, val) {
-colourLabels = colourLabels.map(c => c.id===id ? {…c, label:val} : c);
+  colourLabels = colourLabels.map(c => c.id===id ? {...c, label:val} : c);
 }
-
+ 
 async function saveColourLabels() {
-// Preserve payDays from defaults when saving
-const toSave = colourLabels.map(c => {
-const def = DEFAULT_COLOURS.find(d=>d.id===c.id);
-return {…c, payDays: def ? def.payDays : (c.payDays||0)};
-});
-colourLabels = toSave;
-await fbSet(‘app/colours’, {list:toSave});
-const msg=document.getElementById(‘colours-saved-msg’);
-if(msg){msg.style.opacity=‘1’;setTimeout(()=>msg.style.opacity=‘0’,2000);}
+  // Preserve payDays from defaults when saving
+  const toSave = colourLabels.map(c => {
+    const def = DEFAULT_COLOURS.find(d=>d.id===c.id);
+    return {...c, payDays: def ? def.payDays : (c.payDays||0)};
+  });
+  colourLabels = toSave;
+  await fbSet('app/colours', {list:toSave});
+  const msg=document.getElementById('colours-saved-msg');
+  if(msg){msg.style.opacity='1';setTimeout(()=>msg.style.opacity='0',2000);}
 }
-
+ 
 // ─── NOTIFICATION ────────────────────────────────────────────────────────────
 function showNotif(from,msg){
-document.getElementById(‘notif-from’).textContent=from;
-document.getElementById(‘notif-msg’).textContent=msg;
-const el=document.getElementById(‘notification’);
-el.style.display=‘block’;
-setTimeout(()=>el.style.display=‘none’,5000);
+  document.getElementById('notif-from').textContent=from;
+  document.getElementById('notif-msg').textContent=msg;
+  const el=document.getElementById('notification');
+  el.style.display='block';
+  setTimeout(()=>el.style.display='none',5000);
 }
-
+ 
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
-const views=[‘tasks’,‘notes’,‘calendar’,‘team’,‘streaks’,‘nudge’,‘manage’,‘paylog’,‘settings’];
+const views=['tasks','notes','calendar','team','streaks','nudge','manage','paylog','settings'];
 function showView(view,tab){
-document.querySelectorAll(’.tab’).forEach(t=>t.classList.remove(‘active’));
-if(tab)tab.classList.add(‘active’);
-views.forEach(v=>document.getElementById(‘view-’+v).style.display=v===view?‘block’:‘none’);
-if(view===‘tasks’)renderTasks();
-if(view===‘notes’)renderNotes();
-if(view===‘calendar’)renderCalendar();
-if(view===‘team’)renderTeam();
-if(view===‘streaks’)renderStreaks();
-if(view===‘nudge’)renderNudge();
-if(view===‘manage’)renderManage();
-if(view===‘paylog’)renderPayLog();
-if(view===‘settings’)renderSettings();
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(tab)tab.classList.add('active');
+  views.forEach(v=>document.getElementById('view-'+v).style.display=v===view?'block':'none');
+  if(view==='tasks')renderTasks();
+  if(view==='notes')renderNotes();
+  if(view==='calendar')renderCalendar();
+  if(view==='team')renderTeam();
+  if(view==='streaks')renderStreaks();
+  if(view==='nudge')renderNudge();
+  if(view==='manage')renderManage();
+  if(view==='paylog')renderPayLog();
+  if(view==='settings')renderSettings();
 }
-
+ 
 // ─── AUTH ────────────────────────────────────────────────────────────────────
 async function login(user){
-document.getElementById(‘login-screen’).style.display=‘none’;
-document.getElementById(‘app’).style.display=‘block’;
-currentUser=user;
-notesViewDate=new Date();
-document.getElementById(‘header-avatar’).textContent=user===‘macauly’?‘MP’:‘BP’;
-document.getElementById(‘header-name’).textContent=user===‘macauly’?‘Macauly’:‘Brad’;
-await loadAll();
-lastNudgeCount=nudges.filter(n=>n.to===currentUser&&n.date===todayKey()).length;
-await checkAndUpdateStreaks();
-showView(‘tasks’,null);
-document.querySelectorAll(’.tab’)[0].classList.add(‘active’);
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  currentUser=user;
+  notesViewDate=new Date();
+  document.getElementById('header-avatar').textContent=user==='macauly'?'MP':'BP';
+  document.getElementById('header-name').textContent=user==='macauly'?'Macauly':'Brad';
+  await loadAll();
+  lastNudgeCount=nudges.filter(n=>n.to===currentUser&&n.date===todayKey()).length;
+  await checkAndUpdateStreaks();
+  showView('tasks',null);
+  document.querySelectorAll('.tab')[0].classList.add('active');
 }
-
+ 
 function logout(){
-unsubscribers.forEach(u=>u());
-unsubscribers=[];
-currentUser=null;
-calYear=undefined;calMonth=undefined;selectedCalDate=null;
-notesViewDate=new Date();
-document.getElementById(‘login-screen’).style.display=‘flex’;
-document.getElementById(‘app’).style.display=‘none’;
+  unsubscribers.forEach(u=>u());
+  unsubscribers=[];
+  currentUser=null;
+  calYear=undefined;calMonth=undefined;selectedCalDate=null;
+  notesViewDate=new Date();
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
 }
-
+ 
 // Expose functions globally
 window.login=login; window.logout=logout; window.showView=showView;
 window.toggleTask=toggleTask; window.saveNote=saveNote;
@@ -1217,6 +1212,5 @@ window.startMemberEdit=startMemberEdit; window.cancelMemberEdit=cancelMemberEdit
 window.changePayWeek=changePayWeek; window.updatePayField=updatePayField; window.savePayLog=savePayLog; window.setPayBasis=setPayBasis; window.ensurePayEntry=ensurePayEntry;
 window.updateColourLabel=updateColourLabel; window.saveColourLabels=saveColourLabels; window.copyPrevDay=copyPrevDay;
 </script>
-
 </body>
 </html>
