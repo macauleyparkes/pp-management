@@ -7,254 +7,248 @@
 <title>Perry & Parkes — Task Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #1a1a18; --black2: #222220; --beige: #e8dcc8; --beige-light: #f5f0e8;
-    --beige-mid: #d4c4a8; --gold: #b8965a; --white: #fdfaf5; --red: #c0392b;
-    --green: #2e7d52; --green-light: #e8f5ee; --blue: #2471a3; --blue-light: #eaf4fb;
-    --text: #2a2a26; --text-mid: #666660; --text-light: #999990;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--black); font-family: 'Barlow', sans-serif; min-height: 100vh; color: var(--text); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a18; font-family: 'Barlow', sans-serif; min-height: 100vh; color: #2a2a26; }
 
 /* LOGIN */
-#login-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; background:var(–black); background-image:radial-gradient(ellipse at 20% 50%, rgba(184,150,90,0.06) 0%, transparent 60%); }
+#login-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; background:#1a1a18; background-image:radial-gradient(ellipse at 20% 50%, rgba(184,150,90,0.06) 0%, transparent 60%); }
 .login-logo { text-align:center; margin-bottom:48px; }
-.login-logo .company-name { font-family:‘Playfair Display’,serif; font-weight:900; font-size:36px; color:var(–beige); letter-spacing:3px; }
-.login-logo .company-sub { font-size:11px; color:var(–text-light); letter-spacing:5px; text-transform:uppercase; margin-top:6px; }
-.login-logo .gold-rule { width:60px; height:2px; background:var(–gold); margin:14px auto 0; }
-.login-title { font-size:13px; color:var(–text-light); letter-spacing:2px; text-transform:uppercase; margin-bottom:36px; }
+.login-logo .company-name { font-family:‘Playfair Display’,serif; font-weight:900; font-size:36px; color:#e8dcc8; letter-spacing:3px; }
+.login-logo .company-sub { font-size:11px; color:#999990; letter-spacing:5px; text-transform:uppercase; margin-top:6px; }
+.login-logo .gold-rule { width:60px; height:2px; background:#b8965a; margin:14px auto 0; }
+.login-title { font-size:13px; color:#999990; letter-spacing:2px; text-transform:uppercase; margin-bottom:36px; }
 .profile-cards { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
-.profile-card { background:var(–black2); border:1px solid rgba(184,150,90,0.2); padding:32px 40px; cursor:pointer; transition:all 0.2s; text-align:center; min-width:170px; position:relative; }
-.profile-card::before { content:’’; position:absolute; top:0;left:0;right:0; height:2px; background:var(–gold); transform:scaleX(0); transition:transform 0.2s; }
-.profile-card:hover { border-color:var(–gold); transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.profile-card { background:#222220; border:1px solid rgba(184,150,90,0.2); padding:32px 40px; cursor:pointer; transition:all 0.2s; text-align:center; min-width:170px; position:relative; }
+.profile-card::before { content:’’; position:absolute; top:0;left:0;right:0; height:2px; background:#b8965a; transform:scaleX(0); transition:transform 0.2s; }
+.profile-card:hover { border-color:#b8965a; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
 .profile-card:hover::before { transform:scaleX(1); }
-.profile-avatar { width:60px; height:60px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:22px; color:var(–black); margin:0 auto 14px; }
-.profile-card .name { font-family:‘Playfair Display’,serif; font-size:19px; color:var(–beige); font-weight:700; }
-.profile-card .role-label { font-size:11px; color:var(–text-light); letter-spacing:1px; text-transform:uppercase; margin-top:5px; }
+.profile-avatar { width:60px; height:60px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:22px; color:#1a1a18; margin:0 auto 14px; }
+.profile-card .name { font-family:‘Playfair Display’,serif; font-size:19px; color:#e8dcc8; font-weight:700; }
+.profile-card .role-label { font-size:11px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-top:5px; }
 
 /* APP */
-#app { display:none; min-height:100vh; background:var(–beige-light); }
-.app-header { background:var(–black); padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:60px; border-bottom:2px solid var(–gold); position:sticky; top:0; z-index:100; }
-.header-logo { font-family:‘Playfair Display’,serif; font-weight:900; font-size:17px; color:var(–beige); letter-spacing:2px; }
-.header-logo span { color:var(–gold); }
+#app { display:none; min-height:100vh; background:#f5f0e8; }
+.app-header { background:#1a1a18; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:60px; border-bottom:2px solid #b8965a; position:sticky; top:0; z-index:100; }
+.header-logo { font-family:‘Playfair Display’,serif; font-weight:900; font-size:17px; color:#e8dcc8; letter-spacing:2px; }
+.header-logo span { color:#b8965a; }
 .header-right { display:flex; align-items:center; gap:14px; }
-.user-avatar-sm { width:30px; height:30px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:12px; color:var(–black); }
-.user-name-sm { font-size:13px; color:var(–beige); font-weight:500; }
-.switch-btn { background:transparent; border:1px solid rgba(184,150,90,0.4); color:var(–text-light); font-family:‘Barlow’,sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; cursor:pointer; transition:all 0.15s; }
-.switch-btn:hover { border-color:var(–gold); color:var(–gold); }
-.sync-indicator { font-size:10px; color:var(–text-light); letter-spacing:1px; }
+.user-avatar-sm { width:30px; height:30px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:12px; color:#1a1a18; }
+.user-name-sm { font-size:13px; color:#e8dcc8; font-weight:500; }
+.switch-btn { background:transparent; border:1px solid rgba(184,150,90,0.4); color:#999990; font-family:‘Barlow’,sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; cursor:pointer; transition:all 0.15s; }
+.switch-btn:hover { border-color:#b8965a; color:#b8965a; }
+.sync-indicator { font-size:10px; color:#999990; letter-spacing:1px; }
 .sync-indicator.live { color:#2ecc71; }
 
 /* TABS */
-.tab-bar { background:var(–black2); display:flex; border-bottom:1px solid rgba(184,150,90,0.15); padding:0 24px; overflow-x:auto; }
-.tab { padding:13px 16px; font-size:12px; font-weight:500; color:var(–text-light); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s; }
-.tab:hover { color:var(–beige); }
-.tab.active { color:var(–gold); border-bottom-color:var(–gold); }
+.tab-bar { background:#222220; display:flex; border-bottom:1px solid rgba(184,150,90,0.15); padding:0 24px; overflow-x:auto; }
+.tab { padding:13px 16px; font-size:12px; font-weight:500; color:#999990; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s; }
+.tab:hover { color:#e8dcc8; }
+.tab.active { color:#b8965a; border-bottom-color:#b8965a; }
 
 /* BODY */
 .app-body { max-width:920px; margin:0 auto; padding:26px 20px 70px; }
 .view-header { margin-bottom:24px; }
-.view-title { font-family:‘Playfair Display’,serif; font-size:26px; color:var(–black); font-weight:700; }
-.view-subtitle { font-size:13px; color:var(–text-mid); margin-top:3px; }
+.view-title { font-family:‘Playfair Display’,serif; font-size:26px; color:#1a1a18; font-weight:700; }
+.view-subtitle { font-size:13px; color:#666660; margin-top:3px; }
 
 /* PROGRESS */
-.progress-summary { background:var(–white); border:1px solid var(–beige-mid); padding:18px 22px; margin-bottom:24px; display:flex; align-items:center; gap:18px; }
-.progress-bar-wrap { flex:1; height:5px; background:var(–beige-mid); border-radius:3px; overflow:hidden; }
-.progress-bar-fill { height:100%; background:var(–gold); border-radius:3px; transition:width 0.4s; }
-.progress-text { font-size:12px; color:var(–text-mid); }
-.progress-pct { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:var(–gold); min-width:48px; text-align:right; }
+.progress-summary { background:#fdfaf5; border:1px solid #d4c4a8; padding:18px 22px; margin-bottom:24px; display:flex; align-items:center; gap:18px; }
+.progress-bar-wrap { flex:1; height:5px; background:#d4c4a8; border-radius:3px; overflow:hidden; }
+.progress-bar-fill { height:100%; background:#b8965a; border-radius:3px; transition:width 0.4s; }
+.progress-text { font-size:12px; color:#666660; }
+.progress-pct { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:#b8965a; min-width:48px; text-align:right; }
 
 /* TASKS */
 .task-section { margin-bottom:28px; }
 .section-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(–text-light); }
-.section-rule { flex:1; height:1px; background:var(–beige-mid); }
-.section-count { font-size:11px; color:var(–text-light); }
-.task-card { background:var(–white); border:1px solid var(–beige-mid); border-left:3px solid var(–beige-mid); padding:13px 16px; margin-bottom:7px; display:flex; align-items:flex-start; gap:12px; transition:all 0.15s; cursor:pointer; user-select:none; }
-.task-card:hover { border-color:var(–gold); }
-.task-card.done { background:var(–green-light); border-left-color:var(–green); opacity:0.85; }
-.task-check { width:20px; height:20px; border:2px solid var(–beige-mid); border-radius:3px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; background:white; font-size:12px; }
-.task-card.done .task-check { background:var(–green); border-color:var(–green); color:white; }
-.task-text { flex:1; font-size:14px; line-height:1.5; color:var(–text); }
-.task-card.done .task-text { text-decoration:line-through; color:var(–text-mid); }
+.section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#999990; }
+.section-rule { flex:1; height:1px; background:#d4c4a8; }
+.section-count { font-size:11px; color:#999990; }
+.task-card { background:#fdfaf5; border:1px solid #d4c4a8; border-left:3px solid #d4c4a8; padding:13px 16px; margin-bottom:7px; display:flex; align-items:flex-start; gap:12px; transition:all 0.15s; cursor:pointer; user-select:none; }
+.task-card:hover { border-color:#b8965a; }
+.task-card.done { background:#e8f5ee; border-left-color:#2e7d52; opacity:0.85; }
+.task-check { width:20px; height:20px; border:2px solid #d4c4a8; border-radius:3px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; background:white; font-size:12px; }
+.task-card.done .task-check { background:#2e7d52; border-color:#2e7d52; color:white; }
+.task-text { flex:1; font-size:14px; line-height:1.5; color:#2a2a26; }
+.task-card.done .task-text { text-decoration:line-through; color:#666660; }
 
 /* NOTES */
-.notes-panel { background:var(–white); border:1px solid var(–beige-mid); margin-bottom:28px; }
-.notes-header { background:var(–black); padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
-.notes-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–beige); }
-.notes-date { font-size:11px; color:var(–text-light); }
+.notes-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:28px; }
+.notes-header { background:#1a1a18; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
+.notes-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+.notes-date { font-size:11px; color:#999990; }
 .notes-body { padding:16px; }
-.notes-textarea { width:100%; min-height:90px; border:1px solid var(–beige-mid); background:var(–beige-light); font-family:‘Barlow’,sans-serif; font-size:14px; color:var(–text); padding:10px 12px; resize:vertical; outline:none; line-height:1.5; }
-.notes-textarea:focus { border-color:var(–gold); }
-.notes-save-btn { margin-top:8px; background:var(–black); color:var(–beige); border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; cursor:pointer; transition:all 0.15s; }
-.notes-save-btn:hover { background:var(–gold); color:var(–black); }
-.saved-msg { font-size:11px; color:var(–green); margin-left:10px; opacity:0; transition:opacity 0.3s; }
-.other-notes-box { border-top:1px solid var(–beige-mid); padding:14px 16px; background:var(–beige-light); }
-.other-notes-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(–text-light); margin-bottom:6px; }
-.other-notes-text { font-size:13px; color:var(–text-mid); line-height:1.5; white-space:pre-wrap; }
-.other-notes-empty { font-size:13px; color:var(–text-light); font-style:italic; }
-.notes-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; background:var(–white); border:1px solid var(–beige-mid); padding:10px 14px; }
-.notes-nav-btn { background:var(–black); color:var(–beige); border:none; width:30px; height:30px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; font-family:‘Barlow’,sans-serif; }
-.notes-nav-btn:hover { background:var(–gold); color:var(–black); }
-.notes-nav-date { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:var(–black); text-align:center; flex:1; }
-.notes-nav-today { font-size:11px; color:var(–gold); font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; background:none; border:none; font-family:‘Barlow’,sans-serif; }
+.notes-textarea { width:100%; min-height:90px; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:14px; color:#2a2a26; padding:10px 12px; resize:vertical; outline:none; line-height:1.5; }
+.notes-textarea:focus { border-color:#b8965a; }
+.notes-save-btn { margin-top:8px; background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; cursor:pointer; transition:all 0.15s; }
+.notes-save-btn:hover { background:#b8965a; color:#1a1a18; }
+.saved-msg { font-size:11px; color:#2e7d52; margin-left:10px; opacity:0; transition:opacity 0.3s; }
+.other-notes-box { border-top:1px solid #d4c4a8; padding:14px 16px; background:#f5f0e8; }
+.other-notes-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#999990; margin-bottom:6px; }
+.other-notes-text { font-size:13px; color:#666660; line-height:1.5; white-space:pre-wrap; }
+.other-notes-empty { font-size:13px; color:#999990; font-style:italic; }
+.notes-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; background:#fdfaf5; border:1px solid #d4c4a8; padding:10px 14px; }
+.notes-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:30px; height:30px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; font-family:‘Barlow’,sans-serif; }
+.notes-nav-btn:hover { background:#b8965a; color:#1a1a18; }
+.notes-nav-date { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#1a1a18; text-align:center; flex:1; }
+.notes-nav-today { font-size:11px; color:#b8965a; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; background:none; border:none; font-family:‘Barlow’,sans-serif; }
 
 /* CALENDAR */
 .cal-nav { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
-.cal-nav-btn { background:var(–black); color:var(–beige); border:none; width:32px; height:32px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
-.cal-nav-btn:hover { background:var(–gold); color:var(–black); }
-.cal-month-label { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:var(–black); }
+.cal-nav-btn { background:#1a1a18; color:#e8dcc8; border:none; width:32px; height:32px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+.cal-nav-btn:hover { background:#b8965a; color:#1a1a18; }
+.cal-month-label { font-family:‘Playfair Display’,serif; font-size:20px; font-weight:700; color:#1a1a18; }
 .cal-legend { display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
-.cal-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(–text-mid); }
+.cal-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#666660; }
 .cal-legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(–beige-mid); border:1px solid var(–beige-mid); margin-bottom:24px; }
-.cal-day-header { background:var(–black); color:var(–beige); font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-align:center; padding:8px 2px; }
-.cal-day { background:var(–white); min-height:72px; padding:5px; cursor:pointer; transition:background 0.12s; overflow:hidden; }
-.cal-day:hover { background:var(–beige-light); }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:#d4c4a8; border:1px solid #d4c4a8; margin-bottom:24px; }
+.cal-day-header { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-align:center; padding:8px 2px; }
+.cal-day { background:#fdfaf5; min-height:72px; padding:5px; cursor:pointer; transition:background 0.12s; overflow:hidden; }
+.cal-day:hover { background:#f5f0e8; }
 .cal-day.other-month { background:#f0ece4; }
-.cal-day.today { outline:2px solid var(–gold); outline-offset:-2px; }
-.cal-day.selected { background:var(–beige); }
-.cal-day-num { font-size:11px; font-weight:600; color:var(–text-mid); margin-bottom:3px; }
-.cal-day.today .cal-day-num { color:var(–gold); font-weight:700; }
+.cal-day.today { outline:2px solid #b8965a; outline-offset:-2px; }
+.cal-day.selected { background:#e8dcc8; }
+.cal-day-num { font-size:11px; font-weight:600; color:#666660; margin-bottom:3px; }
+.cal-day.today .cal-day-num { color:#b8965a; font-weight:700; }
 .entry-pill { font-size:9px; font-weight:600; padding:1px 4px; border-radius:2px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:white; }
 
 /* DAY PANEL */
-.day-panel { background:var(–white); border:1px solid var(–beige-mid); margin-bottom:20px; }
-.day-panel-header { background:var(–black); padding:14px 18px; }
-.day-panel-title { font-family:‘Playfair Display’,serif; font-size:16px; color:var(–beige); font-weight:700; }
+.day-panel { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+.day-panel-header { background:#1a1a18; padding:14px 18px; }
+.day-panel-title { font-family:‘Playfair Display’,serif; font-size:16px; color:#e8dcc8; font-weight:700; }
 .day-panel-body { padding:18px; }
 .add-entry-form { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:10px; align-items:end; margin-bottom:18px; }
-.form-group label { display:block; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(–text-light); margin-bottom:5px; }
-.form-group select, .form-group input { width:100%; border:1px solid var(–beige-mid); background:var(–beige-light); font-family:‘Barlow’,sans-serif; font-size:13px; color:var(–text); padding:8px 10px; outline:none; }
-.form-group select:focus, .form-group input:focus { border-color:var(–gold); }
-.add-entry-btn { background:var(–black); color:var(–beige); border:none; font-family:‘Barlow’,sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 16px; cursor:pointer; transition:all 0.15s; height:36px; white-space:nowrap; }
-.add-entry-btn:hover { background:var(–gold); color:var(–black); }
+.form-group label { display:block; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#999990; margin-bottom:5px; }
+.form-group select, .form-group input { width:100%; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:8px 10px; outline:none; }
+.form-group select:focus, .form-group input:focus { border-color:#b8965a; }
+.add-entry-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:9px 16px; cursor:pointer; transition:all 0.15s; height:36px; white-space:nowrap; }
+.add-entry-btn:hover { background:#b8965a; color:#1a1a18; }
 .entries-list { display:flex; flex-direction:column; gap:8px; }
-.entry-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(–beige-light); border:1px solid var(–beige-mid); border-left:4px solid #999; }
-.entry-person { font-weight:600; font-size:13px; color:var(–black); min-width:90px; }
-.entry-job { flex:1; font-size:13px; color:var(–text); }
-.entry-remove { background:none; border:none; color:var(–text-light); cursor:pointer; font-size:16px; padding:0 4px; margin-left:auto; }
-.entry-remove:hover { color:var(–red); }
-.no-entries { font-size:13px; color:var(–text-light); font-style:italic; text-align:center; padding:16px 0; }
+.entry-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f5f0e8; border:1px solid #d4c4a8; border-left:4px solid #999; }
+.entry-person { font-weight:600; font-size:13px; color:#1a1a18; min-width:90px; }
+.entry-job { flex:1; font-size:13px; color:#2a2a26; }
+.entry-remove { background:none; border:none; color:#999990; cursor:pointer; font-size:16px; padding:0 4px; margin-left:auto; }
+.entry-remove:hover { color:#c0392b; }
+.no-entries { font-size:13px; color:#999990; font-style:italic; text-align:center; padding:16px 0; }
 
 /* TEAM */
-.team-card { background:var(–white); border:1px solid var(–beige-mid); padding:22px; margin-bottom:18px; }
-.team-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(–beige-mid); }
-.team-avatar { width:44px; height:44px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:18px; color:var(–black); }
-.team-name { font-family:‘Playfair Display’,serif; font-size:19px; font-weight:700; color:var(–black); }
-.team-roles { font-size:12px; color:var(–text-mid); margin-top:2px; }
+.team-card { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:18px; }
+.team-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #d4c4a8; }
+.team-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:18px; color:#1a1a18; }
+.team-name { font-family:‘Playfair Display’,serif; font-size:19px; font-weight:700; color:#1a1a18; }
+.team-roles { font-size:12px; color:#666660; margin-top:2px; }
 .team-progress-row { display:flex; gap:10px; flex-wrap:wrap; }
-.team-stat { flex:1; min-width:90px; background:var(–beige-light); border:1px solid var(–beige-mid); padding:10px 14px; text-align:center; }
-.team-stat-val { font-family:‘Playfair Display’,serif; font-size:22px; font-weight:700; color:var(–gold); }
-.team-stat-label { font-size:10px; color:var(–text-mid); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+.team-stat { flex:1; min-width:90px; background:#f5f0e8; border:1px solid #d4c4a8; padding:10px 14px; text-align:center; }
+.team-stat-val { font-family:‘Playfair Display’,serif; font-size:22px; font-weight:700; color:#b8965a; }
+.team-stat-label { font-size:10px; color:#666660; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
 .missed-tasks-list { margin-top:14px; }
-.missed-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(–beige-mid); font-size:13px; }
+.missed-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #d4c4a8; font-size:13px; }
 .missed-item:last-child { border-bottom:none; }
-.missed-dot { width:7px; height:7px; background:var(–red); border-radius:50%; flex-shrink:0; }
-.missed-freq { font-size:10px; color:var(–text-light); letter-spacing:1px; text-transform:uppercase; margin-left:auto; }
+.missed-dot { width:7px; height:7px; background:#c0392b; border-radius:50%; flex-shrink:0; }
+.missed-freq { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; margin-left:auto; }
 
 /* STREAKS & LEADERBOARD */
-.leaderboard-card { background:var(–black); border:2px solid var(–gold); padding:22px; margin-bottom:22px; }
-.leaderboard-title { font-family:‘Playfair Display’,serif; font-size:20px; color:var(–gold); font-weight:700; margin-bottom:18px; text-align:center; letter-spacing:1px; }
+.leaderboard-card { background:#1a1a18; border:2px solid #b8965a; padding:22px; margin-bottom:22px; }
+.leaderboard-title { font-family:‘Playfair Display’,serif; font-size:20px; color:#b8965a; font-weight:700; margin-bottom:18px; text-align:center; letter-spacing:1px; }
 .leaderboard-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(184,150,90,0.2); }
 .leaderboard-row:last-child { border-bottom:none; }
-.leaderboard-pos { font-family:‘Playfair Display’,serif; font-size:28px; font-weight:900; color:var(–gold); min-width:36px; }
-.leaderboard-pos.second { color:var(–beige-mid); }
-.leaderboard-avatar { width:44px; height:44px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:16px; color:var(–black); flex-shrink:0; }
-.leaderboard-avatar.second { background:var(–beige-mid); }
+.leaderboard-pos { font-family:‘Playfair Display’,serif; font-size:28px; font-weight:900; color:#b8965a; min-width:36px; }
+.leaderboard-pos.second { color:#d4c4a8; }
+.leaderboard-avatar { width:44px; height:44px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:16px; color:#1a1a18; flex-shrink:0; }
+.leaderboard-avatar.second { background:#d4c4a8; }
 .leaderboard-info { flex:1; }
-.leaderboard-name { font-family:‘Playfair Display’,serif; font-size:17px; color:var(–beige); font-weight:700; }
+.leaderboard-name { font-family:‘Playfair Display’,serif; font-size:17px; color:#e8dcc8; font-weight:700; }
 .leaderboard-streaks { display:flex; gap:8px; margin-top:5px; flex-wrap:wrap; }
 .streak-badge { display:flex; align-items:center; gap:4px; background:rgba(184,150,90,0.15); border:1px solid rgba(184,150,90,0.3); padding:3px 9px; border-radius:2px; }
-.streak-badge.active { background:rgba(184,150,90,0.25); border-color:var(–gold); }
-.streak-val { font-family:‘Playfair Display’,serif; font-size:14px; font-weight:700; color:var(–gold); }
-.streak-label { font-size:10px; color:var(–text-light); letter-spacing:1px; text-transform:uppercase; }
+.streak-badge.active { background:rgba(184,150,90,0.25); border-color:#b8965a; }
+.streak-val { font-family:‘Playfair Display’,serif; font-size:14px; font-weight:700; color:#b8965a; }
+.streak-label { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
 .streak-fire { font-size:13px; }
 .leaderboard-score { text-align:right; }
-.leaderboard-total { font-family:‘Playfair Display’,serif; font-size:26px; font-weight:900; color:var(–gold); line-height:1; }
-.leaderboard-total.second { color:var(–beige-mid); }
-.leaderboard-pts { font-size:10px; color:var(–text-light); letter-spacing:1px; text-transform:uppercase; }
+.leaderboard-total { font-family:‘Playfair Display’,serif; font-size:26px; font-weight:900; color:#b8965a; line-height:1; }
+.leaderboard-total.second { color:#d4c4a8; }
+.leaderboard-pts { font-size:10px; color:#999990; letter-spacing:1px; text-transform:uppercase; }
 
 /* NUDGE */
-.nudge-section { background:var(–white); border:1px solid var(–beige-mid); padding:22px; margin-bottom:22px; }
-.nudge-title { font-family:‘Playfair Display’,serif; font-size:17px; font-weight:700; color:var(–black); margin-bottom:14px; }
-.nudge-row { display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(–beige-mid); }
+.nudge-section { background:#fdfaf5; border:1px solid #d4c4a8; padding:22px; margin-bottom:22px; }
+.nudge-title { font-family:‘Playfair Display’,serif; font-size:17px; font-weight:700; color:#1a1a18; margin-bottom:14px; }
+.nudge-row { display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid #d4c4a8; }
 .nudge-row:last-child { border-bottom:none; }
-.nudge-avatar { width:38px; height:38px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:15px; color:var(–black); flex-shrink:0; }
+.nudge-avatar { width:38px; height:38px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:15px; color:#1a1a18; flex-shrink:0; }
 .nudge-info { flex:1; }
-.nudge-name { font-weight:600; font-size:13px; color:var(–black); }
-.nudge-stats { font-size:12px; color:var(–text-mid); margin-top:2px; }
-.nudge-btn { background:var(–black); color:var(–beige); border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:7px 14px; cursor:pointer; transition:all 0.15s; }
-.nudge-btn:hover { background:var(–gold); color:var(–black); }
+.nudge-name { font-weight:600; font-size:13px; color:#1a1a18; }
+.nudge-stats { font-size:12px; color:#666660; margin-top:2px; }
+.nudge-btn { background:#1a1a18; color:#e8dcc8; border:none; font-family:‘Barlow’,sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:7px 14px; cursor:pointer; transition:all 0.15s; }
+.nudge-btn:hover { background:#b8965a; color:#1a1a18; }
 .nudge-btn:disabled { opacity:0.4; cursor:default; }
 
 /* MANAGE */
-.manage-section { background:var(–white); border:1px solid var(–beige-mid); margin-bottom:20px; }
-.manage-header { background:var(–black); padding:12px 18px; }
-.manage-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–beige); }
+.manage-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+.manage-header { background:#1a1a18; padding:12px 18px; }
+.manage-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
 .manage-body { padding:18px; }
-.member-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(–beige-mid); }
+.member-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #d4c4a8; }
 .member-row:last-child { border-bottom:none; }
-.member-av { width:34px; height:34px; background:var(–gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:13px; color:var(–black); flex-shrink:0; }
+.member-av { width:34px; height:34px; background:#b8965a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:‘Playfair Display’,serif; font-weight:700; font-size:13px; color:#1a1a18; flex-shrink:0; }
 .member-info { flex:1; }
-.member-name { font-size:14px; font-weight:600; color:var(–black); }
-.member-role { font-size:11px; color:var(–text-mid); }
+.member-name { font-size:14px; font-weight:600; color:#1a1a18; }
+.member-role { font-size:11px; color:#666660; }
 .type-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:2px; flex-shrink:0; }
-.type-badge.director { background:var(–black); color:var(–beige); }
-.type-badge.operative { background:var(–beige-mid); color:var(–text); }
-.rm-btn { background:none; border:1px solid rgba(192,57,43,0.3); color:var(–red); font-family:‘Barlow’,sans-serif; font-size:11px; padding:4px 10px; cursor:pointer; transition:all 0.15s; }
-.rm-btn:hover { background:var(–red); color:white; border-color:var(–red); }
-.add-member-form { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-top:16px; padding-top:16px; border-top:1px solid var(–beige-mid); }
+.type-badge.director { background:#1a1a18; color:#e8dcc8; }
+.type-badge.operative { background:#d4c4a8; color:#2a2a26; }
+.rm-btn { background:none; border:1px solid rgba(192,57,43,0.3); color:#c0392b; font-family:‘Barlow’,sans-serif; font-size:11px; padding:4px 10px; cursor:pointer; transition:all 0.15s; }
+.rm-btn:hover { background:#c0392b; color:white; border-color:#c0392b; }
+.add-member-form { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-top:16px; padding-top:16px; border-top:1px solid #d4c4a8; }
 
 /* PAY LOG */
 .paylog-week-selector { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-.paylog-week-label { font-family:‘Playfair Display’,serif; font-size:18px; font-weight:700; color:var(–black); }
-.paylog-table { width:100%; border-collapse:collapse; background:var(–white); border:1px solid var(–beige-mid); margin-bottom:20px; }
-.paylog-table th { background:var(–black); color:var(–beige); font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:10px 10px; text-align:left; }
-.paylog-table td { padding:9px 10px; border-bottom:1px solid var(–beige-mid); font-size:13px; color:var(–text); vertical-align:middle; }
+.paylog-week-label { font-family:‘Playfair Display’,serif; font-size:18px; font-weight:700; color:#1a1a18; }
+.paylog-table { width:100%; border-collapse:collapse; background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+.paylog-table th { background:#1a1a18; color:#e8dcc8; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:10px 10px; text-align:left; }
+.paylog-table td { padding:9px 10px; border-bottom:1px solid #d4c4a8; font-size:13px; color:#2a2a26; vertical-align:middle; }
 .paylog-table tr:last-child td { border-bottom:none; }
-.paylog-table tr:hover td { background:var(–beige-light); }
-.paylog-input { border:1px solid var(–beige-mid); background:var(–beige-light); font-family:‘Barlow’,sans-serif; font-size:13px; color:var(–text); padding:5px 7px; width:100%; outline:none; }
-.paylog-input:focus { border-color:var(–gold); }
-.paylog-select { border:1px solid var(–beige-mid); background:var(–beige-light); font-family:‘Barlow’,sans-serif; font-size:12px; color:var(–text); padding:5px 7px; width:100%; outline:none; }
-.paylog-total-row td { background:var(–beige); font-weight:700; border-top:2px solid var(–gold); }
-.paylog-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:var(–gold); }
-.paylog-total-row .paylog-amount { font-size:17px; color:var(–black); }
-.cal-days-info { font-size:11px; color:var(–blue); font-style:italic; }
+.paylog-table tr:hover td { background:#f5f0e8; }
+.paylog-input { border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
+.paylog-input:focus { border-color:#b8965a; }
+.paylog-select { border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:12px; color:#2a2a26; padding:5px 7px; width:100%; outline:none; }
+.paylog-total-row td { background:#e8dcc8; font-weight:700; border-top:2px solid #b8965a; }
+.paylog-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#b8965a; }
+.paylog-total-row .paylog-amount { font-size:17px; color:#1a1a18; }
+.cal-days-info { font-size:11px; color:#2471a3; font-style:italic; }
 .paylog-save-row { display:flex; align-items:center; gap:12px; margin-top:4px; margin-bottom:28px; }
-.paylog-history { background:var(–white); border:1px solid var(–beige-mid); }
-.paylog-history-header { background:var(–black2); padding:12px 16px; }
-.paylog-history-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–beige); }
-.paylog-hist-week { border-bottom:1px solid var(–beige-mid); }
+.paylog-history { background:#fdfaf5; border:1px solid #d4c4a8; }
+.paylog-history-header { background:#222220; padding:12px 16px; }
+.paylog-history-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
+.paylog-hist-week { border-bottom:1px solid #d4c4a8; }
 .paylog-hist-week:last-child { border-bottom:none; }
-.paylog-hist-week-label { padding:10px 16px; font-weight:600; font-size:13px; color:var(–text-mid); background:var(–beige-light); border-bottom:1px solid var(–beige-mid); }
-.paylog-hist-row { display:flex; align-items:center; padding:9px 16px; border-bottom:1px solid var(–beige-mid); gap:12px; }
+.paylog-hist-week-label { padding:10px 16px; font-weight:600; font-size:13px; color:#666660; background:#f5f0e8; border-bottom:1px solid #d4c4a8; }
+.paylog-hist-row { display:flex; align-items:center; padding:9px 16px; border-bottom:1px solid #d4c4a8; gap:12px; }
 .paylog-hist-row:last-child { border-bottom:none; }
-.paylog-hist-name { font-weight:600; font-size:13px; color:var(–black); min-width:130px; }
-.paylog-hist-detail { font-size:12px; color:var(–text-mid); flex:1; }
-.paylog-hist-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:var(–gold); }
+.paylog-hist-name { font-weight:600; font-size:13px; color:#1a1a18; min-width:130px; }
+.paylog-hist-detail { font-size:12px; color:#666660; flex:1; }
+.paylog-hist-amount { font-family:‘Playfair Display’,serif; font-size:15px; font-weight:700; color:#b8965a; }
 .basis-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 6px; border-radius:2px; }
-.basis-badge.day-rate { background:var(–gold); color:var(–black); }
-.basis-badge.price-work { background:var(–black); color:var(–beige); }
+.basis-badge.day-rate { background:#b8965a; color:#1a1a18; }
+.basis-badge.price-work { background:#1a1a18; color:#e8dcc8; }
 .ot-row { background:rgba(184,150,90,0.06); }
-.ot-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(–gold); margin-bottom:3px; }
+.ot-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#b8965a; margin-bottom:3px; }
 
 /* SETTINGS */
-.settings-section { background:var(–white); border:1px solid var(–beige-mid); margin-bottom:20px; }
-.settings-header { background:var(–black); padding:12px 18px; }
-.settings-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–beige); }
+.settings-section { background:#fdfaf5; border:1px solid #d4c4a8; margin-bottom:20px; }
+.settings-header { background:#1a1a18; padding:12px 18px; }
+.settings-header-title { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#e8dcc8; }
 .settings-body { padding:18px; }
-.colour-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(–beige-mid); }
+.colour-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid #d4c4a8; }
 .colour-row:last-child { border-bottom:none; }
 .colour-swatch { width:28px; height:28px; border-radius:4px; flex-shrink:0; border:2px solid rgba(0,0,0,0.1); }
-.colour-input { flex:1; border:1px solid var(–beige-mid); background:var(–beige-light); font-family:‘Barlow’,sans-serif; font-size:13px; color:var(–text); padding:6px 10px; outline:none; }
-.colour-input:focus { border-color:var(–gold); }
+.colour-input { flex:1; border:1px solid #d4c4a8; background:#f5f0e8; font-family:‘Barlow’,sans-serif; font-size:13px; color:#2a2a26; padding:6px 10px; outline:none; }
+.colour-input:focus { border-color:#b8965a; }
 
 /* NOTIFICATION */
-.notif-bar { position:fixed; top:68px; right:16px; background:var(–black); border:1px solid var(–gold); border-left:4px solid var(–gold); padding:12px 32px 12px 14px; max-width:280px; z-index:999; animation:slideIn 0.3s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.notif-from { font-size:10px; color:var(–gold); letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
-.notif-msg { font-size:13px; color:var(–beige); line-height:1.4; }
-.notif-close { position:absolute; top:8px; right:8px; background:none; border:none; color:var(–text-light); cursor:pointer; font-size:14px; }
+.notif-bar { position:fixed; top:68px; right:16px; background:#1a1a18; border:1px solid #b8965a; border-left:4px solid #b8965a; padding:12px 32px 12px 14px; max-width:280px; z-index:999; animation:slideIn 0.3s ease; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.notif-from { font-size:10px; color:#b8965a; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
+.notif-msg { font-size:13px; color:#e8dcc8; line-height:1.4; }
+.notif-close { position:absolute; top:8px; right:8px; background:none; border:none; color:#999990; cursor:pointer; font-size:14px; }
 @keyframes slideIn { from{transform:translateX(20px);opacity:0;} to{transform:translateX(0);opacity:1;} }
 
 @media(max-width:600px){
@@ -358,12 +352,12 @@ const TASKS = {
   macauly: {
     daily: ["Check in with operatives on site — any issues, blockers, or changes needed","Monitor progress against the programme on active jobs","Deal with any on-site problems as they come up","Make sure the right PPE, RAMS, and inductions are in place for anyone on site","Log anything that needs flagging — near misses, defects, instructions received","Respond to any new enquiries same day","Chase any outstanding quotes that haven't had a response","Keep an eye on the pipeline — what's live, submitted, won or lost","Check LinkedIn and Instagram — respond to any comments or messages","If something notable happens on site today — get a photo for content"],
     weekly: ["Walk each live job — quality check, snagging, review against scope","Review upcoming work for the following week — is the programme realistic?","Check subcontractors are performing and compliant (CSCS, insurance, RAMS)","Raise any variation or extra work so it gets captured before invoicing","Review H&S paperwork is current and on site","Review all open quotes — what needs chasing, what's gone quiet?","Do any site visits needed to measure up or price new work","Send out any quotes that are ready — check figures, margins, and scope first","Log the week's activity — enquiries in, quotes sent, jobs won or lost","Follow up on outreach emails or leads from the week before","Post at least once on LinkedIn","Post at least once on Instagram","Review engagement from the week — what's landed well?","Check the website for anything that needs updating"],
-    monthly: ["Review all live job files — are programmes and correspondence up to date?","Check RAMS and method statements are still relevant to current works","Review operative certifications — any CSCS, IPAF tickets coming up for renewal?","Feed into the programme for upcoming jobs — what resource do we need?","Review win/loss rate — are we winning enough at the right margins?","Look at the pipeline for the next 4–8 weeks","Do proactive outreach to contractors or clients you haven't heard from","Review your pricing — are material and labour costs still accurate?","Update the target contractor list","Review the month's marketing activity — are we posting consistently?","Add at least one new project or case study to the website","Plan content for the month ahead"]
+    monthly: ["Review all live job files — are programmes and correspondence up to date?","Check RAMS and method statements are still relevant to current works","Review operative certifications — any CSCS, IPAF tickets coming up for renewal?","Feed into the programme for upcoming jobs — what resource do we need?","Review win/loss rate — are we winning enough at the right margins?","Look at the pipeline for the next 4--8 weeks","Do proactive outreach to contractors or clients you haven't heard from","Review your pricing — are material and labour costs still accurate?","Update the target contractor list","Review the month's marketing activity — are we posting consistently?","Add at least one new project or case study to the website","Plan content for the month ahead"]
   },
   brad: {
     daily: ["Set the day up for the team — who's doing what, on which job","Monitor progress on all live sites — are we on track?","Make sure all operatives and subbies have been inducted and have RAMS in place","Deal with any day-to-day site issues — materials, access, other trades","Record any relevant site activity — progress, instructions, issues or delays","Stay across any urgent business issues needing a director-level decision","Quick daily check-in with Macauly","Check Xero — payments received, anything overdue, anything needing attention","Make sure new purchase invoices or receipts are logged"],
     weekly: ["Review the programme across all live jobs — are we on track?","Coordinate labour for the week ahead — right people, right jobs, right days","Check in with subbies — are they on programme and meeting the standard?","Flag any extras or variations to Macauly before they get missed","Carry out or arrange a quality check on each live job","Make sure site files, paperwork, and H&S records are up to date","Sit down with Macauly for a proper weekly review","Check in with Daisy on any outstanding invoices or admin needing sign-off","Stay aware of the sales pipeline — what's been quoted, won, or coming up","Raise any invoices for work completed or milestones hit during the week","Chase any outstanding payments that are overdue","Review cash flow for the week ahead","Process any subcontractor or supplier invoices due for payment","File any paperwork, contracts, or correspondence that's come in"],
-    monthly: ["Review upcoming jobs and plan the programme in advance","Assess subcontractor performance — who's working well, who isn't?","Feed resource requirements into Macauly for planning","Review any snagging or defects from completed jobs — are they closed out?","Check plant, tools, and equipment — anything needing servicing or replacing?","Review the company's financial position with Macauly and Daisy","Look at the business as a whole — are we growing in the right direction?","Review any compliance or legal matters — insurance renewals, accreditations","Assess resource — do we have the right people and are they performing?","Set priorities for the month ahead across operations and sales","Full cash flow review — what's the position for the next 4–8 weeks?","Reconcile Xero — make sure everything is coded correctly","Review job costs against budgets — are we making the margins we quoted?","Submit CIS returns and make sure deductions are recorded correctly","Check VAT position ahead of the next VAT return"]
+    monthly: ["Review upcoming jobs and plan the programme in advance","Assess subcontractor performance — who's working well, who isn't?","Feed resource requirements into Macauly for planning","Review any snagging or defects from completed jobs — are they closed out?","Check plant, tools, and equipment — anything needing servicing or replacing?","Review the company's financial position with Macauly and Daisy","Look at the business as a whole — are we growing in the right direction?","Review any compliance or legal matters — insurance renewals, accreditations","Assess resource — do we have the right people and are they performing?","Set priorities for the month ahead across operations and sales","Full cash flow review — what's the position for the next 4--8 weeks?","Reconcile Xero — make sure everything is coded correctly","Review job costs against budgets — are we making the margins we quoted?","Submit CIS returns and make sure deductions are recorded correctly","Check VAT position ahead of the next VAT return"]
   }
 };
 
@@ -542,7 +536,7 @@ function renderStreaks() {
             <span class="streak-label">Monthly</span>
           </div>
         </div>
-        <div style="margin-top:6px;font-size:11px;color:var(--text-light)">Longest: ${ld}d daily · ${lw}w weekly · ${lm}m monthly</div>
+        <div style="margin-top:6px;font-size:11px;color:#999990">Longest: ${ld}d daily · ${lw}w weekly · ${lm}m monthly</div>
       </div>
       <div class="leaderboard-score">
         <div class="leaderboard-total${cls}">${pts}</div>
@@ -561,13 +555,13 @@ function renderStreaks() {
       ${row(first.u, first.d, first.i, first.n, true)}
       ${row(second.u, second.d, second.i, second.n, false)}
     </div>
-    <div style="background:var(--white);border:1px solid var(--beige-mid);padding:16px 18px;margin-bottom:16px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">How Points Work</div>
-      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">
+    <div style="background:#fdfaf5;border:1px solid #d4c4a8;padding:16px 18px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#999990;margin-bottom:10px;">How Points Work</div>
+      <div style="font-size:13px;color:#666660;line-height:1.8;">
         🔥 Complete all daily tasks = <strong>+1 point</strong> per day streak<br>
         📅 Complete all weekly tasks = <strong>+5 points</strong> per week streak<br>
         🏅 Complete all monthly tasks = <strong>+20 points</strong> per month streak<br>
-        <span style="font-size:11px;color:var(--text-light);margin-top:4px;display:block;">Streaks reset if you miss a period. Points update as you tick tasks off.</span>
+        <span style="font-size:11px;color:#999990;margin-top:4px;display:block;">Streaks reset if you miss a period. Points update as you tick tasks off.</span>
       </div>
     </div>`;
 }
@@ -699,7 +693,7 @@ for(let i=startOffset-1;i>=0;i–){html+=`<div class="cal-day other-month"><div 
 for(let d=1;d<=daysInMonth;d++){
 const dk=fmtDate(calYear,calMonth,d);
 const entries=calEntries[dk]||[];
-html+=`<div class="cal-day${dk===todayKey()?' today':''}${dk===selectedCalDate?' selected':''}" onclick="selectCalDay('${dk}')"> <div class="cal-day-num">${d}</div> ${entries.slice(0,3).map(e=>`<span class="entry-pill" style="background:${getColour(e.colourId||0)}">${e.person.split(’ ’)[0]}</span>`).join('')} ${entries.length>3?`<span style="font-size:9px;color:var(--text-light)">+${entries.length-3}</span>`:''} </div>`;
+html+=`<div class="cal-day${dk===todayKey()?' today':''}${dk===selectedCalDate?' selected':''}" onclick="selectCalDay('${dk}')"> <div class="cal-day-num">${d}</div> ${entries.slice(0,3).map(e=>`<span class="entry-pill" style="background:${getColour(e.colourId||0)}">${e.person.split(’ ’)[0]}</span>`).join('')} ${entries.length>3?`<span style="font-size:9px;color:#999990">+${entries.length-3}</span>`:''} </div>`;
 }
 
 const totalCells=Math.ceil((startOffset+daysInMonth)/7)*7;
@@ -720,7 +714,7 @@ const prevEntries = calEntries[prevDateKey]||[];
 html+=`<div class="day-panel">
   <div class="day-panel-header" style="display:flex;align-items:center;justify-content:space-between;">
     <div class="day-panel-title">${displayDate}</div>
-    ${prevEntries.length>0?`<button onclick="copyPrevDay('${selectedCalDate}','${prevDateKey}')" style="background:var(--gold);color:var(--black);border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;">Copy Previous Day</button>`:''}
+    ${prevEntries.length>0?`<button onclick="copyPrevDay('${selectedCalDate}','${prevDateKey}')" style="background:#b8965a;color:#1a1a18;border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;">Copy Previous Day</button>`:''}
   </div>
   <div class="day-panel-body">
     <div class="add-entry-form">
@@ -736,7 +730,7 @@ html+=`<div class="day-panel">
       entries.map((e,i)=>`<div class="entry-row" style="border-left-color:${getColour(e.colourId||0)}">
         <div style="width:12px;height:12px;border-radius:50%;background:${getColour(e.colourId||0)};flex-shrink:0;"></div>
         <div class="entry-person">${e.person}</div>
-        <div class="entry-job">${e.job} <span style="font-size:11px;color:var(--text-light)">${getColourLabel(e.colourId||0)}</span></div>
+        <div class="entry-job">${e.job} <span style="font-size:11px;color:#999990">${getColourLabel(e.colourId||0)}</span></div>
         <button class="entry-remove" onclick="removeCalEntry(${i})">×</button>
       </div>`).join('')}
     </div>
@@ -796,7 +790,7 @@ const uRoles=u===‘macauly’?‘Operations · Sales · Marketing’:‘General
 const daily=getStats(u,‘daily’),weekly=getStats(u,‘weekly’),monthly=getStats(u,‘monthly’);
 const missed=getMissed(u,‘daily’);
 const us=streaks[u]||{};
-html+=`<div class="team-card"><div class="team-card-header"><div class="team-avatar">${uInit}</div><div><div class="team-name">${uName}</div><div class="team-roles">${uRoles}</div></div> <div style="margin-left:auto;text-align:right;"><div style="font-size:10px;color:var(--text-light);letter-spacing:1px;text-transform:uppercase;">Daily Streak</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);">${(us.daily&&us.daily.streak)||0} 🔥</div></div> </div> <div class="team-progress-row"> <div class="team-stat"><div class="team-stat-val">${daily.done}/${daily.total}</div><div class="team-stat-label">Today</div></div> <div class="team-stat"><div class="team-stat-val">${weekly.done}/${weekly.total}</div><div class="team-stat-label">This Week</div></div> <div class="team-stat"><div class="team-stat-val">${monthly.done}/${monthly.total}</div><div class="team-stat-label">This Month</div></div> </div> ${missed.length>0?`<div class="missed-tasks-list"><div class="section-header" style="margin-top:14px;margin-bottom:7px"><div class="section-label" style="color:var(--red)">Missed Yesterday</div><div class="section-rule"></div></div>${missed.slice(0,5).map(m=>`<div class="missed-item"><div class="missed-dot"></div><div>${m.text}</div><div class="missed-freq">daily</div></div>`).join(’’)}${missed.length>5?`<div style="font-size:12px;color:var(--text-light);padding-top:6px;">+${missed.length-5} more</div>`:’’}</div>`:''}</div>`;
+html+=`<div class="team-card"><div class="team-card-header"><div class="team-avatar">${uInit}</div><div><div class="team-name">${uName}</div><div class="team-roles">${uRoles}</div></div> <div style="margin-left:auto;text-align:right;"><div style="font-size:10px;color:#999990;letter-spacing:1px;text-transform:uppercase;">Daily Streak</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#b8965a;">${(us.daily&&us.daily.streak)||0} 🔥</div></div> </div> <div class="team-progress-row"> <div class="team-stat"><div class="team-stat-val">${daily.done}/${daily.total}</div><div class="team-stat-label">Today</div></div> <div class="team-stat"><div class="team-stat-val">${weekly.done}/${weekly.total}</div><div class="team-stat-label">This Week</div></div> <div class="team-stat"><div class="team-stat-val">${monthly.done}/${monthly.total}</div><div class="team-stat-label">This Month</div></div> </div> ${missed.length>0?`<div class="missed-tasks-list"><div class="section-header" style="margin-top:14px;margin-bottom:7px"><div class="section-label" style="color:#c0392b">Missed Yesterday</div><div class="section-rule"></div></div>${missed.slice(0,5).map(m=>`<div class="missed-item"><div class="missed-dot"></div><div>${m.text}</div><div class="missed-freq">daily</div></div>`).join(’’)}${missed.length>5?`<div style="font-size:12px;color:#999990;padding-top:6px;">+${missed.length-5} more</div>`:’’}</div>`:''}</div>`;
 });
 document.getElementById(‘view-team’).innerHTML=html;
 }
@@ -854,8 +848,8 @@ let html=`<div class="view-header"><div class="view-title">Manage Team</div><div
     const isEditing=editingMemberIdx===i;
     html+=`<div class="member-row"><div class="member-av">${m.initials}</div>
       <div class="member-info" style="flex:1">${isEditing?
-        `<input type="text" id="edit-name-${i}" value="${m.name}" style="border:1px solid var(--gold);background:var(--beige-light);font-family:'Barlow',sans-serif;font-size:13px;padding:4px 8px;width:100%;margin-bottom:4px;outline:none;"/>
-         <input type="text" id="edit-role-${i}" value="${m.role}" style="border:1px solid var(--beige-mid);background:var(--beige-light);font-family:'Barlow',sans-serif;font-size:12px;padding:3px 8px;width:100%;outline:none;"/>`:
+        `<input type="text" id="edit-name-${i}" value="${m.name}" style="border:1px solid #b8965a;background:#f5f0e8;font-family:'Barlow',sans-serif;font-size:13px;padding:4px 8px;width:100%;margin-bottom:4px;outline:none;"/>
+         <input type="text" id="edit-role-${i}" value="${m.role}" style="border:1px solid #d4c4a8;background:#f5f0e8;font-family:'Barlow',sans-serif;font-size:12px;padding:3px 8px;width:100%;outline:none;"/>`:
         `<div class="member-name">${m.name}</div><div class="member-role">${m.role}</div>`}
       </div>
       <span class="type-badge ${m.isDirector?'director':'operative'}" style="flex-shrink:0">${m.isDirector?'Director':'Operative'}</span>
@@ -990,43 +984,43 @@ const otAmt = (parseFloat(e.otHours)||0) * (parseFloat(e.otRate)||0);
 const pid = e.personId;
 
 ```
-html += `<div data-person-id="${pid}" style="background:var(--white);border:1px solid var(--beige-mid);margin-bottom:14px;border-left:4px solid var(--gold);">
-  <div style="background:var(--black);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
-    <div><span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--beige);">${e.name}</span>
-    <span style="font-size:11px;color:var(--text-light);margin-left:8px;">${e.role||''}</span></div>
-    <span class="pay-card-total" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);">£${amt.toFixed(2)}</span>
+html += `<div data-person-id="${pid}" style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;border-left:4px solid #b8965a;">
+  <div style="background:#1a1a18;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+    <div><span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#e8dcc8;">${e.name}</span>
+    <span style="font-size:11px;color:#999990;margin-left:8px;">${e.role||''}</span></div>
+    <span class="pay-card-total" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#b8965a;">£${amt.toFixed(2)}</span>
   </div>
   <div style="padding:14px;">
     <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button onclick="setPayBasis('${wk}','${pid}','day-rate')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='day-rate'?'background:var(--black);color:var(--gold);':'background:var(--beige-light);color:var(--text-mid);'}">Day Rate</button>
-      <button onclick="setPayBasis('${wk}','${pid}','price-work')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='price-work'?'background:var(--black);color:var(--gold);':'background:var(--beige-light);color:var(--text-mid);'}">Price Work</button>
+      <button onclick="setPayBasis('${wk}','${pid}','day-rate')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='day-rate'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Day Rate</button>
+      <button onclick="setPayBasis('${wk}','${pid}','price-work')" style="flex:1;padding:8px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;${e.basis==='price-work'?'background:#1a1a18;color:#b8965a;':'background:#f5f0e8;color:#666660;'}">Price Work</button>
     </div>
     ${e.basis==='day-rate'?`
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Days Worked</label>
+      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Days Worked</label>
         <input class="paylog-input" type="number" min="0" step="0.5" value="${e.days}" placeholder="${calDays>0?calDays+' in cal':'0'}" data-fieldkey="${pid}-days" oninput="updatePayField('${wk}','${pid}','days',this.value)"/>
         ${calDays>0?`<div class="cal-days-info">📅 ${calDays} days in calendar</div>`:''}
       </div>
-      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Day Rate £</label>
+      <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Day Rate £</label>
         <input class="paylog-input" type="number" min="0" step="1" value="${e.rate}" placeholder="e.g. 180" data-fieldkey="${pid}-rate" oninput="updatePayField('${wk}','${pid}','rate',this.value)"/>
       </div>
     </div>`:
-    `<div style="margin-bottom:10px;"><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Price Work Total £</label>
+    `<div style="margin-bottom:10px;"><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Price Work Total £</label>
       <input class="paylog-input" type="number" min="0" step="1" value="${e.priceTotal||''}" placeholder="e.g. 1200" data-fieldkey="${pid}-priceTotal" oninput="updatePayField('${wk}','${pid}','priceTotal',this.value)"/>
     </div>`}
-    <div style="border-top:1px solid var(--beige-mid);padding-top:12px;margin-bottom:10px;">
+    <div style="border-top:1px solid #d4c4a8;padding-top:12px;margin-bottom:10px;">
       <div class="ot-label">⏱ Overtime / Evenings</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">OT Hours</label>
+        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Hours</label>
           <input class="paylog-input" type="number" min="0" step="0.5" value="${e.otHours||''}" placeholder="e.g. 3" data-fieldkey="${pid}-otHours" oninput="updatePayField('${wk}','${pid}','otHours',this.value)"/>
         </div>
-        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">OT Rate £/hr</label>
+        <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">OT Rate £/hr</label>
           <input class="paylog-input" type="number" min="0" step="1" value="${e.otRate||''}" placeholder="e.g. 25" data-fieldkey="${pid}-otRate" oninput="updatePayField('${wk}','${pid}','otRate',this.value)"/>
         </div>
       </div>
-      <div class="pay-ot-total" style="font-size:12px;color:var(--gold);margin-top:4px;">${otAmt>0?`OT total: £${otAmt.toFixed(2)}`:''}</div>
+      <div class="pay-ot-total" style="font-size:12px;color:#b8965a;margin-top:4px;">${otAmt>0?`OT total: £${otAmt.toFixed(2)}`:''}</div>
     </div>
-    <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">Note</label>
+    <div><label style="display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999990;margin-bottom:4px;">Note</label>
       <input class="paylog-input" type="text" value="${e.note||''}" placeholder="Optional note" data-fieldkey="${pid}-note" oninput="updatePayField('${wk}','${pid}','note',this.value)"/>
     </div>
   </div>
@@ -1040,18 +1034,18 @@ const breakdownRows = entries.map(e => {
 const amt = calcEntryAmount(e);
 const otAmt = (parseFloat(e.otHours)||0)*(parseFloat(e.otRate)||0);
 const baseAmt = amt - otAmt;
-if(amt === 0) return ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--beige-mid);"><span style="font-weight:600;font-size:13px;color:var(--text);">’+e.name+’</span><span style="font-size:12px;color:var(--text-light);font-style:italic;">Not entered</span></div>’;
+if(amt === 0) return ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #d4c4a8;"><span style="font-weight:600;font-size:13px;color:#2a2a26;">’+e.name+’</span><span style="font-size:12px;color:#999990;font-style:italic;">Not entered</span></div>’;
 let detail = ‘’;
 if(e.basis===‘day-rate’ && e.days) detail += e.days+’ days x £’+e.rate+’ = £’+baseAmt.toFixed(2);
 if(e.basis===‘price-work’ && e.priceTotal) detail += ‘Price work: £’+parseFloat(e.priceTotal).toFixed(2);
 if(otAmt>0) detail += ’ + ‘+e.otHours+‘hr OT x £’+e.otRate+’ = £’+otAmt.toFixed(2);
-return ‘<div style="padding:10px 16px;border-bottom:1px solid var(--beige-mid);"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><span style="font-weight:600;font-size:14px;color:var(--text);">’+e.name+’</span><span style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--gold);">£’+amt.toFixed(2)+’</span></div><div style="font-size:12px;color:var(--text-mid);">’+detail+’</div></div>’;
+return ‘<div style="padding:10px 16px;border-bottom:1px solid #d4c4a8;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><span style="font-weight:600;font-size:14px;color:#2a2a26;">’+e.name+’</span><span style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:#b8965a;">£’+amt.toFixed(2)+’</span></div><div style="font-size:12px;color:#666660;">’+detail+’</div></div>’;
 }).join(’’);
 
-html += ‘<div style="background:var(--white);border:1px solid var(--beige-mid);margin-bottom:14px;">’
-+ ‘<div style="background:var(--black2);padding:10px 16px;"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--beige);">This Week — Breakdown</div></div>’
+html += ‘<div style="background:#fdfaf5;border:1px solid #d4c4a8;margin-bottom:14px;">’
++ ‘<div style="background:#222220;padding:10px 16px;"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e8dcc8;">This Week — Breakdown</div></div>’
 + breakdownRows
-+ ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--beige);"><span style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--black);">Total Wages This Week</span><span style="font-family:Playfair Display,serif;font-size:20px;font-weight:900;color:var(--black);">£’+total.toFixed(2)+’</span></div>’
++ ‘<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#e8dcc8;"><span style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#1a1a18;">Total Wages This Week</span><span style="font-family:Playfair Display,serif;font-size:20px;font-weight:900;color:#1a1a18;">£’+total.toFixed(2)+’</span></div>’
 + ‘</div>’;
 
 html += ‘<div class="paylog-save-row"><button class="notes-save-btn" onclick="savePayLog(\'' + wk + '\')">Save Pay Log</button><span class="saved-msg" id="pay-saved-msg">Saved ✓</span></div>’;
@@ -1069,8 +1063,8 @@ html+=`<div class="paylog-hist-week"><div class="paylog-hist-week-label">w/c ${f
 ${e.basis===‘day-rate’&&e.days?`${e.days} days @ £${e.rate}/day`:’’}
 ${e.basis===‘price-work’&&e.priceTotal?`Price work £${e.priceTotal}`:’’}
 <span class="basis-badge ${e.basis}" style="margin-left:6px;">${e.basis===‘day-rate’?‘Day Rate’:‘Price Work’}</span>
-${(parseFloat(e.otHours)||0)>0?`<span style="color:var(--gold);margin-left:8px;">+${e.otHours}hr OT</span>`:’’}
-${e.note?`<span style="color:var(--text-light);margin-left:8px;">${e.note}</span>`:’’}
+${(parseFloat(e.otHours)||0)>0?`<span style="color:#b8965a;margin-left:8px;">+${e.otHours}hr OT</span>`:’’}
+${e.note?`<span style="color:#999990;margin-left:8px;">${e.note}</span>`:’’}
 </div>
 <div class="paylog-hist-amount">£${calcEntryAmount(e).toFixed(2)}</div>
 </div>`).join('')} </div>`;
@@ -1136,10 +1130,10 @@ let html = ‘<div class="view-header"><div class="view-title">Settings</div><di
   html += ‘<div class="colour-row">’
   - ‘<div class="colour-swatch" style="background:'+c.hex+'"></div>’
   - ‘<input class="colour-input" type="text" value="'+c.label+'" placeholder="Name this colour..." oninput="updateColourLabel('+c.id+',this.value)"/>’
-  - ‘<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:'+(pd>0?'var(--green)':'var(--text-light)')+';min-width:60px;text-align:right;">’+(pd===1?‘Full day’:pd===0.5?‘Half day’:‘No pay’)+’</div>’
+  - ‘<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:'+(pd>0?'#2e7d52':'#999990')+';min-width:60px;text-align:right;">’+(pd===1?‘Full day’:pd===0.5?‘Half day’:‘No pay’)+’</div>’
   - ‘</div>’;
     });
-    html += ‘<div style="font-size:12px;color:var(--text-mid);margin-top:12px;padding:10px;background:var(--beige-light);border:1px solid var(--beige-mid);">🟢 <strong>On Site</strong> = full day pay  |  🟣 <strong>Half Day</strong> = 0.5 days pay  |  All other colours = no pay counted</div>’;
+    html += ‘<div style="font-size:12px;color:#666660;margin-top:12px;padding:10px;background:#f5f0e8;border:1px solid #d4c4a8;">🟢 <strong>On Site</strong> = full day pay  |  🟣 <strong>Half Day</strong> = 0.5 days pay  |  All other colours = no pay counted</div>’;
     html += ‘<button class="notes-save-btn" style="margin-top:14px;" onclick="saveColourLabels()">Save Labels</button><span class="saved-msg" id="colours-saved-msg" style="margin-left:10px;">Saved ✓</span></div></div>’;
     document.getElementById(‘view-settings’).innerHTML=html;
     }
