@@ -538,15 +538,16 @@ function sortTodos(a,b){ return (a.due || '9999') < (b.due || '9999') ? -1 : (a.
 /* ==== HOME ==== */
 function nextPayDay(){ var t = noon(new Date()), L = lastFri(t.getFullYear(), t.getMonth()); if (ymd(t) > ymd(L)) { var n = new Date(t.getFullYear(), t.getMonth()+1, 1, 12); L = lastFri(n.getFullYear(), n.getMonth()); } return L; }
 function monthTally(){
-  var now = noon(new Date()), start = new Date(now.getFullYear(), now.getMonth(), 1, 12), res = {};
-  ['macauly','brad'].forEach(function(u){ res[u] = personDays(nameOf(u), start, now.getDate()).days; });
+  var now = noon(new Date()), p = payMonthOfWeek(mondayOf(now)), per = payPeriod(p), res = {p:p, per:per};
+  var n = Math.round((now - per.start) / 86400000) + 1;
+  ['macauly','brad'].forEach(function(u){ res[u] = personDays(nameOf(u), per.start, n).days; });
   return res;
 }
 function tallyHtml(){
-  var t = monthTally(), mn = fmt(new Date(),{month:'long'});
+  var t = monthTally(), mn = fmt(new Date(t.p.y, t.p.m, 1, 12),{month:'long'});
   return '<div class="tally">' + ['macauly','brad'].map(function(u){
-    return '<div class="tc"><div class="k">' + esc(nameOf(u)) + '</div><div class="v">' + (Math.round(t[u]*10)/10) + '<span style="font-size:14px;font-family:Barlow,sans-serif;font-weight:600;color:#b5ab9c"> ' + (t[u] === 1 ? 'day' : 'days') + '</span></div><div class="s">' + mn + ' so far</div></div>';
-  }).join('') + '</div>';
+    return '<div class="tc"><div class="k">' + esc(nameOf(u)) + '</div><div class="v">' + (Math.round(t[u]*10)/10) + '<span style="font-size:14px;font-family:Barlow,sans-serif;font-weight:600;color:#b5ab9c"> ' + (t[u] === 1 ? 'day' : 'days') + '</span></div><div class="s">towards ' + mn + ' pay</div></div>';
+  }).join('') + '</div><div class="small muted" style="margin:-6px 0 14px 2px">' + mn + ' pay covers w/c ' + dm(t.per.start) + ' \u2013 ' + dm(addDays(t.per.end,-2)) + ', paid ' + short(t.per.payDate) + '</div>';
 }
 function rHome(){
   var now = new Date(), h = now.getHours();
