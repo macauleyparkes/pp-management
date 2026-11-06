@@ -143,14 +143,16 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .more{font-size:9.5px;color:#8c8274;font-weight:700}
 .cd.sel .more{color:#c9b9a0}
 @media (max-width:560px){.pills{display:none}.dots{display:flex}.cd{min-height:56px;border-radius:10px;padding:4px}}
-.entry{display:flex;align-items:center;gap:10px;padding:10px 6px 10px 12px;background:#faf6f0;border-radius:14px;border-left:6px solid #999;margin-bottom:8px}
+.entry{display:flex;align-items:center;gap:8px;padding:7px 4px 7px 12px;background:#faf6f0;border-radius:14px;border-left:6px solid #999;margin-bottom:8px}
 .entry .f{flex:1;min-width:0}
-.entry .p{font-weight:700;font-size:14.5px}
+.entry .p{font-weight:700;font-size:14.5px;display:inline}
+.entry .j{display:inline;margin-left:6px}
+.entry .tag{margin-right:5px}
 .entry .j{font-size:13px;color:#5f574c}
 .ib{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8c8274;flex-shrink:0}
 .ib svg{width:17px;height:17px}
 .ib.on{background:#fbe6d3;color:#a8551a}
-.tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;background:#ede3d5;color:#5f574c;display:inline-block;margin-top:3px;margin-right:4px}
+.tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;background:#ede3d5;color:#5f574c;display:inline-block;margin-top:2px;margin-right:4px}
 .tag.ot{background:#fbe6d3;color:#a8551a}
 .tag.dir{background:#1a1a1a;color:#c9a96e}
 .tag.g{background:#e3f1e8;color:#2e7d52}
@@ -197,6 +199,47 @@ details.hist summary::-webkit-details-marker{display:none}
 .fatal{text-align:center;padding:40px 10px}
 .fatal .card-t{margin-bottom:10px}
 .steps{padding-left:18px;font-size:14px;line-height:1.7}
+
+.tally{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tc{background:#1a1a1a;color:#f5ede3;border-radius:16px;padding:11px 14px}
+.tc .k{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:#c9a96e;font-weight:700}
+.tc .v{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;line-height:1.1;margin-top:4px}
+.tc .s{font-size:12px;color:#b5ab9c}
+.clip{background:#c9a96e;color:#1a1a1a;border-radius:14px;padding:10px 12px 10px 14px;font-size:13.5px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.wd{display:flex;gap:12px;width:100%;text-align:left;background:#fffcf7;border:1px solid #e9dfd1;border-radius:16px;padding:12px 12px 12px 8px;margin-bottom:8px;align-items:flex-start;min-height:62px}
+.wd.t{border:2px solid #c9a96e}
+.wd.we{background:#f8f1e7}
+.wd .dt{width:46px;flex-shrink:0;text-align:center}
+.wd .dt .a{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8c8274}
+.wd .dt .b{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;line-height:1.1}
+.wd.t .dt .b{color:#8f6d3a}
+.wd .es{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-top:2px}
+.ec{display:flex;align-items:stretch;gap:8px;font-size:14px;line-height:1.3}
+.ec .sq{width:4px;border-radius:2px;flex-shrink:0}
+.ec .et{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ec .j{color:#6f665a}
+.wd .nn{font-size:12.5px;color:#8f6d3a;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:10px}
+.mg .dh{text-align:center;font-size:11px;font-weight:700;color:#8c8274;padding:2px 0}
+.mc{height:58px;background:#fffcf7;border:1px solid #ece2d4;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:3px;position:relative}
+.mc.o{visibility:hidden}
+.mc.we{background:#f8f1e7}
+.mc.t{border:2px solid #c9a96e}
+.mc .d{font-size:15px;font-weight:700}
+.mc .cnt{font-size:10px;font-weight:700;color:#8c8274}
+.mc .sb{display:flex;width:72%;height:5px;border-radius:3px;overflow:hidden;gap:1px}
+.mc .sb i{flex:1}
+.mc .nt{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#c9a96e}
+.sheet-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,26,26,.45);z-index:70;opacity:0;pointer-events:none;transition:opacity .22s}
+.sheet-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:71;max-width:760px;margin:0 auto;background:#f5ede3;border-radius:24px 24px 0 0;transform:translateY(105%);transition:transform .26s ease;box-shadow:0 -12px 40px rgba(0,0,0,.25)}
+.sheet.on{transform:none}
+#sheet-in{display:flex;flex-direction:column;max-height:90vh}
+.sh-h{padding:10px 16px 12px;border-bottom:1px solid #e4d8c7;flex-shrink:0}
+.grab{width:42px;height:5px;border-radius:3px;background:#d4c5ae;margin:0 auto 10px}
+.sh-b{overflow-y:auto;padding:14px 16px calc(28px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;min-height:0;flex:1}
+.note-v{background:#fffcf7;border:1px solid #e9dfd1;border-radius:14px;padding:12px 14px;font-size:15px;white-space:pre-wrap;line-height:1.5;word-wrap:break-word}
+body.lock{overflow:hidden}
 </style>
 </head>
 <body>
@@ -219,6 +262,8 @@ details.hist summary::-webkit-details-marker{display:none}
   <nav class="drop" id="drop"></nav>
   <main id="main"></main>
 </div>
+<div class="sheet-bg" id="sheet-bg" onclick="A.closeDay()"></div>
+<div class="sheet" id="sheet" role="dialog"><div id="sheet-in"></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -283,7 +328,7 @@ var DOCS = ['tasks','notes','calendar','nudges','paylog','team','colours','jobs'
 
 var me = null, ready = false, blocked = false, unsubs = [], lastToastTs = 0;
 var S = {};
-var ui = {page:'home', calY:null, calM:null, sel:null, otEdit:-1, taskWho:null, payTab:'team', weekOff:0, payMonth:null, setTab:'team', editM:null, openJob:null, pending:false, colDraft:null};
+var ui = {calView:'week', weekStart:null, sheetDay:null, noteEdit:false, clip:null, openAfter:null, rateJobs:[], page:'home', calY:null, calM:null, sel:null, otEdit:-1, taskWho:null, payTab:'team', weekOff:0, payMonth:null, setTab:'team', editM:null, openJob:null, pending:false, colDraft:null};
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
 function resetState(){
@@ -392,7 +437,6 @@ function loadAll(){
       unsubs.push(db.collection('app').doc(p).onSnapshot(function(s){
         if (!s.exists) return;
         applyDoc(p, s.data()); setSync(true);
-        if (p === 'nudges') checkNewMsg();
         softRender();
       }, function(e){ console.error('Listen', p, e); setSync(false); }));
     });
@@ -421,7 +465,7 @@ function downloadBackup(){
 }
 
 /* ==== rendering ==== */
-function isEditing(){ var a = document.activeElement; return !!(a && a.closest && a.closest('main') && /INPUT|TEXTAREA|SELECT/.test(a.tagName)); }
+function isEditing(){ var a = document.activeElement; return !!(a && a.closest && a.closest('main, #sheet') && /INPUT|TEXTAREA|SELECT/.test(a.tagName)); }
 function softRender(){ if (!ready) return; if (isEditing()) { ui.pending = true; return; } render(); }
 document.addEventListener('focusout', function(){ setTimeout(function(){ if (ui.pending && !isEditing()) render(); }, 200); });
 
@@ -432,11 +476,12 @@ function render(){
   $('menu-label').textContent = p.label;
   var html = {home:rHome, calendar:rCalendar, tasks:rTasks, paylog:rPay, settings:rSettings}[p.id]();
   $('main').innerHTML = html;
-  if (p.id === 'home') { ls('pp_read_' + me, String(Date.now())); var ml = $('msg-list'); if (ml) ml.scrollTop = ml.scrollHeight; }
+  if (p.id === 'calendar' && ui.openAfter) { var oa = ui.openAfter; ui.openAfter = null; openDay(oa); }
+  else if (ui.sheetDay) renderSheet();
   updateBadge();
 }
 function unread(){ var lr = num(ls('pp_read_' + me)); return S.nudges.filter(function(n){ return n.to === me && (n.ts||0) > lr; }).length; }
-function updateBadge(){ var n = unread(), b = $('menu-badge'); if (n > 0 && ui.page !== 'home') { b.textContent = n; b.style.display = 'inline-flex'; } else b.style.display = 'none'; buildMenu(); }
+function updateBadge(){ $('menu-badge').style.display = 'none'; buildMenu(); }
 function checkNewMsg(){
   var mine = S.nudges.filter(function(n){ return n.to === me && (n.ts||0) > lastToastTs; });
   if (!mine.length) return;
@@ -445,11 +490,10 @@ function checkNewMsg(){
 }
 
 function buildMenu(){
-  var n = unread();
   $('drop').innerHTML = PAGES.map(function(p, i){
     return (i === 1 ? '<div class="sep"></div>' : '') +
       '<button class="' + (ui.page === p.id ? 'act' : '') + '" onclick="A.go(\'' + p.id + '\')"><span class="ic">' + IC[p.id] + '</span><span><span class="t">' + p.label +
-      (p.id === 'home' && n > 0 ? ' <span class="badge">' + n + '</span>' : '') + '</span><span class="s">' + p.sub + '</span></span></button>';
+      '' + '</span><span class="s">' + p.sub + '</span></span></button>';
   }).join('');
 }
 function toggleMenu(){ var on = !$('drop').classList.contains('on'); buildMenu(); $('drop').classList.toggle('on', on); $('scrim').classList.toggle('on', on); $('menu-btn').classList.toggle('open', on); }
@@ -458,6 +502,7 @@ function go(page){ closeMenu(); if (location.hash !== '#' + page) location.hash 
 window.addEventListener('hashchange', function(){
   var p = (location.hash || '#home').slice(1);
   ui.page = PAGES.some(function(x){ return x.id === p; }) ? p : 'home';
+  if (ui.sheetDay) hideSheet();
   closeMenu(); render(); window.scrollTo(0,0);
 });
 function head(eyebrow, title, sub){ return '<div class="phead"><div class="eyebrow">' + eyebrow + '</div><div class="ptitle">' + title + '</div>' + (sub ? '<div class="psub">' + sub + '</div>' : '') + '</div>'; }
@@ -492,6 +537,17 @@ function sortTodos(a,b){ return (a.due || '9999') < (b.due || '9999') ? -1 : (a.
 
 /* ==== HOME ==== */
 function nextPayDay(){ var t = noon(new Date()), L = lastFri(t.getFullYear(), t.getMonth()); if (ymd(t) > ymd(L)) { var n = new Date(t.getFullYear(), t.getMonth()+1, 1, 12); L = lastFri(n.getFullYear(), n.getMonth()); } return L; }
+function monthTally(){
+  var now = noon(new Date()), start = new Date(now.getFullYear(), now.getMonth(), 1, 12), res = {};
+  ['macauly','brad'].forEach(function(u){ res[u] = personDays(nameOf(u), start, now.getDate()).days; });
+  return res;
+}
+function tallyHtml(){
+  var t = monthTally(), mn = fmt(new Date(),{month:'long'});
+  return '<div class="tally">' + ['macauly','brad'].map(function(u){
+    return '<div class="tc"><div class="k">' + esc(nameOf(u)) + '</div><div class="v">' + (Math.round(t[u]*10)/10) + '<span style="font-size:14px;font-family:Barlow,sans-serif;font-weight:600;color:#b5ab9c"> ' + (t[u] === 1 ? 'day' : 'days') + '</span></div><div class="s">' + mn + ' so far</div></div>';
+  }).join('') + '</div>';
+}
 function rHome(){
   var now = new Date(), h = now.getHours();
   var greet = h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening';
@@ -504,6 +560,7 @@ function rHome(){
   var html = '<div class="phead"><div class="eyebrow">' + fmt(now,{weekday:'long', day:'numeric', month:'long'}) + '</div><div class="ptitle">' + greet + ', ' + esc(nameOf(me)) + '</div></div>';
   html += '<div class="chips"><span class="chip">' + IC.clock.replace('<svg','<svg width="15" height="15"') + (dTo === 0 ? '<b>Pay day today</b>' : 'Pay day in <b>' + dTo + ' day' + (dTo === 1 ? '' : 's') + '</b>') + ' &middot; ' + short(pd) + '</span>' +
     (openTodos.length ? '<span class="chip l">' + openTodos.length + ' to-do' + (openTodos.length === 1 ? '' : 's') + ' for you</span>' : '') + '</div>';
+  html += tallyHtml();
   html += '<div class="tiles">' +
     tile('calendar', 'Calendar', today.length ? today.length + ' on the calendar today' : 'Nothing booked today', true) +
     tile('tasks', 'Tasks', mine.done + ' of ' + mine.total + ' daily done') +
@@ -511,9 +568,8 @@ function rHome(){
     tile('settings', 'Settings', 'Team, jobs, colours') + '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Today</div><button class="link" onclick="A.calOpen(\'' + tk + '\')">Open day</button></div>';
   if (!today.length) html += '<div class="empty">Nothing on the calendar for today.</div>';
-  today.forEach(function(e){ html += '<div class="li"><span class="dot" style="background:' + colour(e.colourId||0).hex + '"></span><div class="f"><div class="a">' + esc(e.person) + '</div><div class="b">' + esc(e.job) + ' &middot; ' + esc(colourLabel(e.colourId||0)) + '</div></div></div>'; });
-  var notesToday = ['macauly','brad'].filter(function(u){ return S.notes[u] && S.notes[u][tk]; });
-  notesToday.forEach(function(u){ html += '<div class="li"><span class="dot" style="background:#c9a96e"></span><div class="f"><div class="a">' + esc(nameOf(u)) + '\u2019s note</div><div class="b" style="white-space:pre-wrap">' + esc(S.notes[u][tk]) + '</div></div></div>'; });
+  today.forEach(function(e){ html += '<div class="li"><span class="dot" style="background:' + colour(e.colourId||0).hex + '"></span><div class="f"><div class="a">' + esc(personLabel(e.person, true)) + '</div><div class="b">' + esc(e.job) + ' &middot; ' + esc(colourLabel(e.colourId||0)) + '</div></div></div>'; });
+  ['macauly','brad'].filter(function(u){ return S.notes[u] && S.notes[u][tk]; }).forEach(function(u){ html += '<div class="li"><span class="dot" style="background:#c9a96e"></span><div class="f"><div class="a">' + esc(nameOf(u)) + '\u2019s note</div><div class="b" style="white-space:pre-wrap">' + esc(S.notes[u][tk]) + '</div></div></div>'; });
   html += '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Task progress</div><button class="link" onclick="A.go(\'tasks\')">View all</button></div>';
   ['macauly','brad'].forEach(function(u){
@@ -533,87 +589,115 @@ function rHome(){
   openTodos.slice(0,5).forEach(function(t){ html += todoRow(t, true); });
   if (openTodos.length > 5) html += '<button class="link" onclick="A.taskWho(\'' + me + '\')">+' + (openTodos.length-5) + ' more</button>';
   html += '</div>';
-  html += rMessages();
   return html;
 }
 function tile(id, t, s, dark){ return '<button class="tile' + (dark ? ' dark' : '') + '" onclick="A.go(\'' + id + '\')"><span class="ic">' + IC[id] + '</span><span class="t">' + t + '</span><span class="s">' + s + '</span></button>'; }
-function rMessages(){
-  var msgs = S.nudges.slice().sort(function(a,b){ return (a.ts||0) - (b.ts||0); }).slice(-40);
-  var h = '<div class="card"><div class="card-h"><div class="card-t">Messages with ' + esc(nameOf(other(me))) + '</div></div><div class="msgs" id="msg-list">';
-  if (!msgs.length) h += '<div class="empty">No messages yet.</div>';
-  msgs.forEach(function(n){ var mine = n.from === me; h += '<div class="bub ' + (mine ? 'mine' : 'th') + '">' + esc(n.message) + '<div class="m">' + (mine ? 'You' : esc(nameOf(n.from))) + ' &middot; ' + (n.ts ? timeTxt(n.ts) : esc(n.date || '')) + '</div></div>'; });
-  h += '</div><div class="compose"><input class="inp" id="msg-in" placeholder="Message ' + esc(nameOf(other(me))) + '\u2026" onkeydown="if(event.key===\'Enter\')A.sendMsg()"><button class="btn" onclick="A.sendMsg()" aria-label="Send">' + IC.send.replace('<svg','<svg width="18" height="18"') + '</button></div></div>';
-  return h;
-}
-function sendMsg(){
-  var el = $('msg-in'), text = el.value.trim(); if (!text) return;
-  var m = {from:me, to:other(me), date:todayKey(), ts:Date.now(), message:text};
-  S.nudges.push(m); el.value = '';
-  save('nudges', {list:FV.arrayUnion(m)});
-  render();
-}
 
 /* ==== CALENDAR ==== */
-function calOpen(dk){ var d = parse(dk); ui.calY = d.getFullYear(); ui.calM = d.getMonth(); ui.sel = dk; go('calendar'); }
+function personLabel(p, full){ if (p === GENERAL) return 'Everyone'; return full ? String(p) : String(p).split(' ')[0]; }
+function hasNote(k){ return (S.notes.macauly && S.notes.macauly[k]) || (S.notes.brad && S.notes.brad[k]) || ''; }
+function calOpen(dk){ var d = parse(dk); ui.calY = d.getFullYear(); ui.calM = d.getMonth(); ui.weekStart = ymd(mondayOf(d)); ui.openAfter = dk; go('calendar'); }
+function legendHtml(){ return '<div class="legend" style="margin-top:6px">' + S.colours.filter(function(c){ return c.label; }).map(function(c){ return '<span class="lg"><span class="dot" style="background:' + c.hex + ';width:9px;height:9px"></span>' + esc(c.label) + '</span>'; }).join('') + '</div>'; }
 function rCalendar(){
   var now = new Date();
   if (ui.calY === null) { ui.calY = now.getFullYear(); ui.calM = now.getMonth(); }
-  if (!ui.sel) ui.sel = ymd(now);
-  var y = ui.calY, m = ui.calM, first = new Date(y,m,1,12), dim = new Date(y,m+1,0).getDate();
-  var off = (first.getDay() + 6) % 7, realToday = ymd(now);
-  var html = '<div class="phead"><div class="eyebrow">Team calendar</div><div class="ptitle">Calendar</div></div>';
-  html += '<div class="cal-nav"><button class="navb" onclick="A.calMove(-1)" aria-label="Previous month">' + IC.left + '</button><div><div class="cal-m">' + fmt(first,{month:'long', year:'numeric'}) + '</div>' +
-    ((y !== now.getFullYear() || m !== now.getMonth()) ? '<button class="cal-tb" onclick="A.calToday()">Back to today</button>' : '') + '</div><button class="navb" onclick="A.calMove(1)" aria-label="Next month">' + IC.right + '</button></div>';
-  html += '<div class="legend">' + S.colours.filter(function(c){ return c.label; }).map(function(c){ return '<span class="lg"><span class="dot" style="background:' + c.hex + ';width:9px;height:9px"></span>' + esc(c.label) + '</span>'; }).join('') + '</div>';
-  html += '<div class="cal">' + ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(function(d){ return '<div class="dh">' + d.charAt(0) + '<span class="wide">' + d.slice(1) + '</span></div>'; }).join('');
-  var i;
-  for (i=0;i<off;i++) html += '<div class="cd o"></div>';
-  for (var d=1; d<=dim; d++) {
-    var dk = y + '-' + pad(m+1) + '-' + pad(d), es = S.cal[dk] || [], dow = (off + d - 1) % 7;
-    var hasNote = (S.notes.macauly && S.notes.macauly[dk]) || (S.notes.brad && S.notes.brad[dk]);
-    var hasOT = es.some(function(e){ return num(e.otHours) > 0; });
-    html += '<button class="cd' + (dk === realToday ? ' t' : '') + (dk === ui.sel ? ' sel' : '') + (dow > 4 ? ' we' : '') + '" onclick="A.calSel(\'' + dk + '\')"><span class="n"><span class="num">' + d + '</span>' + (hasOT ? '<span class="otm">OT</span>' : '') + (hasNote ? '<span class="nt"></span>' : '') + '</span>';
-    html += '<span class="pills">' + es.slice(0,3).map(function(e){ return '<span class="pill" style="background:' + colour(e.colourId||0).hex + '">' + esc(String(e.person).split(' ')[0]) + '</span>'; }).join('') + (es.length > 3 ? '<span class="more">+' + (es.length-3) + '</span>' : '') + '</span>';
-    html += '<span class="dots">' + es.slice(0,6).map(function(e){ return '<i style="background:' + colour(e.colourId||0).hex + '"></i>'; }).join('') + (es.length > 6 ? '<span class="more">+' + (es.length-6) + '</span>' : '') + '</span></button>';
-  }
-  var cells = Math.ceil((off + dim) / 7) * 7;
-  for (i = off + dim; i < cells; i++) html += '<div class="cd o"></div>';
-  html += '</div>';
-  html += rDay(ui.sel);
-  return html;
+  if (!ui.weekStart) ui.weekStart = ymd(mondayOf(now));
+  var h = head('Team calendar', 'Calendar');
+  h += tallyHtml();
+  if (ui.clip) h += '<div class="clip"><span style="flex:1">Copied <b>' + short(parse(ui.clip.from)) + '</b> (' + ui.clip.entries.length + ') \u2014 open any day and tap Paste</span><button class="btn sm" onclick="A.clearClip()">Clear</button></div>';
+  h += seg([['week','Week'], ['month','Month']], ui.calView, 'calView');
+  h += ui.calView === 'month' ? rMonth() : rWeek();
+  h += legendHtml();
+  return h;
 }
-function prevWithEntries(dk){ for (var i=1;i<=7;i++) { var k = ymd(addDays(parse(dk), -i)); if ((S.cal[k] || []).length) return k; } return null; }
-function rDay(dk){
-  var es = S.cal[dk] || [], d = parse(dk), src = prevWithEntries(dk);
-  var h = '<div class="card" id="day-card"><div class="card-h"><div><div class="eyebrow">' + (dk === ymd(new Date()) ? 'Today' : fmt(d,{weekday:'long'})) + '</div><div class="card-t">' + fmt(d,{day:'numeric', month:'long', year:'numeric'}) + '</div></div>' +
-    (src ? '<button class="btn sm ghost" onclick="A.copyFrom(\'' + src + '\')">Copy ' + fmt(parse(src),{weekday:'short'}) + '</button>' : '') + '</div>';
+function entryChip(e){
+  var c = colour(e.colourId||0), lab = (e.colourId||0) !== 1 ? ' &middot; ' + esc(colourLabel(e.colourId||0)) : '';
+  return '<div class="ec"><span class="sq" style="background:' + c.hex + '"></span><span class="et"><b>' + esc(personLabel(e.person)) + '</b> <span class="j">' + esc(e.job) + lab + '</span>' + (num(e.otHours) > 0 ? ' <span class="tag ot" style="margin:0">OT</span>' : '') + '</span></div>';
+}
+function rWeek(){
+  var ws = parse(ui.weekStart), we = addDays(ws,6), tk = ymd(new Date()), thisWk = ui.weekStart === ymd(mondayOf(new Date()));
+  var h = '<div class="cal-nav"><button class="navb" onclick="A.weekCal(-1)" aria-label="Previous week">' + IC.left + '</button><div><div class="cal-m" style="font-size:20px">' + dm(ws) + ' \u2013 ' + dm(we) + '</div>' +
+    (thisWk ? '<div class="small muted" style="text-align:center">This week</div>' : '<button class="cal-tb" onclick="A.weekCal(0)">Back to this week</button>') + '</div><button class="navb" onclick="A.weekCal(1)" aria-label="Next week">' + IC.right + '</button></div>';
+  for (var i=0;i<7;i++) {
+    var d = addDays(ws,i), k = ymd(d), es = S.cal[k] || [], nt = (S.notes[me] && S.notes[me][k]) || (S.notes[other(me)] && S.notes[other(me)][k]) || '';
+    h += '<button class="wd' + (k === tk ? ' t' : '') + (i > 4 ? ' we' : '') + '" onclick="A.openDay(\'' + k + '\')"><div class="dt"><div class="a">' + fmt(d,{weekday:'short'}) + '</div><div class="b">' + d.getDate() + '</div></div><div class="es">' +
+      (es.length ? es.map(entryChip).join('') : '<span class="muted small" style="padding-top:6px">Nothing booked</span>') +
+      (nt ? '<div class="nn">Note: ' + esc(String(nt).split('\n')[0].slice(0,60)) + '</div>' : '') + '</div></button>';
+  }
+  return h;
+}
+function rMonth(){
+  var now = new Date(), y = ui.calY, m = ui.calM, first = new Date(y,m,1,12), dim = new Date(y,m+1,0).getDate(), off = (first.getDay() + 6) % 7, tk = ymd(now), i;
+  var h = '<div class="cal-nav"><button class="navb" onclick="A.calMove(-1)" aria-label="Previous month">' + IC.left + '</button><div><div class="cal-m">' + fmt(first,{month:'long', year:'numeric'}) + '</div>' +
+    ((y !== now.getFullYear() || m !== now.getMonth()) ? '<button class="cal-tb" onclick="A.calToday()">Back to today</button>' : '') + '</div><button class="navb" onclick="A.calMove(1)" aria-label="Next month">' + IC.right + '</button></div>';
+  h += '<div class="mg">' + ['M','T','W','T','F','S','S'].map(function(d){ return '<div class="dh">' + d + '</div>'; }).join('');
+  for (i=0;i<off;i++) h += '<div class="mc o"></div>';
+  for (var d=1; d<=dim; d++) {
+    var k = y + '-' + pad(m+1) + '-' + pad(d), es = S.cal[k] || [], dow = (off + d - 1) % 7;
+    h += '<button class="mc' + (k === tk ? ' t' : '') + (dow > 4 ? ' we' : '') + '" onclick="A.openDay(\'' + k + '\')"><span class="d">' + d + '</span>' +
+      (es.length ? '<span class="sb">' + es.slice(0,6).map(function(e){ return '<i style="background:' + colour(e.colourId||0).hex + '"></i>'; }).join('') + '</span><span class="cnt">' + es.length + ' in</span>' : '') +
+      (hasNote(k) ? '<span class="nt"></span>' : '') + '</button>';
+  }
+  h += '</div><div class="small muted" style="text-align:center;margin-bottom:6px">Tap a day to see who\u2019s where</div>';
+  return h;
+}
+function rDaySheet(dk){
+  var es = S.cal[dk] || [], d = parse(dk), isT = dk === ymd(new Date());
+  var h = '<div class="sh-h"><div class="grab"></div><div class="row"><div style="flex:1;min-width:0"><div class="eyebrow">' + (isT ? 'Today' : fmt(d,{weekday:'long'})) + '</div><div class="card-t">' + fmt(d,{day:'numeric', month:'long', year:'numeric'}) + '</div></div>' +
+    '<button class="ib" onclick="A.moveDay(-1)" aria-label="Previous day">' + IC.left + '</button><button class="ib" onclick="A.moveDay(1)" aria-label="Next day">' + IC.right + '</button>' +
+    '<button class="navb" style="width:38px;height:38px;border-radius:12px" onclick="A.closeDay()" aria-label="Close">' + IC.x + '</button></div>' +
+    '<div class="row" style="margin-top:10px"><button class="btn sm ghost" onclick="A.copyDay()"' + (es.length ? '' : ' disabled style="opacity:.4"') + '>Copy day</button>' +
+    (ui.clip && ui.clip.from !== dk ? '<button class="btn sm gold" onclick="A.pasteDay()">Paste ' + fmt(parse(ui.clip.from),{weekday:'short', day:'numeric', month:'short'}) + '</button>' : '') + '</div></div>';
+  h += '<div class="sh-b">';
   if (!es.length) h += '<div class="empty" style="margin-bottom:8px">Nobody booked in yet.</div>';
   es.forEach(function(e, i){
     var c = colour(e.colourId||0), ot = num(e.otHours);
-    h += '<div class="entry" style="border-left-color:' + c.hex + '"><div class="f"><div class="p">' + esc(e.person) + '</div><div class="j">' + esc(e.job) + '</div><span class="tag">' + esc(colourLabel(e.colourId||0)) + '</span>' +
+    h += '<div class="entry" style="border-left-color:' + c.hex + ';background:#fffcf7"><div class="f"><div class="p">' + esc(personLabel(e.person, true)) + '</div><div class="j">' + esc(e.job) + '</div><br><span class="tag">' + esc(colourLabel(e.colourId||0)) + '</span>' +
       (ot > 0 ? '<span class="tag ot">OT ' + ot + 'h' + (num(e.otRate) ? ' @ ' + gbp(num(e.otRate)) : '') + '</span>' : '') + '</div>' +
       '<button class="ib' + (ui.otEdit === i ? ' on' : '') + '" onclick="A.otOpen(' + i + ')" aria-label="Overtime">' + IC.clock + '</button>' +
       '<button class="ib" onclick="A.removeEntry(' + i + ')" aria-label="Remove">' + IC.x + '</button></div>';
     if (ui.otEdit === i) {
-      h += '<div style="background:#fbf3ea;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Overtime for ' + esc(e.person) + '</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
+      h += '<div style="background:#fbf3ea;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Overtime for ' + esc(personLabel(e.person, true)) + '</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
     }
   });
   var people = [GENERAL].concat(S.team.map(function(m){ return m.name; }));
   var cols = S.colours.filter(function(c){ return c.label; }).concat(S.colours.filter(function(c){ return !c.label; }));
-  var jobs = activeJobs();
-  h += '<div style="border-top:1px solid #efe6d9;margin-top:10px;padding-top:14px"><div class="lbl">Add to this day</div>' +
-    '<div class="g2 fld"><select class="inp" id="ce-person">' + people.map(function(p){ return '<option' + (p === ui.lastPerson ? ' selected' : '') + '>' + esc(p) + '</option>'; }).join('') + '</select>' +
+  h += '<div class="card" style="margin-top:12px"><div class="lbl">Add someone to this day</div>' +
+    '<div class="g2 fld"><select class="inp" id="ce-person">' + people.map(function(p){ return '<option value="' + esc(p) + '"' + (p === ui.lastPerson ? ' selected' : '') + '>' + esc(personLabel(p, true)) + '</option>'; }).join('') + '</select>' +
     '<select class="inp" id="ce-colour">' + cols.map(function(c){ return '<option value="' + c.id + '"' + (c.id === (ui.lastColour || 1) ? ' selected' : '') + '>' + esc(c.label || ('Colour ' + c.id)) + '</option>'; }).join('') + '</select></div>' +
-    '<div class="row"><input class="inp" id="ce-job" list="job-list" placeholder="Job / site" value="' + esc(ui.lastJob || '') + '"><datalist id="job-list">' + jobs.map(function(j){ return '<option value="' + esc(j.name) + '">'; }).join('') + '</datalist><button class="btn" onclick="A.addEntry()">Add</button></div></div>';
+    '<div class="row"><input class="inp" id="ce-job" list="job-list" placeholder="Job / site" value="' + esc(ui.lastJob || '') + '"><datalist id="job-list">' + activeJobs().map(function(j){ return '<option value="' + esc(j.name) + '">'; }).join('') + '</datalist><button class="btn" onclick="A.addEntry()">Add</button></div></div>';
   var mine = (S.notes[me] && S.notes[me][dk]) || '', oth = (S.notes[other(me)] && S.notes[other(me)][dk]) || '';
-  h += '<div style="border-top:1px solid #efe6d9;margin-top:16px;padding-top:14px"><div class="lbl">Your notes</div><textarea class="inp" id="my-note" placeholder="Notes for this day\u2026">' + esc(mine) + '</textarea>' +
-    '<div class="row" style="margin-top:8px"><button class="btn sm" onclick="A.saveNote()">Save note</button><span class="small muted" id="note-state"></span></div>' +
-    '<div class="lbl" style="margin-top:16px">' + esc(nameOf(other(me))) + '\u2019s notes</div>' + (oth ? '<div class="note-o">' + esc(oth) + '</div>' : '<div class="empty">No notes from ' + esc(nameOf(other(me))) + '.</div>') + '</div></div>';
+  h += '<div class="lbl" style="margin-top:6px">Your note</div>';
+  if (ui.noteEdit) {
+    h += '<textarea class="inp" id="my-note" placeholder="Notes for this day\u2026" oninput="this.style.height=\'auto\';this.style.height=(this.scrollHeight+4)+\'px\'">' + esc(mine) + '</textarea>' +
+      '<div class="row" style="margin-top:8px"><button class="btn sm" onclick="A.saveNote()">Save note</button><button class="btn sm ghost" onclick="A.noteEdit(false)">Cancel</button></div>';
+  } else if (mine) {
+    h += '<div class="note-v">' + esc(mine) + '</div><button class="btn sm ghost" style="margin-top:8px" onclick="A.noteEdit(true)">' + IC.edit.replace('<svg','<svg width="14" height="14"') + ' Edit note</button>';
+  } else {
+    h += '<button class="btn sm ghost" onclick="A.noteEdit(true)">+ Add a note</button>';
+  }
+  h += '<div class="lbl" style="margin-top:18px">' + esc(nameOf(other(me))) + '\u2019s note</div>' + (oth ? '<div class="note-v" style="background:#f3ebdf">' + esc(oth) + '</div>' : '<div class="empty">No note from ' + esc(nameOf(other(me))) + '.</div>');
+  h += '</div>';
   return h;
 }
-function calSel(dk){ ui.sel = dk; ui.otEdit = -1; render(); var c = $('day-card'); if (c && window.innerWidth < 900) c.scrollIntoView({behavior:'smooth', block:'start'}); }
-function calMove(dir){ ui.calM += dir; if (ui.calM > 11) { ui.calM = 0; ui.calY++; } if (ui.calM < 0) { ui.calM = 11; ui.calY -= 1; } ui.sel = ui.calY + '-' + pad(ui.calM+1) + '-01'; ui.otEdit = -1; render(); }
-function calToday(){ ui.calY = null; ui.sel = ymd(new Date()); render(); }
+function renderSheet(top){
+  if (!ui.sheetDay) return;
+  var b = document.querySelector('#sheet .sh-b'), st = (b && !top) ? b.scrollTop : 0;
+  $('sheet-in').innerHTML = rDaySheet(ui.sheetDay);
+  var nb = document.querySelector('#sheet .sh-b'); if (nb) nb.scrollTop = st;
+  var ta = $('my-note'); if (ta) { ta.style.height = 'auto'; ta.style.height = Math.max(120, ta.scrollHeight + 4) + 'px'; }
+}
+function openDay(dk){
+  ui.sheetDay = dk; ui.sel = dk; ui.otEdit = -1; ui.noteEdit = false;
+  renderSheet(true);
+  $('sheet').classList.add('on'); $('sheet-bg').classList.add('on'); document.body.classList.add('lock');
+}
+function hideSheet(){ ui.sheetDay = null; ui.noteEdit = false; $('sheet').classList.remove('on'); $('sheet-bg').classList.remove('on'); document.body.classList.remove('lock'); }
+function closeDay(){ if (ui.noteEdit && $('my-note') && $('my-note').value !== ((S.notes[me] && S.notes[me][ui.sheetDay]) || '') && !confirm('Close without saving your note?')) return; hideSheet(); render(); }
+function moveDay(n){ var k = ymd(addDays(parse(ui.sheetDay), n)); var d = parse(k); ui.calY = d.getFullYear(); ui.calM = d.getMonth(); ui.weekStart = ymd(mondayOf(d)); openDay(k); render(); }
+function calMove(dir){ ui.calM += dir; if (ui.calM > 11) { ui.calM = 0; ui.calY++; } if (ui.calM < 0) { ui.calM = 11; ui.calY -= 1; } render(); }
+function calToday(){ ui.calY = null; render(); }
+function weekCal(n){ ui.weekStart = n === 0 ? ymd(mondayOf(new Date())) : ymd(addDays(parse(ui.weekStart), n * 7)); render(); }
 function saveDay(dk){ var o = {}; o[dk] = S.cal[dk] || []; return save('calendar', o); }
 function addEntry(){
   var person = $('ce-person').value, job = $('ce-job').value.trim(), cid = parseInt($('ce-colour').value, 10);
@@ -625,25 +709,39 @@ function addEntry(){
 }
 function removeEntry(i){
   var e = (S.cal[ui.sel] || [])[i]; if (!e) return;
-  if (!confirm('Remove ' + e.person + ' from this day?')) return;
+  if (!confirm('Remove ' + personLabel(e.person, true) + ' from this day?')) return;
   S.cal[ui.sel].splice(i,1); ui.otEdit = -1; saveDay(ui.sel); render();
 }
-function otOpen(i){ ui.otEdit = ui.otEdit === i ? -1 : i; render(); }
+function otOpen(i){ ui.otEdit = ui.otEdit === i ? -1 : i; renderSheet(); }
 function otSave(i){
   var e = (S.cal[ui.sel] || [])[i]; if (!e) return;
   e.otHours = $('ot-h').value; e.otRate = $('ot-r').value;
   ui.otEdit = -1; saveDay(ui.sel).then(function(ok){ if (ok) toast('Overtime saved \u2014 it feeds the pay log'); }); render();
 }
-function copyFrom(src){
-  var s = S.cal[src] || [], ex = S.cal[ui.sel] || [];
-  var add = s.filter(function(se){ return !ex.some(function(e){ return e.person === se.person && e.job === se.job; }); }).map(function(se){ return {person:se.person, job:se.job, colourId:se.colourId}; });
-  if (!add.length) { toast('Already copied'); return; }
-  S.cal[ui.sel] = ex.concat(add); saveDay(ui.sel); render(); toast('Copied ' + add.length + ' from ' + fmt(parse(src),{weekday:'long'}));
+function copyDay(){
+  var es = S.cal[ui.sheetDay] || []; if (!es.length) return;
+  ui.clip = {from:ui.sheetDay, entries:es.map(function(e){ return {person:e.person, job:e.job, colourId:e.colourId}; })};
+  ls('pp_clip', JSON.stringify(ui.clip));
+  toast('Copied \u2014 open any day and tap Paste'); render();
+}
+function pasteDay(){
+  if (!ui.clip) return;
+  var ex = S.cal[ui.sel] || [];
+  var add = ui.clip.entries.filter(function(se){ return !ex.some(function(e){ return e.person === se.person && e.job === se.job; }); }).map(function(se){ return {person:se.person, job:se.job, colourId:se.colourId}; });
+  if (!add.length) { toast('Already on this day'); return; }
+  S.cal[ui.sel] = ex.concat(add); saveDay(ui.sel); toast('Pasted ' + add.length + ' into ' + fmt(parse(ui.sel),{weekday:'short', day:'numeric', month:'short'})); render();
+}
+function clearClip(){ ui.clip = null; try { localStorage.removeItem('pp_clip'); } catch(e) {} render(); }
+function noteEdit(v){
+  ui.noteEdit = v; renderSheet();
+  if (v) { var ta = $('my-note'); if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }
 }
 function saveNote(){
   var v = $('my-note').value, o = {}; o[me] = {}; o[me][ui.sel] = v;
   if (!S.notes[me]) S.notes[me] = {}; S.notes[me][ui.sel] = v;
-  save('notes', o).then(function(ok){ var st = $('note-state'); if (st) st.textContent = ok ? 'Saved \u2713' : ''; if (ok) toast('Note saved'); });
+  ui.noteEdit = false;
+  if (document.activeElement) document.activeElement.blur();
+  save('notes', o, 'Note saved'); render();
 }
 
 /* ==== TASKS ==== */
@@ -798,11 +896,33 @@ function dirRate(pk,u){
   if (prev) return S.dpay[prev][u].rate;
   var m = memberById(u); return m && num(m.dayRate) ? m.dayRate : '';
 }
+function jobByName(n){
+  var k = String(n || '').trim().toLowerCase(); if (!k) return null;
+  var ids = Object.keys(S.jobs);
+  for (var i=0;i<ids.length;i++) { var j = S.jobs[ids[i]]; if (j && j.name && String(j.name).trim().toLowerCase() === k) return Object.assign({id:ids[i]}, j); }
+  return null;
+}
+function jobDirRate(n){ var j = jobByName(n); return j && num(j.dirRate) > 0 ? num(j.dirRate) : 0; }
 function dirCalc(p,u){
   var per = payPeriod(p), pk = pmKey(p), name = nameOf(u), rate = num(dirRate(pk,u)), rec = dirRec(pk,u);
-  var weeks = per.weeks.map(function(w){ var d = personDays(name, w, 7); return {mon:w, days:d.days, ot:d.ot, otH:d.otH}; });
-  var days = weeks.reduce(function(s,w){ return s + w.days; }, 0), ot = weeks.reduce(function(s,w){ return s + w.ot; }, 0), adj = num(rec.adjust);
-  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:days*rate, ot:ot, adj:adj, total:days*rate + ot + adj, rec:rec};
+  var groups = {}, order = [], weeks = [], days = 0, base = 0, ot = 0, jobs = {};
+  per.weeks.forEach(function(w){
+    var wd = 0, wo = 0, wh = 0;
+    for (var i=0;i<7;i++) { (S.cal[ymd(addDays(w,i))] || []).forEach(function(e){
+      if (e.person !== name) return;
+      var pd = payDaysOf(e.colourId||0), jn = String(e.job || '').trim();
+      if (jn && pd > 0) jobs[jn.toLowerCase()] = jn;
+      if (pd > 0) {
+        var jr = jobDirRate(jn), r = jr || rate, key = jr ? 'j:' + jn.toLowerCase() : 'std';
+        if (!groups[key]) { groups[key] = {label:jr ? jn : 'Standard rate', rate:r, days:0}; order.push(key); }
+        groups[key].days += pd; base += pd * r; wd += pd;
+      }
+      var hrs = num(e.otHours); if (hrs > 0) { wh += hrs; wo += hrs * num(e.otRate); }
+    }); }
+    weeks.push({mon:w, days:wd, ot:wo, otH:wh}); days += wd; ot += wo;
+  });
+  var adj = num(rec.adjust);
+  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, total:base + ot + adj, rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
 }
 function rPayDirectors(){
   if (!ui.payMonth) ui.payMonth = payMonthOfWeek(mondayOf(new Date()));
@@ -815,15 +935,34 @@ function rPayDirectors(){
     var u = x.u, c = x.c, f = 'A.dirField(\'' + c.pk + '\',\'' + u + '\',';
     h += '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + USERS[u].ini + '</div><div><div class="card-t" style="font-size:18px">' + esc(nameOf(u)) + '</div><div class="small muted">' + daysTxt(c.days) + ' this pay month</div></div></div><div class="amt" style="font-size:22px">' + gbp(c.total) + '</div></div>';
     c.weeks.forEach(function(w){ h += '<div class="ln"><span>w/c ' + dm(w.mon) + '</span><span>' + daysTxt(w.days) + (w.otH > 0 ? ' <span class="tag ot" style="margin:0">+' + w.otH + 'h OT</span>' : '') + '</span></div>'; });
-    h += '<div class="g2" style="margin:12px 0 10px"><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(dirRate(c.pk,u)) + '" onchange="' + f + '\'rate\',this.value)"></div><div><label class="lbl">Adjustment (\u00b1\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(c.rec.adjust || '') + '" placeholder="0" onchange="' + f + '\'adjust\',this.value)"></div></div>';
+    h += '<div class="g2" style="margin:12px 0 10px"><div><label class="lbl">Standard day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(dirRate(c.pk,u)) + '" onchange="' + f + '\'rate\',this.value)"></div><div><label class="lbl">Adjustment (\u00b1\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(c.rec.adjust || '') + '" placeholder="0" onchange="' + f + '\'adjust\',this.value)"></div></div>';
     h += '<div class="fld"><input class="inp" value="' + esc(c.rec.adjustNote || '') + '" placeholder="Adjustment note (expenses, advance\u2026)" onchange="' + f + '\'adjustNote\',this.value)"></div>';
-    h += '<div class="ln"><span>' + daysTxt(c.days) + ' \u00d7 ' + gbp(c.rate) + '</span><span>' + gbp(c.base) + '</span></div>';
+    if (!c.groups.length) h += '<div class="ln"><span>No days on the calendar yet</span><span>' + gbp(0) + '</span></div>';
+    c.groups.forEach(function(g){ h += '<div class="ln"><span>' + daysTxt(g.days) + ' \u00d7 ' + gbp(g.rate) + ' <span class="small muted">' + esc(g.label) + '</span></span><span>' + gbp(g.days * g.rate) + '</span></div>'; });
     if (c.ot) h += '<div class="ln"><span>Overtime (from calendar)</span><span>' + gbp(c.ot) + '</span></div>';
     if (c.adj) h += '<div class="ln"><span>Adjustment</span><span>' + gbp(c.adj) + '</span></div>';
     h += '<div class="ln tot"><span>Total</span><span>' + gbp(c.total) + '</span></div>';
     h += '<button class="btn full ' + (c.rec.paid ? 'ok' : '') + '" style="margin-top:12px" onclick="A.dirPaid(\'' + c.pk + '\',\'' + u + '\')">' + (c.rec.paid ? IC.check.replace('<svg','<svg width="16" height="16"') + ' Paid ' + (c.rec.paidOn ? dm(parse(c.rec.paidOn)) : '') + ' \u00b7 tap to undo' : 'Mark as paid') + '</button></div>';
   });
+  var jn = {};
+  cs.forEach(function(x){ Object.keys(x.c.jobs).forEach(function(k){ jn[k] = x.c.jobs[k]; }); });
+  activeJobs().forEach(function(j){ if (num(j.dirRate) > 0) jn[String(j.name).trim().toLowerCase()] = j.name; });
+  ui.rateJobs = Object.keys(jn).map(function(k){ return jn[k]; }).sort();
+  h += '<div class="card"><div class="card-t" style="margin-bottom:4px">Day rates by job</div><div class="small muted fld">Set a different director day rate for a job, e.g. when working away. Leave blank to use the standard rate.</div>';
+  if (!ui.rateJobs.length) h += '<div class="empty">No jobs in this pay month yet.</div>';
+  ui.rateJobs.forEach(function(n, i){
+    var j = jobByName(n);
+    h += '<div class="li"><div class="f"><div class="a">' + esc(n) + '</div><div class="b">' + (j && num(j.dirRate) > 0 ? gbp(num(j.dirRate)) + ' a day' : 'Standard rate') + '</div></div><input class="inp" style="max-width:130px" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 Standard" value="' + esc(j && j.dirRate ? j.dirRate : '') + '" onchange="A.setJobRate(' + i + ',this.value)"></div>';
+  });
+  h += '</div>';
   return h;
+}
+function setJobRate(i, val){
+  var name = ui.rateJobs[i]; if (!name) return;
+  var j = jobByName(name);
+  if (j) { S.jobs[j.id].dirRate = val; saveJob(j.id, {dirRate:val}, 'Job rate saved'); }
+  else { var id = 'j' + Date.now(), o = {name:name, client:'', status:'active', createdAt:Date.now(), dirRate:val}; S.jobs[id] = o; saveJob(id, o, 'Job rate saved'); }
+  render();
 }
 function dirField(pk,u,field,val){
   if (!S.dpay[pk]) S.dpay[pk] = {}; if (!S.dpay[pk][u]) S.dpay[pk][u] = {};
@@ -902,7 +1041,7 @@ function rJobs(){
   function jobCard(j){
     var s = st[j.name.trim().toLowerCase()] || {days:0, cost:0, ot:0, people:{}}, open = ui.openJob === j.id;
     var r = '<div class="card"><div class="card-h" style="margin-bottom:6px"><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(j.name) + '</div><div class="small muted">' + esc(j.client || '') + (s.first ? (j.client ? ' \u00b7 ' : '') + dm(parse(s.first)) + ' \u2013 ' + dm(parse(s.last)) : '') + '</div></div>' + (j.status === 'finished' ? '<span class="tag g">Finished</span>' : '') + '</div>';
-    r += '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
+    r += (num(j.dirRate) > 0 ? '<div class="small" style="color:#8f6d3a;font-weight:700">Director rate ' + gbp(num(j.dirRate)) + ' a day</div>' : '') + '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
     if (open) {
       var ppl = Object.keys(s.people);
       if (!ppl.length) r += '<div class="empty">Nobody booked on this job yet.</div>';
@@ -968,6 +1107,7 @@ function showFatal(err){
 function login(u){
   unsubs.forEach(function(f){ f(); }); unsubs = []; ready = false; blocked = true;
   me = u; ls('pp_user', u);
+  try { ui.clip = JSON.parse(ls('pp_clip') || 'null'); } catch(e) { ui.clip = null; }
   ui.taskWho = null; ui.page = (location.hash || '#home').slice(1); if (!PAGES.some(function(x){ return x.id === ui.page; })) ui.page = 'home';
   $('login').style.display = 'none'; $('app').style.display = 'block';
   $('me-ini').textContent = USERS[u].ini;
@@ -977,13 +1117,14 @@ function login(u){
 function logout(){
   unsubs.forEach(function(f){ f(); }); unsubs = []; ready = false; me = null;
   try { localStorage.removeItem('pp_user'); } catch(e) {}
-  closeMenu(); $('app').style.display = 'none'; $('login').style.display = 'flex';
+  closeMenu(); if (ui.sheetDay) hideSheet(); $('app').style.display = 'none'; $('login').style.display = 'flex';
 }
 function openApp(){ ui.setTab = 'app'; go('settings'); }
 
 window.A = {
-  login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, sendMsg:sendMsg, downloadBackup:downloadBackup,
-  calOpen:calOpen, calSel:calSel, calMove:calMove, calToday:calToday, addEntry:addEntry, removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, copyFrom:copyFrom, saveNote:saveNote,
+  login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, downloadBackup:downloadBackup,
+  calOpen:calOpen, calMove:calMove, calToday:calToday, weekCal:weekCal, calView:function(v){ ui.calView = v; render(); }, openDay:openDay, closeDay:closeDay, moveDay:moveDay, copyDay:copyDay, pasteDay:pasteDay, clearClip:clearClip, noteEdit:noteEdit,
+  addEntry:addEntry, removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
   payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, monthMove:monthMove,
   setTab:function(t){ ui.setTab = t; ui.colDraft = null; render(); }, editMember:editMember, saveMember:saveMember, addMember:addMember, removeMember:removeMember,
