@@ -25,7 +25,7 @@ input,select,textarea{font-family:inherit;font-size:16px;color:#1a1a1a}
 .who{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .who button{background:#fffcf7;border:1px solid #e4d8c7;border-radius:22px;padding:26px 28px;min-width:150px;box-shadow:0 12px 32px rgba(26,26,26,.07);transition:transform .15s}
 .who button:active{transform:scale(.96)}
-.av{width:58px;height:58px;border-radius:50%;background:#1a1a1a;color:#f5ede3;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:20px;margin:0 auto 12px;box-shadow:0 0 0 3px #f5ede3,0 0 0 4px #c9a96e}
+.av{width:58px;height:58px;border-radius:50%;background:#1a1a1a;color:#f5ede3;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:20px;margin:0 auto 12px;box-shadow:0 0 0 3px #f5ede3,0 0 0 4px #1a1a1a}
 .who .n{font-family:'Playfair Display',serif;font-size:21px;font-weight:700}
 .who .r{font-size:11px;color:#8c8274;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
 #app{display:none}
@@ -34,26 +34,26 @@ input,select,textarea{font-family:inherit;font-size:16px;color:#1a1a1a}
 .hdr-logo{height:38px;display:block}
 .hdr-sp{flex:1}
 .menu-btn{display:flex;align-items:center;gap:8px;background:#2b2b28;color:#f5ede3;border-radius:999px;padding:9px 12px 9px 16px;font-size:15px;font-weight:600}
-.menu-btn svg{width:16px;height:16px;transition:transform .2s;color:#c9a96e}
+.menu-btn svg{width:16px;height:16px;transition:transform .2s;color:#f5ede3}
 .menu-btn.open svg{transform:rotate(180deg)}
-.badge{min-width:19px;height:19px;border-radius:10px;background:#c9a96e;color:#1a1a1a;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+.badge{min-width:19px;height:19px;border-radius:10px;background:#f5ede3;color:#1a1a1a;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
 .me{width:38px;height:38px;border-radius:50%;background:#f5ede3;color:#1a1a1a;font-family:'Playfair Display',serif;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
-.me i{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#3ccf7a;border:2px solid #1a1a1a}
-.me i.off{background:#d0543c}
+.me i{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#3ccf7a;border:2px solid #1a1a1a;display:none}
+.me i.off{background:#d0543c;display:block}
 .scrim{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,26,26,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
 .scrim.on{opacity:1;pointer-events:auto}
 .drop{position:fixed;z-index:61;top:calc(env(safe-area-inset-top) + 70px);right:12px;width:300px;max-width:calc(100vw - 24px);background:#1a1a1a;border-radius:20px;padding:8px;box-shadow:0 24px 60px rgba(0,0,0,.4);transform-origin:top right;transform:scale(.95) translateY(-8px);opacity:0;pointer-events:none;transition:transform .18s ease,opacity .18s ease}
 .drop.on{transform:none;opacity:1;pointer-events:auto}
 .drop button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:14px;color:#f5ede3;text-align:left}
 .drop button.act{background:#2b2b28}
-.drop .ic{width:38px;height:38px;border-radius:11px;background:#2b2b28;display:flex;align-items:center;justify-content:center;color:#c9a96e;flex-shrink:0}
-.drop button.act .ic{background:#c9a96e;color:#1a1a1a}
+.drop .ic{width:38px;height:38px;border-radius:11px;background:#2b2b28;display:flex;align-items:center;justify-content:center;color:#f5ede3;flex-shrink:0}
+.drop button.act .ic{background:#f5ede3;color:#1a1a1a}
 .drop .ic svg{width:19px;height:19px}
 .drop .t{font-weight:600;font-size:16px;display:flex;align-items:center;gap:8px}
 .drop .s{font-size:12.5px;color:#9a9285}
 .drop .sep{height:1px;background:#33332f;margin:6px 10px}
 main{max-width:760px;margin:0 auto;padding:22px 16px calc(80px + env(safe-area-inset-bottom))}
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#8f6d3a}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#6f665a}
 .ptitle{font-family:'Playfair Display',serif;font-size:31px;font-weight:700;line-height:1.15;margin:4px 0}
 .psub{color:#8c8274;font-size:14px}
 .phead{margin-bottom:18px}
@@ -61,20 +61,20 @@ main{max-width:760px;margin:0 auto;padding:22px 16px calc(80px + env(safe-area-i
 .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
 .card-t{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1.2}
 .card-k{font-size:12.5px;color:#8c8274;font-weight:600}
-.link{font-size:13.5px;font-weight:700;color:#8f6d3a}
+.link{font-size:13.5px;font-weight:700;color:#1a1a1a;text-decoration:underline;text-underline-offset:3px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
 .chip{display:inline-flex;align-items:center;gap:6px;background:#1a1a1a;color:#f5ede3;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}
 .chip.l{background:#ede3d5;color:#1a1a1a}
-.chip b{color:#c9a96e;font-weight:700}
+.chip b{color:#ffffff;font-weight:700}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .tile{background:#fffcf7;border:1px solid #e9dfd1;border-radius:20px;padding:15px;text-align:left;display:flex;flex-direction:column;gap:10px;min-height:124px;box-shadow:0 1px 2px rgba(26,26,26,.04),0 10px 28px rgba(26,26,26,.04);transition:transform .12s}
 .tile:active{transform:scale(.97)}
-.tile .ic{width:40px;height:40px;border-radius:12px;background:#1a1a1a;color:#c9a96e;display:flex;align-items:center;justify-content:center}
+.tile .ic{width:40px;height:40px;border-radius:12px;background:#1a1a1a;color:#f5ede3;display:flex;align-items:center;justify-content:center}
 .tile .ic svg{width:20px;height:20px}
 .tile .t{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;margin-top:auto}
 .tile .s{font-size:12.5px;color:#8c8274;margin-top:-8px}
 .tile.dark{background:#1a1a1a;color:#f5ede3;border-color:#1a1a1a}
-.tile.dark .ic{background:#c9a96e;color:#1a1a1a}
+.tile.dark .ic{background:#f5ede3;color:#1a1a1a}
 .tile.dark .s{color:#b5ab9c}
 .li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #efe6d9}
 .li:first-child{border-top:none}
@@ -84,22 +84,22 @@ main{max-width:760px;margin:0 auto;padding:22px 16px calc(80px + env(safe-area-i
 .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .bar{height:7px;background:#ede3d5;border-radius:4px;overflow:hidden}
 .bar i{display:block;height:100%;background:#1a1a1a;border-radius:4px;transition:width .3s}
-.bar.g i{background:#2e7d52}
+.bar.g i{background:#1a1a1a}
 .empty{color:#a0968a;font-size:14px;padding:6px 0}
 .seg{display:flex;background:#ede3d5;border-radius:15px;padding:4px;gap:4px;margin-bottom:16px}
 .seg button{flex:1;padding:10px 6px;border-radius:11px;font-size:14px;font-weight:600;color:#6f665a}
 .seg button.on{background:#1a1a1a;color:#f5ede3;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .btn{background:#1a1a1a;color:#f5ede3;border-radius:12px;padding:11px 16px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
-.btn.gold{background:#c9a96e;color:#1a1a1a}
+.btn.gold{background:#1a1a1a;color:#f5ede3}
 .btn.ghost{background:transparent;color:#1a1a1a;border:1px solid #d9ccb8}
 .btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
 .btn.danger{background:transparent;color:#b3412e;border:1px solid #e6c2b9}
-.btn.ok{background:#e3f1e8;color:#2e7d52}
+.btn.ok{background:#ede3d5;color:#1a1a1a}
 .btn:active{transform:scale(.97)}
 .btn.full{width:100%}
 .inp{width:100%;background:#faf6f0;border:1px solid #e0d4c2;border-radius:12px;padding:11px 12px;outline:none;transition:border-color .15s,box-shadow .15s}
 input.inp,textarea.inp{-webkit-appearance:none;appearance:none}
-.inp:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(201,169,110,.3)}
+.inp:focus{border-color:#1a1a1a;box-shadow:0 0 0 3px rgba(26,26,26,.12)}
 textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#8c8274;margin-bottom:6px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -119,7 +119,7 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .navb{width:42px;height:42px;border-radius:13px;background:#1a1a1a;color:#f5ede3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .navb svg{width:18px;height:18px}
 .cal-m{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;text-align:center;line-height:1.1}
-.cal-tb{font-size:12px;font-weight:700;color:#8f6d3a;display:block;margin:3px auto 0}
+.cal-tb{font-size:12px;font-weight:700;color:#1a1a1a;text-decoration:underline;text-underline-offset:3px;display:block;margin:3px auto 0}
 .legend{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
 .legend::-webkit-scrollbar{display:none}
 .lg{display:inline-flex;align-items:center;gap:6px;background:#fffcf7;border:1px solid #e9dfd1;border-radius:999px;padding:5px 10px;font-size:12px;white-space:nowrap;font-weight:600}
@@ -131,11 +131,11 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .cd.o{background:transparent;border-color:transparent;opacity:.35}
 .cd.we{background:#f8f1e7}
 .cd .n{font-size:12px;font-weight:700;color:#6f665a;display:flex;align-items:center;gap:3px;min-height:18px}
-.cd.t .num{background:#c9a96e;color:#1a1a1a;border-radius:6px;padding:0 5px}
+.cd.t .num{background:#1a1a1a;color:#f5ede3;border-radius:6px;padding:0 5px}
 .cd.sel{background:#1a1a1a;border-color:#1a1a1a}
 .cd.sel .n{color:#f5ede3}
-.cd .nt{width:6px;height:6px;border-radius:50%;background:#c9a96e;margin-left:auto}
-.cd .otm{font-size:8px;font-weight:800;color:#e67e22}
+.cd .nt{width:6px;height:6px;border-radius:50%;background:#1a1a1a;margin-left:auto}
+.cd .otm{font-size:8px;font-weight:800;color:#1a1a1a}
 .pills{display:flex;flex-direction:column;gap:2px}
 .pill{font-size:10px;font-weight:600;color:#fff;border-radius:4px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dots{display:none;flex-wrap:wrap;gap:3px;margin-top:2px}
@@ -151,28 +151,28 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .entry .j{font-size:13px;color:#5f574c}
 .ib{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8c8274;flex-shrink:0}
 .ib svg{width:17px;height:17px}
-.ib.on{background:#fbe6d3;color:#a8551a}
+.ib.on{background:#1a1a1a;color:#f5ede3}
 .tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;background:#ede3d5;color:#5f574c;display:inline-block;margin-top:2px;margin-right:4px}
-.tag.ot{background:#fbe6d3;color:#a8551a}
-.tag.dir{background:#1a1a1a;color:#c9a96e}
-.tag.g{background:#e3f1e8;color:#2e7d52}
+.tag.ot{background:#1a1a1a;color:#f5ede3}
+.tag.dir{background:#1a1a1a;color:#f5ede3}
+.tag.g{background:#1a1a1a;color:#f5ede3}
 .note-o{background:#f3ebdf;border-radius:14px;padding:12px 14px;font-size:14.5px;white-space:pre-wrap}
 .tk{display:flex;gap:12px;align-items:flex-start;padding:12px 2px;border-top:1px solid #efe6d9;width:100%;text-align:left}
 .tk:first-child{border-top:none}
 .ck{width:25px;height:25px;border-radius:8px;border:2px solid #d4c5ae;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
 .ck svg{width:14px;height:14px;opacity:0;color:#fff}
-.tk.d .ck{background:#2e7d52;border-color:#2e7d52}
+.tk.d .ck{background:#1a1a1a;border-color:#1a1a1a}
 .tk.d .ck svg{opacity:1}
 .tk .tx{flex:1;font-size:14.5px;min-width:0}
 .tk.d .tx .tt{color:#9a9083;text-decoration:line-through}
-.tk .when{font-size:12px;color:#2e7d52;font-weight:700;margin-top:2px;display:block}
+.tk .when{font-size:12px;color:#6f665a;font-weight:700;margin-top:2px;display:block}
 .tk .meta{font-size:12px;color:#8c8274;margin-top:2px;display:block}
 .tk.ro{cursor:default}
 .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
 .sec-h .t{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
 .sec-h .c{margin-left:auto;font-size:13px;font-weight:700}
 .banner{background:#1a1a1a;color:#f5ede3;border-radius:14px;padding:11px 14px;font-size:13.5px;margin-bottom:14px}
-.banner b{color:#c9a96e}
+.banner b{color:#ffffff}
 .red{color:#b3412e}
 .msgs{display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto;margin-bottom:10px}
 .bub{max-width:82%;padding:9px 13px;border-radius:18px;font-size:14.5px;line-height:1.4;word-wrap:break-word}
@@ -181,13 +181,13 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 .bub .m{font-size:10.5px;opacity:.6;margin-top:3px}
 .compose{display:flex;gap:8px}
 .total{background:#1a1a1a;color:#f5ede3;border-radius:20px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.total .k{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#c9a96e;font-weight:700}
+.total .k{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#b5ab9c;font-weight:700}
 .total .v{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;line-height:1.1}
 .total .s{font-size:12.5px;color:#b5ab9c;margin-top:2px}
 .ln{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:7px 0;border-top:1px dashed #e4d8c7}
 .ln:first-child{border-top:none}
 .ln.tot{border-top:1px solid #1a1a1a;font-weight:700;font-size:15px;padding-top:10px;margin-top:4px}
-.hint{font-size:12px;color:#8f6d3a;font-weight:700}
+.hint{font-size:12px;color:#6f665a;font-weight:700}
 details.hist{border-top:1px solid #efe6d9}
 details.hist:first-of-type{border-top:none}
 details.hist summary{list-style:none;display:flex;justify-content:space-between;padding:12px 0;font-weight:600;font-size:14.5px;cursor:pointer}
@@ -202,34 +202,34 @@ details.hist summary::-webkit-details-marker{display:none}
 
 .tally{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .tc{background:#1a1a1a;color:#f5ede3;border-radius:16px;padding:11px 14px}
-.tc .k{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:#c9a96e;font-weight:700}
+.tc .k{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:#b5ab9c;font-weight:700}
 .tc .v{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;line-height:1.1;margin-top:4px}
 .tc .s{font-size:12px;color:#b5ab9c}
-.clip{background:#c9a96e;color:#1a1a1a;border-radius:14px;padding:10px 12px 10px 14px;font-size:13.5px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.clip{background:#1a1a1a;color:#f5ede3;border-radius:14px;padding:10px 12px 10px 14px;font-size:13.5px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .wd{display:flex;gap:12px;width:100%;text-align:left;background:#fffcf7;border:1px solid #e9dfd1;border-radius:16px;padding:12px 12px 12px 8px;margin-bottom:8px;align-items:flex-start;min-height:62px}
-.wd.t{border:2px solid #c9a96e}
+.wd.t{border:2px solid #1a1a1a}
 .wd.we{background:#f8f1e7}
 .wd .dt{width:46px;flex-shrink:0;text-align:center}
 .wd .dt .a{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8c8274}
 .wd .dt .b{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;line-height:1.1}
-.wd.t .dt .b{color:#8f6d3a}
+.wd.t .dt .b{color:#1a1a1a}
 .wd .es{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-top:2px}
 .ec{display:flex;align-items:stretch;gap:8px;font-size:14px;line-height:1.3}
 .ec .sq{width:4px;border-radius:2px;flex-shrink:0}
 .ec .et{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ec .j{color:#6f665a}
-.wd .nn{font-size:12.5px;color:#8f6d3a;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wd .nn{font-size:12.5px;color:#6f665a;font-style:italic;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:10px}
 .mg .dh{text-align:center;font-size:11px;font-weight:700;color:#8c8274;padding:2px 0}
 .mc{height:58px;background:#fffcf7;border:1px solid #ece2d4;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:3px;position:relative}
 .mc.o{visibility:hidden}
 .mc.we{background:#f8f1e7}
-.mc.t{border:2px solid #c9a96e}
+.mc.t{border:2px solid #1a1a1a}
 .mc .d{font-size:15px;font-weight:700}
 .mc .cnt{font-size:10px;font-weight:700;color:#8c8274}
 .mc .sb{display:flex;width:72%;height:5px;border-radius:3px;overflow:hidden;gap:1px}
 .mc .sb i{flex:1}
-.mc .nt{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#c9a96e}
+.mc .nt{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#1a1a1a}
 .sheet-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,26,26,.45);z-index:70;opacity:0;pointer-events:none;transition:opacity .22s}
 .sheet-bg.on{opacity:1;pointer-events:auto}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:71;max-width:760px;margin:0 auto;background:#f5ede3;border-radius:24px 24px 0 0;transform:translateY(105%);transition:transform .26s ease;box-shadow:0 -12px 40px rgba(0,0,0,.25)}
@@ -240,6 +240,13 @@ details.hist summary::-webkit-details-marker{display:none}
 .sh-b{overflow-y:auto;padding:14px 16px calc(28px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;min-height:0;flex:1}
 .note-v{background:#fffcf7;border:1px solid #e9dfd1;border-radius:14px;padding:12px 14px;font-size:15px;white-space:pre-wrap;line-height:1.5;word-wrap:break-word}
 body.lock{overflow:hidden}
+
+.dock{display:flex;align-items:center;gap:10px;background:#fbeee9;border-radius:10px;padding:6px 6px 6px 12px;margin-bottom:6px;font-size:14px}
+.tgl{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;font-weight:600}
+.tgl input{width:20px;height:20px;accent-color:#1a1a1a}
+.toast.act{pointer-events:auto;display:flex;align-items:center;gap:14px;padding:8px 8px 8px 18px}
+.toast button{background:#f5ede3;color:#1a1a1a;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13.5px}
+.offline{display:none;background:#b3412e;color:#fff;font-size:13px;font-weight:600;text-align:center;padding:7px 12px}
 </style>
 </head>
 <body>
@@ -258,12 +265,15 @@ body.lock{overflow:hidden}
     <button class="menu-btn" id="menu-btn" onclick="A.toggleMenu()"><span id="menu-label">Home</span><span class="badge" id="menu-badge" style="display:none"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
     <button class="me" id="me-btn" onclick="A.openApp()" aria-label="Account"><span id="me-ini">MP</span><i id="sync"></i></button>
   </div></header>
+  <div class="offline" id="offline">No signal \u2014 changes are saved on this phone and will sync when you\u2019re back online</div>
   <div class="scrim" id="scrim" onclick="A.closeMenu()"></div>
   <nav class="drop" id="drop"></nav>
   <main id="main"></main>
 </div>
 <div class="sheet-bg" id="sheet-bg" onclick="A.closeDay()"></div>
 <div class="sheet" id="sheet" role="dialog"><div id="sheet-in"></div></div>
+<div class="sheet-bg" id="modal-bg" style="z-index:80" onclick="A.closeModal()"></div>
+<div class="sheet" id="modal" style="z-index:81" role="dialog"><div id="modal-in" style="display:flex;flex-direction:column;max-height:92vh"></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -282,6 +292,7 @@ try {
     appId: "1:729949123103:web:45790402510cb1d1a55b2a"
   });
   db = firebase.firestore();
+  try { db.enablePersistence({synchronizeTabs:true}).catch(function(e){ console.warn('Offline mode not available', e && e.code); }); } catch(e) { console.warn('Offline mode not available', e); }
   FV = firebase.firestore.FieldValue;
 } catch (err) { console.error('Firebase failed to start', err); }
 
@@ -324,7 +335,7 @@ var USERS = {
   macauly:{name:'Macauly',ini:'MP',role:'Operations \u00b7 Sales \u00b7 Marketing'},
   brad:{name:'Brad',ini:'BP',role:'General \u00b7 Site \u00b7 Finance'}
 };
-var DOCS = ['tasks','notes','calendar','nudges','paylog','team','colours','jobs','todos','directorpay'];
+var DOCS = ['tasks','notes','calendar','nudges','paylog','team','colours','jobs','todos','directorpay','settings'];
 
 var me = null, ready = false, blocked = false, unsubs = [], lastToastTs = 0;
 var S = {};
@@ -332,7 +343,7 @@ var ui = {calView:'week', weekStart:null, sheetDay:null, noteEdit:false, clip:nu
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
 function resetState(){
-  S = {tasks:{}, notes:{}, cal:{}, nudges:[], paylog:{}, team:clone(DEFAULT_TEAM), colours:clone(DEFAULT_COLOURS), jobs:{}, todos:{}, dpay:{}};
+  S = {tasks:{}, notes:{}, cal:{}, nudges:[], paylog:{}, team:clone(DEFAULT_TEAM), colours:clone(DEFAULT_COLOURS), jobs:{}, todos:{}, dpay:{}, cfg:{}};
 }
 resetState();
 
@@ -400,18 +411,29 @@ var PAGES = [
   {id:'settings', label:'Settings', sub:'Team, jobs, colours, backups'}
 ];
 
-function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove('on'); }, 2200); }
+function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.remove('act'); t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove('on'); }, 2200); }
+var undoFn = null;
+function toastUndo(msg, fn){
+  var t = $('toast'); undoFn = fn;
+  t.innerHTML = '<span>' + esc(msg) + '</span><button onclick="A.undo()">Undo</button>';
+  t.classList.add('on','act'); clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove('on','act'); undoFn = null; }, 5500);
+}
+function doUndo(){ var f = undoFn; undoFn = null; var t = $('toast'); t.classList.remove('on','act'); clearTimeout(toast._t); if (f) f(); }
 function setSync(ok){ var s = $('sync'); if (s) s.className = ok ? '' : 'off'; }
 
 /* ==== saving (field-level merge so nothing else in the document is touched) ==== */
 function save(docName, data, msg){
   if (blocked || !ready || !db) { toast('Not connected \u2014 nothing saved'); return Promise.resolve(false); }
-  return db.collection('app').doc(docName).set(data, {merge:true}).then(function(){
-    setSync(true); if (msg) toast(msg); return true;
-  }).catch(function(e){
+  var p = db.collection('app').doc(docName).set(data, {merge:true}).then(function(){ setSync(true); return true; }).catch(function(e){
     console.error('Save failed', docName, e); setSync(false); toast('Save failed \u2014 check your signal'); return false;
   });
+  if (!navigator.onLine) { toast('Saved on this phone \u2014 it\u2019ll sync when you\u2019re back in signal'); return Promise.resolve(true); }
+  return p.then(function(ok){ if (ok && msg) toast(msg); return ok; });
 }
+function setOffline(){ var off = !navigator.onLine, b = $('offline'); if (b) b.style.display = off ? 'block' : 'none'; setSync(!off); }
+window.addEventListener('online', function(){ setOffline(); toast('Back online \u2014 syncing'); });
+window.addEventListener('offline', setOffline);
 
 function applyDoc(name, d){
   if (name === 'tasks') S.tasks = d || {};
@@ -424,6 +446,7 @@ function applyDoc(name, d){
   else if (name === 'jobs') S.jobs = d || {};
   else if (name === 'todos') S.todos = d || {};
   else if (name === 'directorpay') S.dpay = d || {};
+  else if (name === 'settings') S.cfg = d || {};
 }
 
 function loadAll(){
@@ -451,7 +474,7 @@ function backupDaily(){
   var slot = 'backup_' + ['sun','mon','tue','wed','thu','fri','sat'][new Date().getDay()];
   db.collection('app').doc(slot).set({
     date:t, by:me, ts:Date.now(), calendar:S.cal, notes:S.notes, paylog:S.paylog, team:S.team,
-    colours:S.colours, jobs:S.jobs, todos:S.todos, directorpay:S.dpay, nudges:S.nudges
+    colours:S.colours, jobs:S.jobs, todos:S.todos, directorpay:S.dpay, nudges:S.nudges, settings:S.cfg
   }).then(function(){ ls('pp_lastBackup', t); }).catch(function(e){ console.warn('Backup skipped', e); });
 }
 
@@ -570,7 +593,7 @@ function rHome(){
   html += '<div class="card"><div class="card-h"><div class="card-t">Today</div><button class="link" onclick="A.calOpen(\'' + tk + '\')">Open day</button></div>';
   if (!today.length) html += '<div class="empty">Nothing on the calendar for today.</div>';
   today.forEach(function(e){ html += '<div class="li"><span class="dot" style="background:' + colour(e.colourId||0).hex + '"></span><div class="f"><div class="a">' + esc(personLabel(e.person, true)) + '</div><div class="b">' + esc(e.job) + ' &middot; ' + esc(colourLabel(e.colourId||0)) + '</div></div></div>'; });
-  ['macauly','brad'].filter(function(u){ return S.notes[u] && S.notes[u][tk]; }).forEach(function(u){ html += '<div class="li"><span class="dot" style="background:#c9a96e"></span><div class="f"><div class="a">' + esc(nameOf(u)) + '\u2019s note</div><div class="b" style="white-space:pre-wrap">' + esc(S.notes[u][tk]) + '</div></div></div>'; });
+  ['macauly','brad'].filter(function(u){ return S.notes[u] && S.notes[u][tk]; }).forEach(function(u){ html += '<div class="li"><span class="dot" style="background:#1a1a1a"></span><div class="f"><div class="a">' + esc(nameOf(u)) + '\u2019s note</div><div class="b" style="white-space:pre-wrap">' + esc(S.notes[u][tk]) + '</div></div></div>'; });
   html += '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Task progress</div><button class="link" onclick="A.go(\'tasks\')">View all</button></div>';
   ['macauly','brad'].forEach(function(u){
@@ -582,7 +605,7 @@ function rHome(){
   var rd = recentDone().slice(0,5);
   if (rd.length) {
     html += '<div class="lbl" style="margin-top:14px">Recently done</div>';
-    rd.forEach(function(r){ html += '<div class="li"><span class="dot" style="background:#2e7d52"></span><div class="f"><div class="b" style="color:#1a1a1a">' + esc(r.txt) + '</div><div class="small muted">' + esc(nameOf(r.u)) + ' &middot; ' + timeTxt(r.ts) + '</div></div></div>'; });
+    rd.forEach(function(r){ html += '<div class="li"><span class="dot" style="background:#1a1a1a"></span><div class="f"><div class="b" style="color:#1a1a1a">' + esc(r.txt) + '</div><div class="small muted">' + esc(nameOf(r.u)) + ' &middot; ' + timeTxt(r.ts) + '</div></div></div>'; });
   }
   html += '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Your to-dos</div><button class="link" onclick="A.taskWho(\'' + other(me) + '\')">Set one for ' + esc(nameOf(other(me))) + '</button></div>';
@@ -658,7 +681,7 @@ function rDaySheet(dk){
       '<button class="ib' + (ui.otEdit === i ? ' on' : '') + '" onclick="A.otOpen(' + i + ')" aria-label="Overtime">' + IC.clock + '</button>' +
       '<button class="ib" onclick="A.removeEntry(' + i + ')" aria-label="Remove">' + IC.x + '</button></div>';
     if (ui.otEdit === i) {
-      h += '<div style="background:#fbf3ea;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Overtime for ' + esc(personLabel(e.person, true)) + '</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
+      h += '<div style="background:#ede3d5;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Overtime for ' + esc(personLabel(e.person, true)) + '</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
     }
   });
   var people = [GENERAL].concat(S.team.map(function(m){ return m.name; }));
@@ -666,7 +689,9 @@ function rDaySheet(dk){
   h += '<div class="card" style="margin-top:12px"><div class="lbl">Add someone to this day</div>' +
     '<div class="g2 fld"><select class="inp" id="ce-person">' + people.map(function(p){ return '<option value="' + esc(p) + '"' + (p === ui.lastPerson ? ' selected' : '') + '>' + esc(personLabel(p, true)) + '</option>'; }).join('') + '</select>' +
     '<select class="inp" id="ce-colour">' + cols.map(function(c){ return '<option value="' + c.id + '"' + (c.id === (ui.lastColour || 1) ? ' selected' : '') + '>' + esc(c.label || ('Colour ' + c.id)) + '</option>'; }).join('') + '</select></div>' +
-    '<div class="row"><input class="inp" id="ce-job" list="job-list" placeholder="Job / site" value="' + esc(ui.lastJob || '') + '"><datalist id="job-list">' + activeJobs().map(function(j){ return '<option value="' + esc(j.name) + '">'; }).join('') + '</datalist><button class="btn" onclick="A.addEntry()">Add</button></div></div>';
+    '<div class="row"><input class="inp" id="ce-job" list="job-list" placeholder="Job / site" value="' + esc(ui.lastJob || '') + '"><datalist id="job-list">' + activeJobs().map(function(j){ return '<option value="' + esc(j.name) + '">'; }).join('') + '</datalist><button class="btn" onclick="A.addEntry()">Add</button></div>' +
+    '<label class="tgl"><input type="checkbox" id="ce-run"' + (ui.runOn ? ' checked' : '') + ' onchange="A.runToggle(this.checked)"> Book a run of days</label>' +
+    (ui.runOn ? '<div class="g2" style="margin-top:8px"><div><label class="lbl">Until</label><input class="inp" type="date" id="ce-until" value="' + esc(ui.runUntil || ymd(addDays(parse(dk), 4))) + '"></div><div><label class="lbl">Days</label><select class="inp" id="ce-days"><option value="5"' + (ui.runDays !== '6' && ui.runDays !== '7' ? ' selected' : '') + '>Mon\u2013Fri</option><option value="6"' + (ui.runDays === '6' ? ' selected' : '') + '>Mon\u2013Sat</option><option value="7"' + (ui.runDays === '7' ? ' selected' : '') + '>Every day</option></select></div></div>' : '') + '</div>';
   var mine = (S.notes[me] && S.notes[me][dk]) || '', oth = (S.notes[other(me)] && S.notes[other(me)][dk]) || '';
   h += '<div class="lbl" style="margin-top:6px">Your note</div>';
   if (ui.noteEdit) {
@@ -704,20 +729,39 @@ function addEntry(){
   var person = $('ce-person').value, job = $('ce-job').value.trim(), cid = parseInt($('ce-colour').value, 10);
   if (!job) { $('ce-job').focus(); toast('Add a job or site'); return; }
   ui.lastPerson = person; ui.lastJob = job; ui.lastColour = cid;
+  if (ui.runOn) {
+    var until = $('ce-until').value, dset = $('ce-days').value; ui.runUntil = until; ui.runDays = dset;
+    if (!until || until < ui.sel) { toast('Pick an end date after this day'); return; }
+    var o = {}, n = 0, skipped = 0;
+    for (var d = parse(ui.sel), c = 0; ymd(d) <= until && c < 120; d = addDays(d,1), c++) {
+      var dow = d.getDay(); if (dset === '5' && (dow === 0 || dow === 6)) continue; if (dset === '6' && dow === 0) continue;
+      var k = ymd(d), ex = S.cal[k] || [];
+      if (ex.some(function(e){ return e.person === person && e.job === job; })) { skipped++; continue; }
+      S.cal[k] = ex.concat([{person:person, job:job, colourId:cid}]); o[k] = S.cal[k]; n++;
+    }
+    if (!n) { toast('Already booked on those days'); return; }
+    save('calendar', o, 'Booked ' + personLabel(person, true) + ' for ' + n + ' day' + (n === 1 ? '' : 's') + (skipped ? ' (' + skipped + ' already booked)' : ''));
+    ui.runOn = false; render(); return;
+  }
   if (!S.cal[ui.sel]) S.cal[ui.sel] = [];
   S.cal[ui.sel].push({person:person, job:job, colourId:cid});
   saveDay(ui.sel); render();
 }
 function removeEntry(i){
   var e = (S.cal[ui.sel] || [])[i]; if (!e) return;
-  if (!confirm('Remove ' + personLabel(e.person, true) + ' from this day?')) return;
-  S.cal[ui.sel].splice(i,1); ui.otEdit = -1; saveDay(ui.sel); render();
+  var dk = ui.sel; S.cal[dk].splice(i,1); ui.otEdit = -1; saveDay(dk); render();
+  toastUndo(personLabel(e.person, true) + ' removed', function(){ if (!S.cal[dk]) S.cal[dk] = []; S.cal[dk].splice(Math.min(i, S.cal[dk].length), 0, e); saveDay(dk); render(); });
 }
 function otOpen(i){ ui.otEdit = ui.otEdit === i ? -1 : i; renderSheet(); }
 function otSave(i){
   var e = (S.cal[ui.sel] || [])[i]; if (!e) return;
   e.otHours = $('ot-h').value; e.otRate = $('ot-r').value;
   ui.otEdit = -1; saveDay(ui.sel).then(function(ok){ if (ok) toast('Overtime saved \u2014 it feeds the pay log'); }); render();
+}
+function runToggle(v){
+  var p = $('ce-person'), c = $('ce-colour'), j = $('ce-job');
+  if (p) ui.lastPerson = p.value; if (c) ui.lastColour = parseInt(c.value, 10); if (j) ui.lastJob = j.value;
+  ui.runOn = v; renderSheet();
 }
 function copyDay(){
   var es = S.cal[ui.sheetDay] || []; if (!es.length) return;
@@ -780,7 +824,7 @@ function todoRow(t, compact){
   var meta = [];
   if (t.by && t.by !== t.for) meta.push('From ' + esc(nameOf(t.by)));
   if (t.due && !t.done) meta.push('<span class="' + (t.due < today ? 'red' : '') + '">Due ' + short(parse(t.due)) + '</span>');
-  if (t.done && t.doneAt) meta.push('<span style="color:#2e7d52;font-weight:700">Done ' + timeTxt(t.doneAt) + '</span>');
+  if (t.done && t.doneAt) meta.push('<span style="color:#6f665a;font-weight:700">Done ' + timeTxt(t.doneAt) + '</span>');
   return '<div class="tk' + (t.done ? ' d' : '') + '" style="align-items:center"><button class="ck" ' + (can ? 'onclick="A.toggleTodo(\'' + t.id + '\')"' : 'style="cursor:default"') + ' aria-label="Done">' + IC.check + '</button>' +
     '<span class="tx"><span class="tt">' + esc(t.text) + '</span>' + (meta.length ? '<span class="meta">' + meta.join(' &middot; ') + '</span>' : '') + '</span>' +
     (!compact && t.by === me ? '<button class="ib" onclick="A.delTodo(\'' + t.id + '\')" aria-label="Delete">' + IC.x + '</button>' : '') + '</div>';
@@ -797,10 +841,16 @@ function toggleTodo(id){
   t.done = !t.done; t.doneAt = t.done ? Date.now() : 0;
   var o = {}; o[id] = {done:t.done, doneAt:t.doneAt}; save('todos', o); render();
 }
-function delTodo(id){ if (!confirm('Delete this to-do?')) return; delete S.todos[id]; var o = {}; o[id] = FV.delete(); save('todos', o); render(); }
+function delTodo(id){ var t0 = S.todos[id]; if (!t0) return; delete S.todos[id]; var o = {}; o[id] = FV.delete(); save('todos', o); render(); toastUndo('To-do deleted', function(){ S.todos[id] = t0; var o2 = {}; o2[id] = t0; save('todos', o2); render(); }); }
 
 /* ==== PAY LOG ==== */
-function calcEntry(e){ var base = e.basis === 'price-work' ? num(e.priceTotal) : num(e.days) * num(e.rate); return base + num(e.otHours) * num(e.otRate); }
+function blank(v){ return v === '' || v === null || v === undefined; }
+function memberByName(n){ for (var i=0;i<S.team.length;i++) if (S.team[i].name === n) return S.team[i]; return null; }
+function dockTotal(e){ return (e.docks || []).reduce(function(s,d){ return s + Math.abs(num(d.amt)); }, 0); }
+function calcEntry(e){ var base = e.basis === 'price-work' ? num(e.priceTotal) : num(e.days) * num(e.rate); return base + num(e.otHours) * num(e.otRate) - dockTotal(e); }
+function cisRate(e){ var c = e.cis; if (blank(c)) { var m = memberById(e.personId) || memberByName(e.name); c = m && !blank(m.cis) ? m.cis : '20'; } return num(c); }
+function cisAmt(e){ var g = calcEntry(e); return g > 0 ? Math.round(g * cisRate(e)) / 100 : 0; }
+function netAmt(e){ return calcEntry(e) - cisAmt(e); }
 function personDays(name, start, n){
   var r = {days:0, otH:0, ot:0};
   for (var i=0;i<n;i++) { (S.cal[ymd(addDays(start,i))] || []).forEach(function(e){
@@ -810,26 +860,49 @@ function personDays(name, start, n){
   }); }
   return r;
 }
-function blank(v){ return v === '' || v === null || v === undefined; }
+function personJobs(name, mon){
+  var m = {}, order = [];
+  for (var i=0;i<7;i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
+    if (e.person !== name) return; var pd = payDaysOf(e.colourId||0); if (pd <= 0) return;
+    var j = String(e.job || '').trim() || 'No job'; if (!(j in m)) { m[j] = 0; order.push(j); } m[j] += pd;
+  });
+  return order.map(function(j){ return {job:j, days:m[j]}; });
+}
+function calPeopleWeek(mon){
+  var out = [], seen = {};
+  for (var i=0;i<7;i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
+    if (e.person === GENERAL || seen[e.person]) return;
+    if (payDaysOf(e.colourId||0) > 0 || num(e.otHours) > 0) { seen[e.person] = true; out.push(e.person); }
+  });
+  return out;
+}
+function isDirName(n){ return n === nameOf('macauly') || n === nameOf('brad'); }
+function slug(n){ return 'n_' + String(n).toLowerCase().replace(/[^a-z0-9]+/g,'_'); }
 function weekEntries(wk){
-  var list = S.paylog[wk] ? clone(S.paylog[wk]) : [], mon = parse(wk);
-  S.team.forEach(function(m){ if (!m.isDirector && !list.some(function(e){ return e.personId === m.id; })) list.push({personId:m.id, name:m.name, role:m.role || '', days:'', rate:'', basis:'day-rate', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}); });
+  var list = S.paylog[wk] ? clone(S.paylog[wk]) : [], mon = parse(wk), onCal = calPeopleWeek(mon);
+  onCal.forEach(function(name){
+    if (isDirName(name)) return;
+    var m = memberByName(name);
+    if (list.some(function(e){ return e.name === name || (m && e.personId === m.id); })) return;
+    list.push({personId: m ? m.id : slug(name), name:name, role: m ? (m.role || '') : 'Subcontractor', days:'', rate:'', basis:'day-rate', priceTotal:'', otHours:'', otRate:'', note:'', amount:0});
+  });
   list.forEach(function(e){
-    var m = memberById(e.personId);
-    e._dir = !!(m && m.isDirector) || e.personId === 'macauly' || e.personId === 'brad';
+    var m = memberById(e.personId) || memberByName(e.name);
+    e._dir = !!(m && m.isDirector) || e.personId === 'macauly' || e.personId === 'brad' || isDirName(e.name);
     if (!e.basis) e.basis = 'day-rate';
-    var pd = personDays(e.name, mon, 7); e._cal = pd;
+    var pd = personDays(e.name, mon, 7); e._cal = pd; e._onCal = onCal.indexOf(e.name) >= 0;
     if (!e._dir) {
       if (blank(e.days) && pd.days > 0) e.days = pd.days;
       if (blank(e.rate) && m && num(m.dayRate) > 0) e.rate = m.dayRate;
       if (blank(e.otHours) && pd.otH > 0) { e.otHours = pd.otH; e.otRate = Math.round(pd.ot / pd.otH * 100) / 100; }
     }
     e.amount = calcEntry(e);
+    e._show = !e._dir && (e._onCal || e.manual === true || e.amount !== 0 || !!e.note || (e.docks && e.docks.length > 0));
   });
   return list;
 }
 function saveWeek(wk, list){
-  var cleanList = list.map(function(e){ var c = Object.assign({}, e); delete c._cal; delete c._dir; c.amount = calcEntry(c); return c; });
+  var cleanList = list.map(function(e){ var c = Object.assign({}, e); delete c._cal; delete c._dir; delete c._show; delete c._onCal; c.amount = calcEntry(c); return c; });
   S.paylog[wk] = cleanList; var o = {}; o[wk] = cleanList; return save('paylog', o);
 }
 function weekOf(off){ return ymd(addDays(mondayOf(new Date()), off * 7)); }
@@ -838,16 +911,25 @@ function rPay(){
   html += seg([['team','Team \u00b7 weekly'], ['directors','Directors \u00b7 monthly']], ui.payTab, 'payTab');
   return html + (ui.payTab === 'team' ? rPayTeam() : rPayDirectors());
 }
+function cisSelect(val, onch){ return '<select class="inp" onchange="' + onch + '">' + [['0','Gross (no CIS)'],['20','CIS 20%'],['30','CIS 30%']].map(function(o){ return '<option value="' + o[0] + '"' + (String(num(val)) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; }
 function rPayTeam(){
   var wk = weekOf(ui.weekOff), mon = parse(wk), sun = addDays(mon,6);
-  var list = weekEntries(wk), crew = list.filter(function(e){ return !e._dir; });
-  var total = crew.reduce(function(s,e){ return s + calcEntry(e); }, 0);
+  var list = weekEntries(wk), crew = list.filter(function(e){ return e._show; });
+  var gross = 0, cis = 0; crew.forEach(function(e){ gross += calcEntry(e); cis += cisAmt(e); });
   var h = '<div class="cal-nav"><button class="navb" onclick="A.weekMove(-1)">' + IC.left + '</button><div><div class="cal-m" style="font-size:19px">' + (ui.weekOff === 0 ? 'This week' : 'w/c ' + dm(mon)) + '</div><div class="small muted" style="text-align:center">' + dm(mon) + ' \u2013 ' + dm(sun) + '</div>' +
     (ui.weekOff !== 0 ? '<button class="cal-tb" onclick="A.weekMove(0)">Back to this week</button>' : '') + '</div><button class="navb" onclick="A.weekMove(1)">' + IC.right + '</button></div>';
-  h += '<div class="total"><div><div class="k">Total wages</div><div class="v">' + gbp(total) + '</div><div class="s">' + crew.filter(function(e){ return calcEntry(e) > 0; }).length + ' of ' + crew.length + ' people entered \u00b7 saves automatically</div></div></div>';
+  h += '<div class="total"><div><div class="k">Net to pay</div><div class="v">' + gbp(gross - cis) + '</div><div class="s">Gross ' + gbp(gross) + ' \u00b7 CIS ' + gbp(cis) + ' \u00b7 ' + crew.length + (crew.length === 1 ? ' person' : ' people') + '</div></div></div>';
+  if (!crew.length) h += '<div class="card"><div class="empty">Nobody on the calendar this week. Book people in on the Calendar, or add someone below.</div></div>';
   crew.forEach(function(e){
-    var amt = calcEntry(e), pid = e.personId, cd = e._cal.days, f = 'A.payField(\'' + wk + '\',\'' + pid + '\',';
-    h += '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + esc(initials(e.name)) + '</div><div><div class="card-t" style="font-size:18px">' + esc(e.name) + '</div><div class="small muted">' + esc(e.role || '') + '</div></div></div><div class="amt" style="font-size:22px">' + gbp(amt) + '</div></div>';
+    var pid = e.personId, cd = e._cal.days, f = 'A.payField(\'' + wk + '\',\'' + pid + '\',', g = calcEntry(e), c = cisAmt(e), jobs = personJobs(e.name, mon);
+    h += '<div class="card"><div class="card-h"><div class="row" style="min-width:0"><div class="mav">' + esc(initials(e.name)) + '</div><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(e.name) + '</div><div class="small muted">' + esc(e.role || '') + '</div></div></div><div style="text-align:right"><div class="amt" style="font-size:22px">' + gbp(g - c) + '</div><div class="small muted">net</div></div></div>';
+    if (jobs.length) h += '<div class="small" style="margin:-2px 0 12px;color:#6f665a">' + jobs.map(function(j){ return '<b>' + esc(j.job) + '</b> ' + daysTxt(j.days); }).join(' &middot; ') + '</div>';
+    if (ui.payOpen !== pid) {
+      var desc = g === 0 && !dockTotal(e) ? '<span class="red">Not filled in yet</span>' : (e.basis === 'price-work' ? 'Price work ' + gbp(num(e.priceTotal)) : num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (dockTotal(e) ? ' <span class="red">\u2212' + gbp(dockTotal(e)) + ' docked</span>' : '');
+      h += '<div class="row small" style="justify-content:space-between;gap:8px;color:#5f574c;border-top:1px solid #efe6d9;padding-top:10px"><span>' + desc + '</span><span class="muted" style="white-space:nowrap">Gross ' + gbp(g) + ' \u00b7 ' + (cisRate(e) ? 'CIS ' + cisRate(e) + '%' : 'Gross status') + '</span></div>';
+      h += '<div class="row" style="margin-top:12px"><button class="btn ghost" style="flex:1" onclick="A.payOpen(\'' + pid + '\')">' + IC.edit.replace('<svg','<svg width="14" height="14"') + ' Edit</button><button class="btn gold" style="flex:1" onclick="A.stmtWeek(\'' + wk + '\',\'' + pid + '\')">Send statement</button></div></div>';
+      return;
+    }
     h += '<div class="seg" style="margin-bottom:12px"><button class="' + (e.basis !== 'price-work' ? 'on' : '') + '" onclick="' + f + '\'basis\',\'day-rate\')">Day rate</button><button class="' + (e.basis === 'price-work' ? 'on' : '') + '" onclick="' + f + '\'basis\',\'price-work\')">Price work</button></div>';
     if (e.basis === 'price-work') {
       h += '<div class="fld"><label class="lbl">Price work total (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.priceTotal) + '" onchange="' + f + '\'priceTotal\',this.value)"></div>';
@@ -855,15 +937,24 @@ function rPayTeam(){
       h += '<div class="g2 fld"><div><label class="lbl">Days</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.days) + '" onchange="' + f + '\'days\',this.value)">' + (cd > 0 ? '<div class="hint" style="margin-top:4px">Calendar: ' + daysTxt(cd) + '</div>' : '') + '</div><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.rate) + '" onchange="' + f + '\'rate\',this.value)"></div></div>';
     }
     h += '<div class="g2 fld"><div><label class="lbl">OT hours</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.otHours) + '" onchange="' + f + '\'otHours\',this.value)"></div><div><label class="lbl">OT rate (\u00a3/hr)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.otRate) + '" onchange="' + f + '\'otRate\',this.value)"></div></div>';
-    h += '<div><label class="lbl">Note</label><input class="inp" value="' + esc(e.note || '') + '" placeholder="e.g. paid by bank transfer" onchange="' + f + '\'note\',this.value)"></div></div>';
+    h += '<label class="lbl">Deductions</label>';
+    (e.docks || []).forEach(function(d, i){ h += '<div class="dock"><span class="red" style="font-weight:700">\u2212' + gbp(Math.abs(num(d.amt))) + '</span><span style="flex:1;min-width:0">' + esc(d.reason || 'Deduction') + '</span><button class="ib" style="width:28px;height:28px" onclick="A.delDock(\'' + wk + '\',\'' + pid + '\',' + i + ')" aria-label="Remove deduction">' + IC.x + '</button></div>'; });
+    h += '<div class="row fld"><input class="inp" id="dk-a-' + pid + '" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3" style="max-width:90px"><input class="inp" id="dk-r-' + pid + '" placeholder="Reason e.g. late Mon"><button class="btn ghost" onclick="A.addDock(\'' + wk + '\',\'' + pid + '\')">Dock</button></div>';
+    h += '<div class="g2 fld"><div><label class="lbl">CIS</label>' + cisSelect(cisRate(e), f + '\'cis\',this.value)') + '</div><div><label class="lbl">Note</label><input class="inp" value="' + esc(e.note || '') + '" placeholder="Optional" onchange="' + f + '\'note\',this.value)"></div></div>';
+    h += '<div class="ln"><span>Gross</span><span>' + gbp(g) + '</span></div><div class="ln"><span>CIS ' + cisRate(e) + '%</span><span>\u2212' + gbp(c) + '</span></div><div class="ln tot"><span>Net to pay</span><span>' + gbp(g - c) + '</span></div>';
+    h += '<div class="row" style="margin-top:12px"><button class="btn" style="flex:1" onclick="A.payOpen(null)">Done</button><button class="btn gold" style="flex:1" onclick="A.stmtWeek(\'' + wk + '\',\'' + pid + '\')">Send statement</button>' + (!e._onCal ? '<button class="btn ghost" onclick="A.removePayPerson(\'' + wk + '\',\'' + pid + '\')">Remove</button>' : '') + '</div></div>';
   });
+  var shownIds = crew.map(function(e){ return e.personId; });
+  var avail = S.team.filter(function(m){ return !m.isDirector && shownIds.indexOf(m.id) < 0; });
+  h += '<div class="card"><div class="card-t" style="font-size:18px;margin-bottom:4px">Add someone to this week</div><div class="small muted fld">For anyone getting paid who isn\u2019t on the calendar.</div><div class="row"><select class="inp" id="pp-add">' + avail.map(function(m){ return '<option value="' + esc(m.id) + '">' + esc(m.name) + '</option>'; }).join('') + '<option value="__new">New person\u2026</option></select><button class="btn" onclick="A.addPayPerson(\'' + wk + '\')">Add</button></div></div>';
+  h += rCisCard(addDays(mon,4));
   var past = Object.keys(S.paylog).filter(function(k){ return k !== wk && /^\d{4}-\d{2}-\d{2}$/.test(k); }).sort().reverse();
   if (past.length) {
     h += '<div class="card"><div class="card-h"><div class="card-t">Previous weeks</div></div>';
     past.slice(0,26).forEach(function(k){
-      var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0; }), t = es.reduce(function(s,e){ return s + calcEntry(e); }, 0), mn = parse(k);
+      var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0 && !isDirName(e.name) && e.personId !== 'macauly' && e.personId !== 'brad'; }), t = es.reduce(function(s,e){ return s + netAmt(e); }, 0), mn = parse(k);
       h += '<details class="hist"><summary><span>w/c ' + fmt(mn,{day:'numeric', month:'short', year:'numeric'}) + '</span><span class="amt">' + gbp(t) + '</span></summary>';
-      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + '</span></span><b>' + gbp(calcEntry(e)) + '</b></div>'; });
+      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
       if (!es.length) h += '<div class="empty">Nothing entered.</div>';
       h += '<div style="height:8px"></div></details>';
     });
@@ -871,11 +962,172 @@ function rPayTeam(){
   }
   return h;
 }
+function findPay(list, pid){ return list.filter(function(x){ return x.personId === pid; })[0]; }
 function payField(wk, pid, field, val){
-  var list = weekEntries(wk), e = list.filter(function(x){ return x.personId === pid; })[0]; if (!e) return;
-  e[field] = val; saveWeek(wk, list).then(function(ok){ if (ok) toast('Saved'); }); render();
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  e[field] = val;
+  if (field === 'cis') { var m = memberById(pid) || memberByName(e.name); if (m && String(m.cis) !== String(val)) { m.cis = val; saveTeam(); } }
+  saveWeek(wk, list).then(function(ok){ if (ok) toast('Saved'); }); render();
 }
-function weekMove(d){ ui.weekOff = d === 0 ? 0 : ui.weekOff + d; render(); }
+function addDock(wk, pid){
+  var a = Math.abs(num($('dk-a-' + pid).value)), r = $('dk-r-' + pid).value.trim();
+  if (!a) { $('dk-a-' + pid).focus(); toast('Put in an amount'); return; }
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  e.docks = (e.docks || []).concat([{amt:a, reason:r}]);
+  saveWeek(wk, list).then(function(ok){ if (ok) toast('Docked ' + gbp(a)); }); render();
+}
+function delDock(wk, pid, i){
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e || !e.docks) return;
+  var d = e.docks.splice(i,1)[0]; saveWeek(wk, list); render();
+  toastUndo('Deduction removed', function(){ var l2 = weekEntries(wk), e2 = findPay(l2, pid); if (!e2) return; e2.docks = e2.docks || []; e2.docks.splice(i,0,d); saveWeek(wk, l2); render(); });
+}
+function addPayPerson(wk){
+  var v = $('pp-add').value, list = weekEntries(wk), e;
+  if (v === '__new') {
+    var name = (prompt('Name of the person to add') || '').trim(); if (!name) return;
+    e = list.filter(function(x){ return x.name === name; })[0];
+    if (!e) { var m0 = memberByName(name); e = {personId: m0 ? m0.id : slug(name), name:name, role: m0 ? m0.role || '' : 'Subcontractor', days:'', rate:'', basis:'price-work', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
+  } else {
+    var m = memberById(v); if (!m) return;
+    e = findPay(list, v);
+    if (!e) { e = {personId:m.id, name:m.name, role:m.role || '', days:'', rate:m.dayRate || '', basis:'day-rate', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
+  }
+  e.manual = true; ui.payOpen = e.personId; saveWeek(wk, list).then(function(ok){ if (ok) toast(e.name + ' added to this week'); }); render();
+}
+function removePayPerson(wk, pid){
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  var idx = list.indexOf(e), copy = clone(Object.assign({}, e, {_cal:null}));
+  list.splice(idx,1); saveWeek(wk, list); render();
+  toastUndo(e.name + ' removed from this week', function(){ var l2 = weekEntries(wk); delete copy._cal; delete copy._dir; delete copy._show; delete copy._onCal; l2.splice(Math.min(idx, l2.length), 0, copy); saveWeek(wk, l2); render(); });
+}
+function weekMove(d){ ui.weekOff = d === 0 ? 0 : ui.weekOff + d; ui.payOpen = null; render(); }
+
+/* CIS tax months run 6th to 5th. A week counts in the tax month its Friday falls in. */
+function taxMonth(d){ var y = d.getFullYear(), m = d.getMonth(); if (d.getDate() < 6) { m -= 1; if (m < 0) { m = 11; y -= 1; } } var s = new Date(y, m, 6, 12); return {start:s, end:addDays(new Date(y, m+1, 6, 12), -1)}; }
+function cisMonth(tm){
+  var per = {}, order = [], s = ymd(tm.start), en = ymd(tm.end);
+  for (var w = mondayOf(addDays(tm.start, -6)); ymd(w) <= en; w = addDays(w, 7)) {
+    var fri = ymd(addDays(w, 4)); if (fri < s || fri > en) continue;
+    var wk = ymd(w);
+    weekEntries(wk).forEach(function(e){
+      if (e._dir) return; var g = calcEntry(e); if (g <= 0) return;
+      if (!per[e.name]) { per[e.name] = {name:e.name, pid:e.personId, gross:0, cis:0, rate:cisRate(e), weeks:[]}; order.push(e.name); }
+      per[e.name].gross += g; per[e.name].cis += cisAmt(e); per[e.name].weeks.push({wk:wk, gross:g, cis:cisAmt(e)});
+    });
+  }
+  return order.map(function(n){ return per[n]; });
+}
+function rCisCard(fri){
+  var tm = taxMonth(fri), rows = cisMonth(tm), tot = rows.reduce(function(s,r){ return s + r.cis; }, 0);
+  var due = new Date(tm.end.getFullYear(), tm.end.getMonth(), 19, 12);
+  ui.cisRows = rows; ui.cisTm = tm;
+  var h = '<div class="card"><div class="card-h"><div><div class="card-t">CIS this tax month</div><div class="small muted">' + dm(tm.start) + ' \u2013 ' + dm(tm.end) + ' \u00b7 return due ' + dm(due) + '</div></div><div class="amt" style="font-size:22px">' + gbp(tot) + '</div></div>';
+  if (!rows.length) h += '<div class="empty">Nothing paid in this tax month yet.</div>';
+  rows.forEach(function(r, i){ h += '<div class="li"><div class="f"><div class="a">' + esc(r.name) + '</div><div class="b">Gross ' + gbp(r.gross) + ' \u00b7 CIS ' + gbp(r.cis) + '</div></div><button class="btn sm ghost" onclick="A.stmtCis(' + i + ')">Statement</button></div>'; });
+  h += '<div class="small muted" style="margin-top:8px">Statement = the monthly CIS payment and deduction statement HMRC says each subbie should get.</div></div>';
+  return h;
+}
+
+/* ==== statements (branded image to share) ==== */
+var CO = {name:'Perry & Parkes Contractors Ltd', addr:'8 Spur Road, Portsmouth, PO6 3EB', email:'info@perryandparkes.com', no:'12329066'};
+function stmtWeek(wk, pid){
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  var mon = parse(wk), g = calcEntry(e), c = cisAmt(e), r = cisRate(e), lines = [];
+  personJobs(e.name, mon).forEach(function(j){ lines.push([j.job, daysTxt(j.days), 'info']); });
+  if (e.basis === 'price-work') lines.push(['Price work', gbp(num(e.priceTotal))]);
+  else lines.push([num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' \u00d7 ' + gbp(num(e.rate)), gbp(num(e.days) * num(e.rate))]);
+  if (num(e.otHours) > 0) lines.push(['Overtime ' + num(e.otHours) + 'h \u00d7 ' + gbp(num(e.otRate)), gbp(num(e.otHours) * num(e.otRate))]);
+  (e.docks || []).forEach(function(d){ lines.push(['Less: ' + (d.reason || 'deduction'), '\u2212' + gbp(Math.abs(num(d.amt))), 'neg']); });
+  lines.push(['Gross amount', gbp(g), 'sub']);
+  lines.push([r ? 'CIS deduction (' + r + '%)' : 'CIS deduction (gross status)', '\u2212' + gbp(c), 'neg']);
+  lines.push(['Net payment', gbp(g - c), 'tot']);
+  var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'}) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).');
+  openStatement({title:'Payment statement', sub:'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'}), to:e.name, lines:lines, note:note},
+    'PP-statement-' + e.name.replace(/\s+/g,'-') + '-' + wk + '.png', 'Hi ' + e.name.split(' ')[0] + ', here\u2019s your statement for w/c ' + dm(mon) + '. Please invoice for ' + gbp(g) + '.');
+}
+function stmtCis(i){
+  var r = ui.cisRows[i], tm = ui.cisTm; if (!r) return;
+  var m = memberById(r.pid) || memberByName(r.name), lines = [];
+  r.weeks.forEach(function(w){ lines.push(['w/c ' + dm(parse(w.wk)), gbp(w.gross), 'info']); });
+  lines.push(['Gross amount paid (excl. VAT)', gbp(r.gross)]);
+  lines.push(['Cost of materials', gbp(0)]);
+  lines.push(['Amount liable to deduction', gbp(r.gross), 'sub']);
+  lines.push(['Amount deducted', '\u2212' + gbp(r.cis), 'neg']);
+  lines.push(['Amount paid', gbp(r.gross - r.cis), 'tot']);
+  var ref = (S.cfg && S.cfg.empRef) ? S.cfg.empRef : '\u2014', utr = m && m.utr ? m.utr : '\u2014';
+  openStatement({title:'CIS payment & deduction statement', sub:'Tax month ' + fmt(tm.start,{day:'numeric', month:'short', year:'numeric'}) + ' \u2013 ' + fmt(tm.end,{day:'numeric', month:'short', year:'numeric'}), to:r.name,
+    toExtra:'UTR: ' + utr, lines:lines, note:'Contractor: ' + CO.name + '. Employer\u2019s reference: ' + ref + '. Keep this statement for your tax return.'},
+    'PP-CIS-' + r.name.replace(/\s+/g,'-') + '-' + ymd(tm.end) + '.png', 'Hi ' + r.name.split(' ')[0] + ', here\u2019s your CIS statement for ' + dm(tm.start) + ' \u2013 ' + dm(tm.end) + '.');
+}
+function rr(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X+r, Y); x.lineTo(X+w-r, Y); x.quadraticCurveTo(X+w, Y, X+w, Y+r); x.lineTo(X+w, Y+h-r); x.quadraticCurveTo(X+w, Y+h, X+w-r, Y+h); x.lineTo(X+r, Y+h); x.quadraticCurveTo(X, Y+h, X, Y+h-r); x.lineTo(X, Y+r); x.quadraticCurveTo(X, Y, X+r, Y); x.closePath(); }
+function wrap(x, text, maxW){ var words = String(text).split(' '), out = [], cur = ''; words.forEach(function(w){ var t = cur ? cur + ' ' + w : w; if (x.measureText(t).width > maxW && cur) { out.push(cur); cur = w; } else cur = t; }); if (cur) out.push(cur); return out; }
+function drawStatement(o){
+  var PF = '"Playfair Display", Georgia, serif', BF = 'Barlow, Helvetica, Arial, sans-serif';
+  var loads = [];
+  try { loads = ['700 60px "Playfair Display"', '400 30px Barlow', '600 30px Barlow', '700 30px Barlow'].map(function(f){ return document.fonts.load(f); }); } catch(e) {}
+  return Promise.all(loads).catch(function(){}).then(function(){
+    var W = 1080, P = 80, c = document.createElement('canvas'), x = c.getContext('2d');
+    c.width = W; c.height = 3200;
+    x.fillStyle = '#f5ede3'; x.fillRect(0,0,W,3200);
+    x.fillStyle = '#1a1a1a'; x.fillRect(0,0,W,250);
+    var lg = document.querySelector('.hdr-logo');
+    if (lg && lg.naturalWidth) { var lw = 560, lh = lw * lg.naturalHeight / lg.naturalWidth; x.drawImage(lg, (W-lw)/2, (250-lh)/2, lw, lh); }
+    x.fillStyle = '#1a1a1a'; x.fillRect(0,250,W,6);
+    var y = 340;
+    x.fillStyle = '#6f665a'; x.font = '700 24px ' + BF; x.fillText(String(o.sub).toUpperCase(), P, y);
+    y += 70; x.fillStyle = '#1a1a1a'; x.font = '700 56px ' + PF;
+    wrap(x, o.title, W - 2*P).forEach(function(l){ x.fillText(l, P, y); y += 66; });
+    y += 20; x.fillStyle = '#8c8274'; x.font = '700 22px ' + BF; x.fillText('TO', P, y);
+    y += 46; x.fillStyle = '#1a1a1a'; x.font = '700 40px ' + BF; x.fillText(o.to, P, y);
+    if (o.toExtra) { y += 40; x.fillStyle = '#6f665a'; x.font = '400 28px ' + BF; x.fillText(o.toExtra, P, y); }
+    y += 50;
+    rr(x, P - 24, y, W - 2*P + 48, 10, 6);
+    var boxTop = y, rows = [];
+    var yy = y + 40;
+    o.lines.forEach(function(l){ var st = l[2] || ''; var hgt = st === 'info' ? 48 : st === 'tot' ? 92 : 64; rows.push({l:l, y:yy, h:hgt}); yy += hgt; });
+    x.fillStyle = '#fffcf7'; rr(x, P - 24, boxTop, W - 2*P + 48, yy - boxTop + 10, 24); x.fill();
+    rows.forEach(function(r, i){
+      var st = r.l[2] || '', base = r.y + (st === 'tot' ? 58 : st === 'info' ? 32 : 42);
+      if ((st === 'sub' || st === 'tot') && i > 0) { x.fillStyle = st === 'tot' ? '#1a1a1a' : '#e4d8c7'; x.fillRect(P, r.y + 4, W - 2*P, st === 'tot' ? 3 : 2); }
+      x.font = (st === 'tot' ? '700 44px ' + PF : st === 'sub' ? '700 32px ' + BF : st === 'info' ? '400 27px ' + BF : '400 31px ' + BF);
+      x.fillStyle = st === 'info' ? '#8c8274' : st === 'neg' ? '#b3412e' : '#1a1a1a';
+      x.textAlign = 'left'; x.fillText(r.l[0], P, base);
+      x.textAlign = 'right'; x.fillText(r.l[1], W - P, base); x.textAlign = 'left';
+    });
+    y = yy + 50;
+    if (o.note) {
+      x.font = '600 30px ' + BF; var nl = wrap(x, o.note, W - 2*P - 40), nh = nl.length * 44 + 50;
+      x.fillStyle = '#1a1a1a'; rr(x, P - 24, y, W - 2*P + 48, nh, 24); x.fill();
+      x.fillStyle = '#f5ede3'; nl.forEach(function(l, i){ x.fillText(l, P + 6, y + 56 + i*44); });
+      y += nh + 50;
+    }
+    x.fillStyle = '#8c8274'; x.font = '400 24px ' + BF; x.textAlign = 'center';
+    x.fillText(CO.name + ' \u00b7 Company no. ' + CO.no, W/2, y); y += 36;
+    x.fillText(CO.addr + ' \u00b7 ' + CO.email, W/2, y); y += 50;
+    var out = document.createElement('canvas'); out.width = W; out.height = y; out.getContext('2d').drawImage(c, 0, 0);
+    return new Promise(function(res){ out.toBlob(res, 'image/png'); });
+  });
+}
+function openStatement(o, fname, text){
+  toast('Making statement\u2026');
+  drawStatement(o).then(function(blob){
+    if (!blob) { toast('Couldn\u2019t make the image'); return; }
+    if (ui.stmt && ui.stmt.url) URL.revokeObjectURL(ui.stmt.url);
+    ui.stmt = {blob:blob, fname:fname, text:text, url:URL.createObjectURL(blob)};
+    $('modal-in').innerHTML = '<div class="sh-h"><div class="grab"></div><div class="row"><div style="flex:1"><div class="eyebrow">Preview</div><div class="card-t">' + esc(o.to) + '</div></div><button class="navb" style="width:38px;height:38px;border-radius:12px" onclick="A.closeModal()" aria-label="Close">' + IC.x + '</button></div></div>' +
+      '<div class="sh-b"><img src="' + ui.stmt.url + '" alt="Statement" style="width:100%;border-radius:14px;display:block;box-shadow:0 6px 20px rgba(0,0,0,.12)"><div class="row" style="margin-top:14px"><button class="btn gold" style="flex:1" onclick="A.shareStmt()">Share (WhatsApp etc.)</button><button class="btn ghost" onclick="A.dlStmt()">Save</button></div></div>';
+    $('modal').classList.add('on'); $('modal-bg').classList.add('on'); document.body.classList.add('lock');
+  });
+}
+function closeModal(){ $('modal').classList.remove('on'); $('modal-bg').classList.remove('on'); if (!ui.sheetDay) document.body.classList.remove('lock'); }
+function dlStmt(){ var s = ui.stmt; if (!s) return; var a = document.createElement('a'); a.href = s.url; a.download = s.fname; document.body.appendChild(a); a.click(); a.remove(); toast('Saved to your downloads'); }
+function shareStmt(){
+  var s = ui.stmt; if (!s) return;
+  var file;
+  try { file = new File([s.blob], s.fname, {type:'image/png'}); } catch(e) { file = null; }
+  if (file && navigator.canShare && navigator.canShare({files:[file]})) { navigator.share({files:[file], text:s.text}).catch(function(){}); return; }
+  dlStmt();
+}
 
 /* Directors: paid on the last Friday of the month, one week in hand.
    A week (Mon-Sun) belongs to the first month-end pay day that falls AFTER its Friday. */
@@ -993,10 +1245,11 @@ function rTeam(){
   S.team.forEach(function(m){
     if (ui.editM === m.id) {
       h += '<div class="mrow" style="display:block"><div class="g2 fld"><div><label class="lbl">Name</label><input class="inp" id="em-name" value="' + esc(m.name) + '"></div><div><label class="lbl">Role</label><input class="inp" id="em-role" value="' + esc(m.role || '') + '"></div></div>' +
-        '<div class="fld"><label class="lbl">Day rate (\u00a3)</label><input class="inp" id="em-rate" type="number" inputmode="decimal" step="0.01" value="' + esc(m.dayRate || '') + '" placeholder="Fills in the pay log and job costs"></div>' +
+        '<div class="g2 fld"><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" id="em-rate" type="number" inputmode="decimal" step="0.01" value="' + esc(m.dayRate || '') + '" placeholder="Optional"></div>' + (m.isDirector ? '<div></div>' : '<div><label class="lbl">CIS</label><select class="inp" id="em-cis">' + [['0','Gross (no CIS)'],['20','CIS 20%'],['30','CIS 30%']].map(function(o){ return '<option value="' + o[0] + '"' + (String(blank(m.cis) ? '20' : num(m.cis)) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div>') + '</div>' +
+        (m.isDirector ? '' : '<div class="fld"><label class="lbl">UTR (for CIS statements)</label><input class="inp" id="em-utr" inputmode="numeric" value="' + esc(m.utr || '') + '" placeholder="10-digit UTR"></div>') +
         '<div class="small muted fld">Renaming doesn\u2019t change names on past calendar days.</div><div class="row"><button class="btn sm" onclick="A.saveMember(\'' + m.id + '\')">Save</button><button class="btn sm ghost" onclick="A.editMember(null)">Cancel</button></div></div>';
     } else {
-      h += '<div class="mrow"><div class="mav">' + esc(m.initials || initials(m.name)) + '</div><div style="flex:1;min-width:0"><div style="font-weight:700">' + esc(m.name) + (m.isDirector ? ' <span class="tag dir">Director</span>' : '') + '</div><div class="small muted">' + esc(m.role || '') + (num(m.dayRate) ? ' \u00b7 ' + gbp(num(m.dayRate)) + '/day' : '') + '</div></div>' +
+      h += '<div class="mrow"><div class="mav">' + esc(m.initials || initials(m.name)) + '</div><div style="flex:1;min-width:0"><div style="font-weight:700">' + esc(m.name) + (m.isDirector ? ' <span class="tag dir">Director</span>' : '') + '</div><div class="small muted">' + esc(m.role || '') + (num(m.dayRate) ? ' \u00b7 ' + gbp(num(m.dayRate)) + '/day' : '') + (m.isDirector ? '' : ' \u00b7 ' + (blank(m.cis) || num(m.cis) === 20 ? 'CIS 20%' : num(m.cis) === 0 ? 'Gross' : 'CIS ' + num(m.cis) + '%')) + '</div></div>' +
         '<button class="ib" onclick="A.editMember(\'' + m.id + '\')" aria-label="Edit">' + IC.edit + '</button>' + (m.isDirector ? '' : '<button class="ib" onclick="A.removeMember(\'' + m.id + '\')" aria-label="Remove">' + IC.x + '</button>') + '</div>';
     }
   });
@@ -1008,6 +1261,7 @@ function editMember(id){ ui.editM = id; render(); }
 function saveMember(id){
   var m = memberById(id), name = $('em-name').value.trim(); if (!m || !name) return;
   m.name = name; m.role = $('em-role').value.trim() || 'Operative'; m.dayRate = $('em-rate').value; m.initials = initials(name);
+  if ($('em-cis')) m.cis = $('em-cis').value; if ($('em-utr')) m.utr = $('em-utr').value.trim();
   ui.editM = null; saveTeam('Saved'); render();
 }
 function addMember(){
@@ -1042,7 +1296,7 @@ function rJobs(){
   function jobCard(j){
     var s = st[j.name.trim().toLowerCase()] || {days:0, cost:0, ot:0, people:{}}, open = ui.openJob === j.id;
     var r = '<div class="card"><div class="card-h" style="margin-bottom:6px"><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(j.name) + '</div><div class="small muted">' + esc(j.client || '') + (s.first ? (j.client ? ' \u00b7 ' : '') + dm(parse(s.first)) + ' \u2013 ' + dm(parse(s.last)) : '') + '</div></div>' + (j.status === 'finished' ? '<span class="tag g">Finished</span>' : '') + '</div>';
-    r += (num(j.dirRate) > 0 ? '<div class="small" style="color:#8f6d3a;font-weight:700">Director rate ' + gbp(num(j.dirRate)) + ' a day</div>' : '') + '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
+    r += (num(j.dirRate) > 0 ? '<div class="small" style="color:#1a1a1a;font-weight:700">Director rate ' + gbp(num(j.dirRate)) + ' a day</div>' : '') + '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
     if (open) {
       var ppl = Object.keys(s.people);
       if (!ppl.length) r += '<div class="empty">Nobody booked on this job yet.</div>';
@@ -1076,7 +1330,7 @@ function addJob(name, client){
 }
 function addUnlisted(i){ var s = ui.unlisted[i]; if (s) addJob(s.name, ''); }
 function jobStatus(id, st){ if (!S.jobs[id]) return; S.jobs[id].status = st; saveJob(id, {status:st}, st === 'finished' ? 'Marked finished' : 'Reopened'); render(); }
-function delJob(id){ var j = S.jobs[id]; if (!j || !confirm('Delete ' + j.name + ' from your jobs list? Calendar days stay as they are.')) return; delete S.jobs[id]; saveJob(id, FV.delete(), 'Job removed'); render(); }
+function delJob(id){ var j = S.jobs[id]; if (!j) return; delete S.jobs[id]; saveJob(id, FV.delete()); render(); toastUndo(j.name + ' removed from jobs', function(){ S.jobs[id] = j; saveJob(id, j); render(); }); }
 function openJob(id){ ui.openJob = ui.openJob === id ? null : id; render(); }
 function rColours(){
   if (!ui.colDraft) ui.colDraft = DEFAULT_COLOURS.map(function(dc){ var l = S.colours.filter(function(c){ return c.id === dc.id; })[0]; return Object.assign({}, dc, l || {}); });
@@ -1097,6 +1351,7 @@ function resetColours(){ if (!confirm('Reset all colour names to the defaults?')
 function rApp(){
   var h = '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + USERS[me].ini + '</div><div><div class="card-t" style="font-size:18px">' + esc(nameOf(me)) + '</div><div class="small muted">Logged in on this device</div></div></div><button class="btn sm ghost" onclick="A.logout()">Switch user</button></div></div>';
   h += '<div class="card"><div class="card-t" style="margin-bottom:8px">Add to home screen</div><div class="lbl">iPhone (Safari)</div><ol class="steps fld"><li>Tap the Share button</li><li>Tap <b>Add to Home Screen</b></li></ol><div class="lbl">Android (Chrome)</div><ol class="steps"><li>Tap the three dots, top right</li><li>Tap <b>Add to Home screen</b> or <b>Install app</b></li></ol></div>';
+  h += '<div class="card"><div class="card-t" style="margin-bottom:6px">CIS details</div><div class="small muted fld">Shown on the monthly CIS statements. It\u2019s on your CIS letters from HMRC.</div><label class="lbl">Employer\u2019s reference</label><input class="inp" value="' + esc(S.cfg.empRef || '') + '" placeholder="e.g. 123/AB45678" onchange="A.setCfg(\'empRef\',this.value)"></div>';
   h += '<div class="card"><div class="card-t" style="margin-bottom:6px">Backups</div><div class="small muted fld">A copy of the calendar, notes, pay log, team and jobs is saved automatically once a day, keeping the last 7 days. You can also download a copy to keep yourself.</div><button class="btn full" onclick="A.downloadBackup()">Download backup now</button></div>';
   return h;
 }
@@ -1125,7 +1380,9 @@ function openApp(){ ui.setTab = 'app'; go('settings'); }
 window.A = {
   login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, downloadBackup:downloadBackup,
   calOpen:calOpen, calMove:calMove, calToday:calToday, weekCal:weekCal, calView:function(v){ ui.calView = v; render(); }, openDay:openDay, closeDay:closeDay, moveDay:moveDay, copyDay:copyDay, pasteDay:pasteDay, clearClip:clearClip, noteEdit:noteEdit,
-  addEntry:addEntry, removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
+  addEntry:addEntry, runToggle:runToggle, undo:doUndo, addDock:addDock, delDock:delDock, addPayPerson:addPayPerson, removePayPerson:removePayPerson,
+  payOpen:function(pid){ ui.payOpen = pid; render(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
+  removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
   payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, monthMove:monthMove,
   setTab:function(t){ ui.setTab = t; ui.colDraft = null; render(); }, editMember:editMember, saveMember:saveMember, addMember:addMember, removeMember:removeMember,
@@ -1134,6 +1391,18 @@ window.A = {
 };
 window.__pp = {payPeriod:payPeriod, payMonthOfWeek:payMonthOfWeek, ymd:ymd, S:function(){ return S; }};
 
+(function(){
+  var sx = null, sy = null, ctx = null;
+  function start(e, where){ var t = e.touches[0]; if (e.target.closest && e.target.closest('.legend, input, textarea, select')) { sx = null; return; } sx = t.clientX; sy = t.clientY; ctx = where; }
+  function end(e){ if (sx === null) return; var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy, w = ctx; sx = null;
+    if (Math.abs(dx) < 70 || Math.abs(dy) > 55) return; var dir = dx < 0 ? 1 : -1;
+    if (w === 'sheet') moveDay(dir); else if (ui.calView === 'month') calMove(dir); else weekCal(dir); }
+  $('main').addEventListener('touchstart', function(e){ if (ui.page !== 'calendar' || ui.sheetDay) { sx = null; return; } start(e, 'cal'); }, {passive:true});
+  $('main').addEventListener('touchend', end, {passive:true});
+  $('sheet').addEventListener('touchstart', function(e){ if (!e.target.closest || !e.target.closest('.sh-h')) { sx = null; return; } start(e, 'sheet'); }, {passive:true});
+  $('sheet').addEventListener('touchend', end, {passive:true});
+})();
+setOffline();
 var saved = ls('pp_user');
 if (saved === 'macauly' || saved === 'brad') login(saved); else $('login').style.display = 'flex';
 
