@@ -583,13 +583,13 @@ function rHome(){
   var openTodos = todoList().filter(function(t){ return t.for === me && !t.done; }).sort(sortTodos);
   var html = '<div class="phead"><div class="eyebrow">' + fmt(now,{weekday:'long', day:'numeric', month:'long'}) + '</div><div class="ptitle">' + greet + ', ' + esc(nameOf(me)) + '</div></div>';
   html += '<div class="chips"><span class="chip">' + IC.clock.replace('<svg','<svg width="15" height="15"') + (dTo === 0 ? '<b>Your pay day today</b>' : 'Your pay in <b>' + dTo + ' day' + (dTo === 1 ? '' : 's') + '</b>') + ' &middot; ' + short(pd) + '</span>' +
-    '<span class="chip l">Lads paid ' + short(payDayOf(pk0)) + '</span>' +
+    '<span class="chip l">Lads\u2019 next pay day due ' + short(payDayOf(pk0)) + '</span>' +
     (openTodos.length ? '<span class="chip l">' + openTodos.length + ' to-do' + (openTodos.length === 1 ? '' : 's') + ' for you</span>' : '') + '</div>';
   html += tallyHtml();
   html += '<div class="tiles">' +
     tile('calendar', 'Calendar', today.length ? today.length + ' on the calendar today' : 'Nothing booked today', true) +
     tile('tasks', 'Tasks', mine.done + ' of ' + mine.total + ' daily done') +
-    tile('paylog', 'Pay Log', 'Lads ' + fmt(payDayOf(pk0),{weekday:'short', day:'numeric', month:'short'}) + ' \u00b7 ' + gbp(crewWk)) +
+    tile('paylog', 'Pay Log', 'Lads due ' + fmt(payDayOf(pk0),{weekday:'short', day:'numeric', month:'short'}) + ' \u00b7 ' + gbp(crewWk)) +
     tile('settings', 'Settings', 'Team, jobs, colours') + '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Today</div><button class="link" onclick="A.calOpen(\'' + tk + '\')">Open day</button></div>';
   if (!today.length) html += '<div class="empty">Nothing on the calendar for today.</div>';
@@ -926,7 +926,7 @@ function rPayTeam(){
   var wk = periodKey(ui.weekOff), mon = keyMon(wk), pend = addDays(mon,13), payD = payDayOf(wk), isPast = ymd(payD) < ymd(new Date());
   var list = weekEntries(wk), crew = list.filter(function(e){ return e._show; });
   var gross = 0, cis = 0; crew.forEach(function(e){ gross += calcEntry(e); cis += cisAmt(e); });
-  var h = '<div class="cal-nav"><button class="navb" onclick="A.weekMove(-1)" aria-label="Previous pay period">' + IC.left + '</button><div><div class="cal-m" style="font-size:19px">' + (isPast ? 'Paid ' : 'Pay day ') + short(payD) + '</div><div class="small muted" style="text-align:center">Work ' + dm(mon) + ' \u2013 ' + dm(pend) + '</div>' +
+  var h = '<div class="cal-nav"><button class="navb" onclick="A.weekMove(-1)" aria-label="Previous pay period">' + IC.left + '</button><div>' + (ui.weekOff === 0 ? '<div class="eyebrow" style="text-align:center">Lads\u2019 next pay day</div>' : '') + '<div class="cal-m" style="font-size:19px">' + (isPast ? 'Paid ' : 'Due ') + short(payD) + '</div><div class="small muted" style="text-align:center">For work ' + dm(mon) + ' \u2013 ' + dm(pend) + '</div>' +
     (ui.weekOff !== 0 ? '<button class="cal-tb" onclick="A.weekMove(0)">Back to next pay day</button>' : '') + '</div><button class="navb" onclick="A.weekMove(1)" aria-label="Next pay period">' + IC.right + '</button></div>';
   h += '<div class="total"><div><div class="k">Net to pay</div><div class="v">' + gbp(gross - cis) + '</div><div class="s">Gross ' + gbp(gross) + ' \u00b7 CIS ' + gbp(cis) + ' \u00b7 ' + crew.length + (crew.length === 1 ? ' person' : ' people') + '</div></div></div>';
   if (!crew.length) h += '<div class="card"><div class="empty">Nobody on the calendar for this pay period. Book people in on the Calendar, or add someone below.</div></div>';
@@ -1053,7 +1053,7 @@ function stmtWeek(wk, pid){
   lines.push([r ? 'CIS deduction (' + r + '%)' : 'CIS deduction (gross status)', '\u2212' + gbp(c), 'neg']);
   lines.push(['Net payment', gbp(g - c), 'tot']);
   var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + (span === 14 ? ' for work from ' + perTxt : ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).');
-  openStatement({title:'Payment statement', sub:(span === 14 ? 'Pay period ' + perTxt + ' \u00b7 paid ' + dm(payDayOf(wk)) : 'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})), to:e.name, lines:lines, note:note},
+  openStatement({title:'Payment statement', sub:(span === 14 ? 'Pay period ' + perTxt + ' \u00b7 pay day ' + dm(payDayOf(wk)) : 'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})), to:e.name, lines:lines, note:note},
     'PP-statement-' + e.name.replace(/\s+/g,'-') + '-' + wk + '.png', 'Hi ' + e.name.split(' ')[0] + ', here\u2019s your statement for w/c ' + dm(mon) + '. Please invoice for ' + gbp(g) + '.');
 }
 function stmtCis(i){
