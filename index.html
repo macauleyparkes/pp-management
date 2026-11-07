@@ -578,17 +578,18 @@ function rHome(){
   var tk = ymd(now), today = (S.cal[tk] || []);
   var pd = nextPayDay(), dTo = Math.round((pd - noon(now)) / 86400000);
   var mine = stats(me,'daily');
-  var crewWk = 0, wk = weekKey();
-  weekEntries(wk).forEach(function(e){ if (!e._dir) crewWk += calcEntry(e); });
+  var crewWk = 0, pk0 = periodKey(0);
+  weekEntries(pk0).forEach(function(e){ if (e._show) crewWk += netAmt(e); });
   var openTodos = todoList().filter(function(t){ return t.for === me && !t.done; }).sort(sortTodos);
   var html = '<div class="phead"><div class="eyebrow">' + fmt(now,{weekday:'long', day:'numeric', month:'long'}) + '</div><div class="ptitle">' + greet + ', ' + esc(nameOf(me)) + '</div></div>';
-  html += '<div class="chips"><span class="chip">' + IC.clock.replace('<svg','<svg width="15" height="15"') + (dTo === 0 ? '<b>Pay day today</b>' : 'Pay day in <b>' + dTo + ' day' + (dTo === 1 ? '' : 's') + '</b>') + ' &middot; ' + short(pd) + '</span>' +
+  html += '<div class="chips"><span class="chip">' + IC.clock.replace('<svg','<svg width="15" height="15"') + (dTo === 0 ? '<b>Your pay day today</b>' : 'Your pay in <b>' + dTo + ' day' + (dTo === 1 ? '' : 's') + '</b>') + ' &middot; ' + short(pd) + '</span>' +
+    '<span class="chip l">Lads paid ' + short(payDayOf(pk0)) + '</span>' +
     (openTodos.length ? '<span class="chip l">' + openTodos.length + ' to-do' + (openTodos.length === 1 ? '' : 's') + ' for you</span>' : '') + '</div>';
   html += tallyHtml();
   html += '<div class="tiles">' +
     tile('calendar', 'Calendar', today.length ? today.length + ' on the calendar today' : 'Nothing booked today', true) +
     tile('tasks', 'Tasks', mine.done + ' of ' + mine.total + ' daily done') +
-    tile('paylog', 'Pay Log', 'Team this week ' + gbp(crewWk)) +
+    tile('paylog', 'Pay Log', 'Lads ' + fmt(payDayOf(pk0),{weekday:'short', day:'numeric', month:'short'}) + ' \u00b7 ' + gbp(crewWk)) +
     tile('settings', 'Settings', 'Team, jobs, colours') + '</div>';
   html += '<div class="card"><div class="card-h"><div class="card-t">Today</div><button class="link" onclick="A.calOpen(\'' + tk + '\')">Open day</button></div>';
   if (!today.length) html += '<div class="empty">Nothing on the calendar for today.</div>';
@@ -860,17 +861,17 @@ function personDays(name, start, n){
   }); }
   return r;
 }
-function personJobs(name, mon){
+function personJobs(name, mon, span){
   var m = {}, order = [];
-  for (var i=0;i<7;i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
+  for (var i=0;i<(span||7);i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
     if (e.person !== name) return; var pd = payDaysOf(e.colourId||0); if (pd <= 0) return;
     var j = String(e.job || '').trim() || 'No job'; if (!(j in m)) { m[j] = 0; order.push(j); } m[j] += pd;
   });
   return order.map(function(j){ return {job:j, days:m[j]}; });
 }
-function calPeopleWeek(mon){
+function calPeopleWeek(mon, span){
   var out = [], seen = {};
-  for (var i=0;i<7;i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
+  for (var i=0;i<(span||7);i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
     if (e.person === GENERAL || seen[e.person]) return;
     if (payDaysOf(e.colourId||0) > 0 || num(e.otHours) > 0) { seen[e.person] = true; out.push(e.person); }
   });
@@ -879,7 +880,7 @@ function calPeopleWeek(mon){
 function isDirName(n){ return n === nameOf('macauly') || n === nameOf('brad'); }
 function slug(n){ return 'n_' + String(n).toLowerCase().replace(/[^a-z0-9]+/g,'_'); }
 function weekEntries(wk){
-  var list = S.paylog[wk] ? clone(S.paylog[wk]) : [], mon = parse(wk), onCal = calPeopleWeek(mon);
+  var span = spanOf(wk), mon = keyMon(wk), list = S.paylog[wk] ? clone(S.paylog[wk]) : [], onCal = calPeopleWeek(mon, span);
   onCal.forEach(function(name){
     if (isDirName(name)) return;
     var m = memberByName(name);
@@ -890,7 +891,7 @@ function weekEntries(wk){
     var m = memberById(e.personId) || memberByName(e.name);
     e._dir = !!(m && m.isDirector) || e.personId === 'macauly' || e.personId === 'brad' || isDirName(e.name);
     if (!e.basis) e.basis = 'day-rate';
-    var pd = personDays(e.name, mon, 7); e._cal = pd; e._onCal = onCal.indexOf(e.name) >= 0;
+    var pd = personDays(e.name, mon, span); e._cal = pd; e._onCal = onCal.indexOf(e.name) >= 0;
     if (!e._dir) {
       if (blank(e.days) && pd.days > 0) e.days = pd.days;
       if (blank(e.rate) && m && num(m.dayRate) > 0) e.rate = m.dayRate;
@@ -906,6 +907,15 @@ function saveWeek(wk, list){
   S.paylog[wk] = cleanList; var o = {}; o[wk] = cleanList; return save('paylog', o);
 }
 function weekOf(off){ return ymd(addDays(mondayOf(new Date()), off * 7)); }
+/* Team pay: fortnightly, one week in hand. Periods are Mon-Sun x2 from the anchor; paid the Friday after (start + 18 days). */
+var PAY_ANCHOR = '2026-10-26';
+function anchor(){ return parse((S.cfg && S.cfg.payAnchor) || PAY_ANCHOR); }
+function spanOf(k){ return String(k).charAt(0) === 'f' ? 14 : 7; }
+function keyMon(k){ k = String(k); return parse(k.charAt(0) === 'f' ? k.slice(1) : k); }
+function periodStartOf(d){ var a = anchor(), w = Math.round((mondayOf(d) - a) / 604800000); return addDays(a, Math.floor(w / 2) * 14); }
+function payDayOf(k){ return addDays(keyMon(k), spanOf(k) === 14 ? 18 : 4); }
+function periodKey(off){ var t = noon(new Date()), s = periodStartOf(t); if (ymd(t) <= ymd(addDays(s, 4))) s = addDays(s, -14); return 'f' + ymd(addDays(s, (off || 0) * 14)); }
+function keyLabel(k){ return spanOf(k) === 14 ? dm(keyMon(k)) + ' \u2013 ' + dm(addDays(keyMon(k), 13)) : 'w/c ' + dm(keyMon(k)); }
 function rPay(){
   var html = head('Wages', 'Pay Log');
   html += seg([['team','Team \u00b7 weekly'], ['directors','Directors \u00b7 monthly']], ui.payTab, 'payTab');
@@ -913,15 +923,15 @@ function rPay(){
 }
 function cisSelect(val, onch){ return '<select class="inp" onchange="' + onch + '">' + [['0','Gross (no CIS)'],['20','CIS 20%'],['30','CIS 30%']].map(function(o){ return '<option value="' + o[0] + '"' + (String(num(val)) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; }
 function rPayTeam(){
-  var wk = weekOf(ui.weekOff), mon = parse(wk), sun = addDays(mon,6);
+  var wk = periodKey(ui.weekOff), mon = keyMon(wk), pend = addDays(mon,13), payD = payDayOf(wk), isPast = ymd(payD) < ymd(new Date());
   var list = weekEntries(wk), crew = list.filter(function(e){ return e._show; });
   var gross = 0, cis = 0; crew.forEach(function(e){ gross += calcEntry(e); cis += cisAmt(e); });
-  var h = '<div class="cal-nav"><button class="navb" onclick="A.weekMove(-1)">' + IC.left + '</button><div><div class="cal-m" style="font-size:19px">' + (ui.weekOff === 0 ? 'This week' : 'w/c ' + dm(mon)) + '</div><div class="small muted" style="text-align:center">' + dm(mon) + ' \u2013 ' + dm(sun) + '</div>' +
-    (ui.weekOff !== 0 ? '<button class="cal-tb" onclick="A.weekMove(0)">Back to this week</button>' : '') + '</div><button class="navb" onclick="A.weekMove(1)">' + IC.right + '</button></div>';
+  var h = '<div class="cal-nav"><button class="navb" onclick="A.weekMove(-1)" aria-label="Previous pay period">' + IC.left + '</button><div><div class="cal-m" style="font-size:19px">' + (isPast ? 'Paid ' : 'Pay day ') + short(payD) + '</div><div class="small muted" style="text-align:center">Work ' + dm(mon) + ' \u2013 ' + dm(pend) + '</div>' +
+    (ui.weekOff !== 0 ? '<button class="cal-tb" onclick="A.weekMove(0)">Back to next pay day</button>' : '') + '</div><button class="navb" onclick="A.weekMove(1)" aria-label="Next pay period">' + IC.right + '</button></div>';
   h += '<div class="total"><div><div class="k">Net to pay</div><div class="v">' + gbp(gross - cis) + '</div><div class="s">Gross ' + gbp(gross) + ' \u00b7 CIS ' + gbp(cis) + ' \u00b7 ' + crew.length + (crew.length === 1 ? ' person' : ' people') + '</div></div></div>';
-  if (!crew.length) h += '<div class="card"><div class="empty">Nobody on the calendar this week. Book people in on the Calendar, or add someone below.</div></div>';
+  if (!crew.length) h += '<div class="card"><div class="empty">Nobody on the calendar for this pay period. Book people in on the Calendar, or add someone below.</div></div>';
   crew.forEach(function(e){
-    var pid = e.personId, cd = e._cal.days, f = 'A.payField(\'' + wk + '\',\'' + pid + '\',', g = calcEntry(e), c = cisAmt(e), jobs = personJobs(e.name, mon);
+    var pid = e.personId, cd = e._cal.days, f = 'A.payField(\'' + wk + '\',\'' + pid + '\',', g = calcEntry(e), c = cisAmt(e), jobs = personJobs(e.name, mon, spanOf(wk));
     h += '<div class="card"><div class="card-h"><div class="row" style="min-width:0"><div class="mav">' + esc(initials(e.name)) + '</div><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(e.name) + '</div><div class="small muted">' + esc(e.role || '') + '</div></div></div><div style="text-align:right"><div class="amt" style="font-size:22px">' + gbp(g - c) + '</div><div class="small muted">net</div></div></div>';
     if (jobs.length) h += '<div class="small" style="margin:-2px 0 12px;color:#6f665a">' + jobs.map(function(j){ return '<b>' + esc(j.job) + '</b> ' + daysTxt(j.days); }).join(' &middot; ') + '</div>';
     if (ui.payOpen !== pid) {
@@ -946,14 +956,14 @@ function rPayTeam(){
   });
   var shownIds = crew.map(function(e){ return e.personId; });
   var avail = S.team.filter(function(m){ return !m.isDirector && shownIds.indexOf(m.id) < 0; });
-  h += '<div class="card"><div class="card-t" style="font-size:18px;margin-bottom:4px">Add someone to this week</div><div class="small muted fld">For anyone getting paid who isn\u2019t on the calendar.</div><div class="row"><select class="inp" id="pp-add">' + avail.map(function(m){ return '<option value="' + esc(m.id) + '">' + esc(m.name) + '</option>'; }).join('') + '<option value="__new">New person\u2026</option></select><button class="btn" onclick="A.addPayPerson(\'' + wk + '\')">Add</button></div></div>';
-  h += rCisCard(addDays(mon,4));
-  var past = Object.keys(S.paylog).filter(function(k){ return k !== wk && /^\d{4}-\d{2}-\d{2}$/.test(k); }).sort().reverse();
+  h += '<div class="card"><div class="card-t" style="font-size:18px;margin-bottom:4px">Add someone to this pay period</div><div class="small muted fld">For anyone getting paid who isn\u2019t on the calendar.</div><div class="row"><select class="inp" id="pp-add">' + avail.map(function(m){ return '<option value="' + esc(m.id) + '">' + esc(m.name) + '</option>'; }).join('') + '<option value="__new">New person\u2026</option></select><button class="btn" onclick="A.addPayPerson(\'' + wk + '\')">Add</button></div></div>';
+  h += rCisCard(payD);
+  var past = Object.keys(S.paylog).filter(function(k){ return k !== wk && /^f?\d{4}-\d{2}-\d{2}$/.test(k); }).sort(function(a,b){ return keyMon(b) - keyMon(a); });
   if (past.length) {
-    h += '<div class="card"><div class="card-h"><div class="card-t">Previous weeks</div></div>';
+    h += '<div class="card"><div class="card-h"><div class="card-t">Previous pay</div></div>';
     past.slice(0,26).forEach(function(k){
-      var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0 && !isDirName(e.name) && e.personId !== 'macauly' && e.personId !== 'brad'; }), t = es.reduce(function(s,e){ return s + netAmt(e); }, 0), mn = parse(k);
-      h += '<details class="hist"><summary><span>w/c ' + fmt(mn,{day:'numeric', month:'short', year:'numeric'}) + '</span><span class="amt">' + gbp(t) + '</span></summary>';
+      var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0 && !isDirName(e.name) && e.personId !== 'macauly' && e.personId !== 'brad'; }), t = es.reduce(function(s,e){ return s + netAmt(e); }, 0);
+      h += '<details class="hist"><summary><span>' + (spanOf(k) === 14 ? 'Paid ' + short(payDayOf(k)) + ' <span class="small muted">' + keyLabel(k) + '</span>' : 'w/c ' + fmt(keyMon(k),{day:'numeric', month:'short', year:'numeric'}) + ' <span class="small muted">weekly</span>') + '</span><span class="amt">' + gbp(t) + '</span></summary>';
       es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
       if (!es.length) h += '<div class="empty">Nothing entered.</div>';
       h += '<div style="height:8px"></div></details>';
@@ -1005,16 +1015,17 @@ function weekMove(d){ ui.weekOff = d === 0 ? 0 : ui.weekOff + d; ui.payOpen = nu
 /* CIS tax months run 6th to 5th. A week counts in the tax month its Friday falls in. */
 function taxMonth(d){ var y = d.getFullYear(), m = d.getMonth(); if (d.getDate() < 6) { m -= 1; if (m < 0) { m = 11; y -= 1; } } var s = new Date(y, m, 6, 12); return {start:s, end:addDays(new Date(y, m+1, 6, 12), -1)}; }
 function cisMonth(tm){
-  var per = {}, order = [], s = ymd(tm.start), en = ymd(tm.end);
-  for (var w = mondayOf(addDays(tm.start, -6)); ymd(w) <= en; w = addDays(w, 7)) {
-    var fri = ymd(addDays(w, 4)); if (fri < s || fri > en) continue;
-    var wk = ymd(w);
-    weekEntries(wk).forEach(function(e){
+  var per = {}, order = [], s = ymd(tm.start), en = ymd(tm.end), keys = [], a = ymd(anchor());
+  Object.keys(S.paylog).forEach(function(k){ if (/^\d{4}-\d{2}-\d{2}$/.test(k) && k < a) keys.push(k); });
+  for (var p = periodStartOf(addDays(tm.start, -20)); ymd(p) <= en; p = addDays(p, 14)) if (ymd(p) >= a) keys.push('f' + ymd(p));
+  keys.forEach(function(k){
+    var pd = ymd(payDayOf(k)); if (pd < s || pd > en) return;
+    weekEntries(k).forEach(function(e){
       if (e._dir) return; var g = calcEntry(e); if (g <= 0) return;
       if (!per[e.name]) { per[e.name] = {name:e.name, pid:e.personId, gross:0, cis:0, rate:cisRate(e), weeks:[]}; order.push(e.name); }
-      per[e.name].gross += g; per[e.name].cis += cisAmt(e); per[e.name].weeks.push({wk:wk, gross:g, cis:cisAmt(e)});
+      per[e.name].gross += g; per[e.name].cis += cisAmt(e); per[e.name].weeks.push({wk:k, gross:g, cis:cisAmt(e)});
     });
-  }
+  });
   return order.map(function(n){ return per[n]; });
 }
 function rCisCard(fri){
@@ -1032,8 +1043,8 @@ function rCisCard(fri){
 var CO = {name:'Perry & Parkes Contractors Ltd', addr:'8 Spur Road, Portsmouth, PO6 3EB', email:'info@perryandparkes.com', no:'12329066'};
 function stmtWeek(wk, pid){
   var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
-  var mon = parse(wk), g = calcEntry(e), c = cisAmt(e), r = cisRate(e), lines = [];
-  personJobs(e.name, mon).forEach(function(j){ lines.push([j.job, daysTxt(j.days), 'info']); });
+  var mon = keyMon(wk), span = spanOf(wk), perTxt = dm(mon) + ' \u2013 ' + fmt(addDays(mon,13),{day:'numeric', month:'long', year:'numeric'}), g = calcEntry(e), c = cisAmt(e), r = cisRate(e), lines = [];
+  personJobs(e.name, mon, spanOf(wk)).forEach(function(j){ lines.push([j.job, daysTxt(j.days), 'info']); });
   if (e.basis === 'price-work') lines.push(['Price work', gbp(num(e.priceTotal))]);
   else lines.push([num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' \u00d7 ' + gbp(num(e.rate)), gbp(num(e.days) * num(e.rate))]);
   if (num(e.otHours) > 0) lines.push(['Overtime ' + num(e.otHours) + 'h \u00d7 ' + gbp(num(e.otRate)), gbp(num(e.otHours) * num(e.otRate))]);
@@ -1041,14 +1052,14 @@ function stmtWeek(wk, pid){
   lines.push(['Gross amount', gbp(g), 'sub']);
   lines.push([r ? 'CIS deduction (' + r + '%)' : 'CIS deduction (gross status)', '\u2212' + gbp(c), 'neg']);
   lines.push(['Net payment', gbp(g - c), 'tot']);
-  var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'}) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).');
-  openStatement({title:'Payment statement', sub:'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'}), to:e.name, lines:lines, note:note},
+  var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + (span === 14 ? ' for work from ' + perTxt : ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).');
+  openStatement({title:'Payment statement', sub:(span === 14 ? 'Pay period ' + perTxt + ' \u00b7 paid ' + dm(payDayOf(wk)) : 'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})), to:e.name, lines:lines, note:note},
     'PP-statement-' + e.name.replace(/\s+/g,'-') + '-' + wk + '.png', 'Hi ' + e.name.split(' ')[0] + ', here\u2019s your statement for w/c ' + dm(mon) + '. Please invoice for ' + gbp(g) + '.');
 }
 function stmtCis(i){
   var r = ui.cisRows[i], tm = ui.cisTm; if (!r) return;
   var m = memberById(r.pid) || memberByName(r.name), lines = [];
-  r.weeks.forEach(function(w){ lines.push(['w/c ' + dm(parse(w.wk)), gbp(w.gross), 'info']); });
+  r.weeks.forEach(function(w){ lines.push([keyLabel(w.wk), gbp(w.gross), 'info']); });
   lines.push(['Gross amount paid (excl. VAT)', gbp(r.gross)]);
   lines.push(['Cost of materials', gbp(0)]);
   lines.push(['Amount liable to deduction', gbp(r.gross), 'sub']);
