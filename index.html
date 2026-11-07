@@ -1105,28 +1105,89 @@ function drawStatement(o){
     x.fillText(CO.name + ' \u00b7 Company no. ' + CO.no, W/2, y); y += 36;
     x.fillText(CO.addr + ' \u00b7 ' + CO.email, W/2, y); y += 50;
     var out = document.createElement('canvas'); out.width = W; out.height = y; out.getContext('2d').drawImage(c, 0, 0);
-    return new Promise(function(res){ out.toBlob(res, 'image/png'); });
+    return new Promise(function(res){ out.toBlob(function(b){ res({blob:b, canvas:out}); }, 'image/png'); });
   });
+}
+function normPhone(n){
+  var d = String(n || '').replace(/[^\d+]/g, '');
+  if (d.charAt(0) === '+') d = d.slice(1); else if (d.slice(0,2) === '00') d = d.slice(2); else if (d.charAt(0) === '0') d = '44' + d.slice(1); else if (d.length === 10 && d.charAt(0) === '7') d = '44' + d;
+  return /^\d{10,15}$/.test(d) ? d : '';
+}
+function phoneFor(name){ var m = memberByName(name); if (m && m.phone) return normPhone(m.phone); var p = S.cfg.phones && S.cfg.phones[name]; return p ? normPhone(p) : ''; }
+function savePhone(name, ph){
+  var m = memberByName(name);
+  if (m) { m.phone = ph; saveTeam('Number saved'); }
+  else { if (!S.cfg.phones) S.cfg.phones = {}; S.cfg.phones[name] = ph; var o = {phones:{}}; o.phones[name] = ph; save('settings', o, 'Number saved'); }
+}
+function showPhone(ph){ return ph ? '0' + ph.replace(/^44/, '').replace(/(\d{4})(\d{3})(\d+)/, '$1 $2 $3') : ''; }
+function stmtModal(){
+  var s = ui.stmt, ph = phoneFor(s.to), first = String(s.to).split(' ')[0];
+  $('modal-in').innerHTML = '<div class="sh-h"><div class="grab"></div><div class="row"><div style="flex:1"><div class="eyebrow">Preview</div><div class="card-t">' + esc(s.to) + '</div></div><button class="navb" style="width:38px;height:38px;border-radius:12px" onclick="A.closeModal()" aria-label="Close">' + IC.x + '</button></div></div>' +
+    '<div class="sh-b"><img src="' + s.url + '" alt="Statement" style="width:100%;border-radius:14px;display:block;box-shadow:0 6px 20px rgba(0,0,0,.12)">' +
+    '<button class="btn full" style="margin-top:14px;padding:14px" onclick="A.waStmt()">' + (ph ? 'WhatsApp ' + esc(first) : 'Add ' + esc(first) + '\u2019s mobile for WhatsApp') + '</button>' +
+    (ph ? '<div class="small muted" style="text-align:center;margin-top:6px">Copies the statement and opens your chat with ' + esc(first) + ' (' + showPhone(ph) + '). Hold the message box, tap <b>Paste</b>, send.</div>' : '') +
+    '<div class="row" style="margin-top:10px"><button class="btn ghost" style="flex:1" onclick="A.pdfStmt()">Share PDF</button><button class="btn ghost" style="flex:1" onclick="A.shareStmt()">Share image</button></div>' +
+    '<button class="btn sm ghost full" style="margin-top:8px;border:none" onclick="A.dlStmt()">Save to phone</button></div>';
 }
 function openStatement(o, fname, text){
   toast('Making statement\u2026');
-  drawStatement(o).then(function(blob){
-    if (!blob) { toast('Couldn\u2019t make the image'); return; }
+  drawStatement(o).then(function(r){
+    if (!r || !r.blob) { toast('Couldn\u2019t make the image'); return; }
     if (ui.stmt && ui.stmt.url) URL.revokeObjectURL(ui.stmt.url);
-    ui.stmt = {blob:blob, fname:fname, text:text, url:URL.createObjectURL(blob)};
-    $('modal-in').innerHTML = '<div class="sh-h"><div class="grab"></div><div class="row"><div style="flex:1"><div class="eyebrow">Preview</div><div class="card-t">' + esc(o.to) + '</div></div><button class="navb" style="width:38px;height:38px;border-radius:12px" onclick="A.closeModal()" aria-label="Close">' + IC.x + '</button></div></div>' +
-      '<div class="sh-b"><img src="' + ui.stmt.url + '" alt="Statement" style="width:100%;border-radius:14px;display:block;box-shadow:0 6px 20px rgba(0,0,0,.12)"><div class="row" style="margin-top:14px"><button class="btn gold" style="flex:1" onclick="A.shareStmt()">Share (WhatsApp etc.)</button><button class="btn ghost" onclick="A.dlStmt()">Save</button></div></div>';
+    var pdf = null; try { pdf = makePdf(r.canvas); } catch(e) { console.warn('PDF failed', e); }
+    ui.stmt = {blob:r.blob, pdf:pdf, fname:fname, text:text, to:o.to, url:URL.createObjectURL(r.blob)};
+    stmtModal();
     $('modal').classList.add('on'); $('modal-bg').classList.add('on'); document.body.classList.add('lock');
   });
 }
+function makePdf(canvas){
+  var jpg = canvas.toDataURL('image/jpeg', 0.92), bin = atob(jpg.split(',')[1]);
+  var W = canvas.width, H = canvas.height, pw = 595.28, ph = Math.round(pw * H / W * 100) / 100;
+  var content = 'q ' + pw + ' 0 0 ' + ph + ' 0 0 cm /Im0 Do Q';
+  var bodies = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pw + ' ' + ph + '] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>',
+    '<< /Type /XObject /Subtype /Image /Width ' + W + ' /Height ' + H + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + bin.length + ' >>\nstream\n' + bin + '\nendstream',
+    '<< /Length ' + content.length + ' >>\nstream\n' + content + '\nendstream'
+  ];
+  var out = '%PDF-1.4\n', offs = [];
+  bodies.forEach(function(b, i){ offs.push(out.length); out += (i+1) + ' 0 obj\n' + b + '\nendobj\n'; });
+  var xr = out.length;
+  out += 'xref\n0 ' + (bodies.length + 1) + '\n0000000000 65535 f \n';
+  offs.forEach(function(o){ out += String(o).padStart(10, '0') + ' 00000 n \n'; });
+  out += 'trailer\n<< /Size ' + (bodies.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
+  var u = new Uint8Array(out.length); for (var k=0;k<out.length;k++) u[k] = out.charCodeAt(k) & 255;
+  return new Blob([u], {type:'application/pdf'});
+}
 function closeModal(){ $('modal').classList.remove('on'); $('modal-bg').classList.remove('on'); if (!ui.sheetDay) document.body.classList.remove('lock'); }
 function dlStmt(){ var s = ui.stmt; if (!s) return; var a = document.createElement('a'); a.href = s.url; a.download = s.fname; document.body.appendChild(a); a.click(); a.remove(); toast('Saved to your downloads'); }
-function shareStmt(){
-  var s = ui.stmt; if (!s) return;
+function shareFile(blob, fname, type){
   var file;
-  try { file = new File([s.blob], s.fname, {type:'image/png'}); } catch(e) { file = null; }
-  if (file && navigator.canShare && navigator.canShare({files:[file]})) { navigator.share({files:[file], text:s.text}).catch(function(){}); return; }
-  dlStmt();
+  try { file = new File([blob], fname, {type:type}); } catch(e) { file = null; }
+  if (file && navigator.canShare && navigator.canShare({files:[file]})) { navigator.share({files:[file]}).catch(function(){}); return true; }
+  var u = URL.createObjectURL(blob), a = document.createElement('a'); a.href = u; a.download = fname; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); }, 4000);
+  toast('Saved to your downloads'); return false;
+}
+function shareStmt(){ var s = ui.stmt; if (s) shareFile(s.blob, s.fname, 'image/png'); }
+function pdfStmt(){ var s = ui.stmt; if (!s) return; if (!s.pdf) { toast('PDF not available on this phone'); return; } shareFile(s.pdf, s.fname.replace(/\.png$/, '.pdf'), 'application/pdf'); }
+function waStmt(){
+  var s = ui.stmt; if (!s) return;
+  var ph = phoneFor(s.to);
+  if (!ph) {
+    var n = prompt('Mobile number for ' + s.to); if (n === null) return;
+    ph = normPhone(n); if (!ph) { toast('That number doesn\u2019t look right'); return; }
+    savePhone(s.to, ph); stmtModal(); return;
+  }
+  var copied = false;
+  try {
+    if (navigator.clipboard && window.ClipboardItem) {
+      navigator.clipboard.write([new ClipboardItem({'image/png': s.blob})]).then(function(){ toast('Copied \u2014 hold the message box and tap Paste'); }).catch(function(e){ console.warn(e); toast('Couldn\u2019t copy \u2014 use Share image instead'); });
+      copied = true;
+    }
+  } catch(e) { console.warn(e); }
+  if (!copied) { toast('This phone can\u2019t copy images \u2014 use Share image'); return; }
+  var a = document.createElement('a'); a.href = 'https://wa.me/' + ph; a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
 }
 
 /* Directors: paid on the last Friday of the month, one week in hand.
@@ -1246,6 +1307,7 @@ function rTeam(){
     if (ui.editM === m.id) {
       h += '<div class="mrow" style="display:block"><div class="g2 fld"><div><label class="lbl">Name</label><input class="inp" id="em-name" value="' + esc(m.name) + '"></div><div><label class="lbl">Role</label><input class="inp" id="em-role" value="' + esc(m.role || '') + '"></div></div>' +
         '<div class="g2 fld"><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" id="em-rate" type="number" inputmode="decimal" step="0.01" value="' + esc(m.dayRate || '') + '" placeholder="Optional"></div>' + (m.isDirector ? '<div></div>' : '<div><label class="lbl">CIS</label><select class="inp" id="em-cis">' + [['0','Gross (no CIS)'],['20','CIS 20%'],['30','CIS 30%']].map(function(o){ return '<option value="' + o[0] + '"' + (String(blank(m.cis) ? '20' : num(m.cis)) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div>') + '</div>' +
+        (m.isDirector ? '' : '<div class="fld"><label class="lbl">Mobile (for WhatsApp)</label><input class="inp" id="em-phone" type="tel" inputmode="tel" value="' + esc(m.phone || '') + '" placeholder="07\u2026"></div>') +
         (m.isDirector ? '' : '<div class="fld"><label class="lbl">UTR (for CIS statements)</label><input class="inp" id="em-utr" inputmode="numeric" value="' + esc(m.utr || '') + '" placeholder="10-digit UTR"></div>') +
         '<div class="small muted fld">Renaming doesn\u2019t change names on past calendar days.</div><div class="row"><button class="btn sm" onclick="A.saveMember(\'' + m.id + '\')">Save</button><button class="btn sm ghost" onclick="A.editMember(null)">Cancel</button></div></div>';
     } else {
@@ -1262,6 +1324,7 @@ function saveMember(id){
   var m = memberById(id), name = $('em-name').value.trim(); if (!m || !name) return;
   m.name = name; m.role = $('em-role').value.trim() || 'Operative'; m.dayRate = $('em-rate').value; m.initials = initials(name);
   if ($('em-cis')) m.cis = $('em-cis').value; if ($('em-utr')) m.utr = $('em-utr').value.trim();
+  if ($('em-phone')) { var pv = $('em-phone').value.trim(); if (pv && !normPhone(pv)) { toast('That mobile number doesn\u2019t look right'); return; } m.phone = pv; }
   ui.editM = null; saveTeam('Saved'); render();
 }
 function addMember(){
@@ -1381,7 +1444,7 @@ window.A = {
   login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, downloadBackup:downloadBackup,
   calOpen:calOpen, calMove:calMove, calToday:calToday, weekCal:weekCal, calView:function(v){ ui.calView = v; render(); }, openDay:openDay, closeDay:closeDay, moveDay:moveDay, copyDay:copyDay, pasteDay:pasteDay, clearClip:clearClip, noteEdit:noteEdit,
   addEntry:addEntry, runToggle:runToggle, undo:doUndo, addDock:addDock, delDock:delDock, addPayPerson:addPayPerson, removePayPerson:removePayPerson,
-  payOpen:function(pid){ ui.payOpen = pid; render(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
+  payOpen:function(pid){ ui.payOpen = pid; render(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, pdfStmt:pdfStmt, waStmt:waStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
   removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
   payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, monthMove:monthMove,
