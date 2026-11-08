@@ -1064,7 +1064,7 @@ function rCisCard(fri){
 }
 
 /* ==== statements (branded image to share) ==== */
-var CO = {name:'Perry & Parkes Contractors Ltd', addr:'8 Spur Road, Portsmouth, PO6 3EB', email:'info@perryandparkes.com', no:'12329066'};
+var CO = {name:'Perry & Parkes Contractors Ltd', addr:'8 Spur Road, Portsmouth, PO6 3EB', email:'accounts@perryandparkes.com', no:'12329066'};
 function stmtWeek(wk, pid){
   var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
   var mon = keyMon(wk), span = spanOf(wk), perTxt = dm(mon) + ' \u2013 ' + fmt(addDays(mon,13),{day:'numeric', month:'long', year:'numeric'}), g = calcEntry(e), c = cisAmt(e), r = cisRate(e), lines = [];
@@ -1077,7 +1077,7 @@ function stmtWeek(wk, pid){
   lines.push(['Gross amount', gbp(g), 'sub']);
   lines.push([r ? 'CIS deduction (' + r + '%)' : 'CIS deduction (gross status)', '\u2212' + gbp(c), 'neg']);
   lines.push(['Net payment', gbp(g - c), 'tot']);
-  var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + (span === 14 ? ' for work from ' + perTxt : ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).');
+  var note = 'Please invoice ' + CO.name + ' for the gross amount of ' + gbp(g) + (span === 14 ? ' for work from ' + perTxt : ' for week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})) + '. ' + (r ? 'CIS will be deducted at ' + r + '%, so you will receive ' + gbp(g - c) + '.' : 'No CIS will be deducted (gross payment status).') + ' Email invoices to ' + CO.email;
   openStatement({title:'Payment statement', sub:(span === 14 ? 'Pay period ' + perTxt + ' \u00b7 pay day ' + dm(payDayOf(wk)) : 'Week commencing ' + fmt(mon,{day:'numeric', month:'long', year:'numeric'})), to:e.name, lines:lines, note:note},
     'PP-statement-' + e.name.replace(/\s+/g,'-') + '-' + wk + '.png', 'Hi ' + e.name.split(' ')[0] + ', here\u2019s your statement for w/c ' + dm(mon) + '. Please invoice for ' + gbp(g) + '.');
 }
