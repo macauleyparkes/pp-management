@@ -247,6 +247,9 @@ body.lock{overflow:hidden}
 .toast.act{pointer-events:auto;display:flex;align-items:center;gap:14px;padding:8px 8px 8px 18px}
 .toast button{background:#f5ede3;color:#1a1a1a;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13.5px}
 .offline{display:none;background:#b3412e;color:#fff;font-size:13px;font-weight:600;text-align:center;padding:7px 12px}
+.pi{border-top:1px solid #efe6d9;padding:12px 0 10px}
+.pi-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.dock.plus{background:#ede3d5}
 </style>
 </head>
 <body>
@@ -407,7 +410,7 @@ var PAGES = [
   {id:'home', label:'Home', sub:'Today at a glance'},
   {id:'calendar', label:'Calendar', sub:"Who's where, notes, overtime"},
   {id:'tasks', label:'Tasks', sub:'Yours, Brad\u2019s and to-dos'},
-  {id:'paylog', label:'Pay Log', sub:'Team weekly \u00b7 Directors monthly'},
+  {id:'paylog', label:'Pay Log', sub:'Team fortnightly \u00b7 Directors monthly'},
   {id:'settings', label:'Settings', sub:'Team, jobs, colours, backups'}
 ];
 
@@ -848,7 +851,8 @@ function delTodo(id){ var t0 = S.todos[id]; if (!t0) return; delete S.todos[id];
 function blank(v){ return v === '' || v === null || v === undefined; }
 function memberByName(n){ for (var i=0;i<S.team.length;i++) if (S.team[i].name === n) return S.team[i]; return null; }
 function dockTotal(e){ return (e.docks || []).reduce(function(s,d){ return s + Math.abs(num(d.amt)); }, 0); }
-function calcEntry(e){ var base = e.basis === 'price-work' ? num(e.priceTotal) : num(e.days) * num(e.rate); return base + num(e.otHours) * num(e.otRate) - dockTotal(e); }
+function extraTotal(e){ return (e.extras || []).reduce(function(s,d){ return s + Math.abs(num(d.amt)); }, 0); }
+function calcEntry(e){ var base = e.basis === 'price-work' ? num(e.priceTotal) : num(e.days) * num(e.rate); return base + num(e.otHours) * num(e.otRate) + extraTotal(e) - dockTotal(e); }
 function cisRate(e){ var c = e.cis; if (blank(c)) { var m = memberById(e.personId) || memberByName(e.name); c = m && !blank(m.cis) ? m.cis : '20'; } return num(c); }
 function cisAmt(e){ var g = calcEntry(e); return g > 0 ? Math.round(g * cisRate(e)) / 100 : 0; }
 function netAmt(e){ return calcEntry(e) - cisAmt(e); }
@@ -898,7 +902,7 @@ function weekEntries(wk){
       if (blank(e.otHours) && pd.otH > 0) { e.otHours = pd.otH; e.otRate = Math.round(pd.ot / pd.otH * 100) / 100; }
     }
     e.amount = calcEntry(e);
-    e._show = !e._dir && (e._onCal || e.manual === true || e.amount !== 0 || !!e.note || (e.docks && e.docks.length > 0));
+    e._show = !e._dir && (e._onCal || e.manual === true || e.amount !== 0 || !!e.note || (e.docks && e.docks.length > 0) || (e.extras && e.extras.length > 0));
   });
   return list;
 }
@@ -918,7 +922,7 @@ function periodKey(off){ var t = noon(new Date()), s = periodStartOf(t); if (ymd
 function keyLabel(k){ return spanOf(k) === 14 ? dm(keyMon(k)) + ' \u2013 ' + dm(addDays(keyMon(k), 13)) : 'w/c ' + dm(keyMon(k)); }
 function rPay(){
   var html = head('Wages', 'Pay Log');
-  html += seg([['team','Team \u00b7 weekly'], ['directors','Directors \u00b7 monthly']], ui.payTab, 'payTab');
+  html += seg([['team','Team \u00b7 fortnightly'], ['directors','Directors \u00b7 monthly']], ui.payTab, 'payTab');
   return html + (ui.payTab === 'team' ? rPayTeam() : rPayDirectors());
 }
 function cisSelect(val, onch){ return '<select class="inp" onchange="' + onch + '">' + [['0','Gross (no CIS)'],['20','CIS 20%'],['30','CIS 30%']].map(function(o){ return '<option value="' + o[0] + '"' + (String(num(val)) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; }
@@ -935,7 +939,7 @@ function rPayTeam(){
     h += '<div class="card"><div class="card-h"><div class="row" style="min-width:0"><div class="mav">' + esc(initials(e.name)) + '</div><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(e.name) + '</div><div class="small muted">' + esc(e.role || '') + '</div></div></div><div style="text-align:right"><div class="amt" style="font-size:22px">' + gbp(g - c) + '</div><div class="small muted">net</div></div></div>';
     if (jobs.length) h += '<div class="small" style="margin:-2px 0 12px;color:#6f665a">' + jobs.map(function(j){ return '<b>' + esc(j.job) + '</b> ' + daysTxt(j.days); }).join(' &middot; ') + '</div>';
     if (ui.payOpen !== pid) {
-      var desc = g === 0 && !dockTotal(e) ? '<span class="red">Not filled in yet</span>' : (e.basis === 'price-work' ? 'Price work ' + gbp(num(e.priceTotal)) : num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (dockTotal(e) ? ' <span class="red">\u2212' + gbp(dockTotal(e)) + ' docked</span>' : '');
+      var desc = g === 0 && !dockTotal(e) && !extraTotal(e) ? '<span class="red">Not filled in yet</span>' : (e.basis === 'price-work' ? 'Price work ' + gbp(num(e.priceTotal)) : num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' <span class="red">\u2212' + gbp(dockTotal(e)) + ' docked</span>' : '');
       h += '<div class="row small" style="justify-content:space-between;gap:8px;color:#5f574c;border-top:1px solid #efe6d9;padding-top:10px"><span>' + desc + '</span><span class="muted" style="white-space:nowrap">Gross ' + gbp(g) + ' \u00b7 ' + (cisRate(e) ? 'CIS ' + cisRate(e) + '%' : 'Gross status') + '</span></div>';
       h += '<div class="row" style="margin-top:12px"><button class="btn ghost" style="flex:1" onclick="A.payOpen(\'' + pid + '\')">' + IC.edit.replace('<svg','<svg width="14" height="14"') + ' Edit</button><button class="btn gold" style="flex:1" onclick="A.stmtWeek(\'' + wk + '\',\'' + pid + '\')">Send statement</button></div></div>';
       return;
@@ -947,9 +951,7 @@ function rPayTeam(){
       h += '<div class="g2 fld"><div><label class="lbl">Days</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.days) + '" onchange="' + f + '\'days\',this.value)">' + (cd > 0 ? '<div class="hint" style="margin-top:4px">Calendar: ' + daysTxt(cd) + '</div>' : '') + '</div><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.rate) + '" onchange="' + f + '\'rate\',this.value)"></div></div>';
     }
     h += '<div class="g2 fld"><div><label class="lbl">OT hours</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.otHours) + '" onchange="' + f + '\'otHours\',this.value)"></div><div><label class="lbl">OT rate (\u00a3/hr)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.otRate) + '" onchange="' + f + '\'otRate\',this.value)"></div></div>';
-    h += '<label class="lbl">Deductions</label>';
-    (e.docks || []).forEach(function(d, i){ h += '<div class="dock"><span class="red" style="font-weight:700">\u2212' + gbp(Math.abs(num(d.amt))) + '</span><span style="flex:1;min-width:0">' + esc(d.reason || 'Deduction') + '</span><button class="ib" style="width:28px;height:28px" onclick="A.delDock(\'' + wk + '\',\'' + pid + '\',' + i + ')" aria-label="Remove deduction">' + IC.x + '</button></div>'; });
-    h += '<div class="row fld"><input class="inp" id="dk-a-' + pid + '" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3" style="max-width:90px"><input class="inp" id="dk-r-' + pid + '" placeholder="Reason e.g. late Mon"><button class="btn ghost" onclick="A.addDock(\'' + wk + '\',\'' + pid + '\')">Dock</button></div>';
+    h += payItems(wk, e, 'extras') + payItems(wk, e, 'docks');
     h += '<div class="g2 fld"><div><label class="lbl">CIS</label>' + cisSelect(cisRate(e), f + '\'cis\',this.value)') + '</div><div><label class="lbl">Note</label><input class="inp" value="' + esc(e.note || '') + '" placeholder="Optional" onchange="' + f + '\'note\',this.value)"></div></div>';
     h += '<div class="ln"><span>Gross</span><span>' + gbp(g) + '</span></div><div class="ln"><span>CIS ' + cisRate(e) + '%</span><span>\u2212' + gbp(c) + '</span></div><div class="ln tot"><span>Net to pay</span><span>' + gbp(g - c) + '</span></div>';
     h += '<div class="row" style="margin-top:12px"><button class="btn" style="flex:1" onclick="A.payOpen(null)">Done</button><button class="btn gold" style="flex:1" onclick="A.stmtWeek(\'' + wk + '\',\'' + pid + '\')">Send statement</button>' + (!e._onCal ? '<button class="btn ghost" onclick="A.removePayPerson(\'' + wk + '\',\'' + pid + '\')">Remove</button>' : '') + '</div></div>';
@@ -964,7 +966,7 @@ function rPayTeam(){
     past.slice(0,26).forEach(function(k){
       var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0 && !isDirName(e.name) && e.personId !== 'macauly' && e.personId !== 'brad'; }), t = es.reduce(function(s,e){ return s + netAmt(e); }, 0);
       h += '<details class="hist"><summary><span>' + (spanOf(k) === 14 ? 'Paid ' + short(payDayOf(k)) + ' <span class="small muted">' + keyLabel(k) + '</span>' : 'w/c ' + fmt(keyMon(k),{day:'numeric', month:'short', year:'numeric'}) + ' <span class="small muted">weekly</span>') + '</span><span class="amt">' + gbp(t) + '</span></summary>';
-      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
+      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
       if (!es.length) h += '<div class="empty">Nothing entered.</div>';
       h += '<div style="height:8px"></div></details>';
     });
@@ -978,6 +980,28 @@ function payField(wk, pid, field, val){
   e[field] = val;
   if (field === 'cis') { var m = memberById(pid) || memberByName(e.name); if (m && String(m.cis) !== String(val)) { m.cis = val; saveTeam(); } }
   saveWeek(wk, list).then(function(ok){ if (ok) toast('Saved'); }); render();
+}
+function payItems(wk, e, kind){
+  var pid = e.personId, isD = kind === 'docks', items = e[kind] || [], open = ui.addOpen === pid + ':' + kind, tot = isD ? dockTotal(e) : extraTotal(e);
+  var a = '\'' + wk + '\',\'' + pid + '\',\'' + kind + '\'';
+  var h = '<div class="pi-h"><span class="lbl" style="margin:0">' + (isD ? 'Deductions' : 'Extras') + '</span>' + (items.length ? '<b class="small' + (isD ? ' red' : '') + '">' + (isD ? '\u2212' : '+') + gbp(tot) + '</b>' : '') + '</div>';
+  items.forEach(function(d, i){ h += '<div class="dock' + (isD ? '' : ' plus') + '"><b' + (isD ? ' class="red"' : '') + '>' + (isD ? '\u2212' : '+') + gbp(Math.abs(num(d.amt))) + '</b><span style="flex:1;min-width:0">' + esc(d.reason || (isD ? 'Deduction' : 'Extra')) + '</span><button class="ib" style="width:28px;height:28px" onclick="A.delItem(' + a + ',' + i + ')" aria-label="Remove">' + IC.x + '</button></div>'; });
+  if (open) h += '<div class="row" style="margin-top:4px"><input class="inp" id="pi-a" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3" style="max-width:96px"><input class="inp" id="pi-r" placeholder="' + (isD ? 'Reason e.g. late Mon' : 'What for e.g. price work, travel, bonus') + '" onkeydown="if(event.key===\'Enter\')A.addItem(' + a + ')"><button class="btn" onclick="A.addItem(' + a + ')">Add</button></div><button class="link small" style="margin-top:6px" onclick="A.addOpen(null)">Done</button>';
+  else h += '<button class="btn sm ghost" onclick="A.addOpen(\'' + pid + ':' + kind + '\')">+ Add ' + (isD ? 'deduction' : 'extra') + '</button>';
+  return '<div class="pi">' + h + '</div>';
+}
+function focusItem(){ setTimeout(function(){ var el = $('pi-a'); if (el) el.focus(); }, 30); }
+function addItem(wk, pid, kind){
+  var a = Math.abs(num($('pi-a').value)), r = $('pi-r').value.trim();
+  if (!a) { $('pi-a').focus(); toast('Put in an amount'); return; }
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  e[kind] = (e[kind] || []).concat([{amt:a, reason:r}]);
+  saveWeek(wk, list).then(function(ok){ if (ok) toast(kind === 'docks' ? 'Docked ' + gbp(a) : 'Added ' + gbp(a)); }); render(); focusItem();
+}
+function delItem(wk, pid, kind, i){
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e || !e[kind]) return;
+  var d = e[kind].splice(i,1)[0]; saveWeek(wk, list); render();
+  toastUndo((kind === 'docks' ? 'Deduction' : 'Extra') + ' removed', function(){ var l2 = weekEntries(wk), e2 = findPay(l2, pid); if (!e2) return; e2[kind] = e2[kind] || []; e2[kind].splice(i,0,d); saveWeek(wk, l2); render(); });
 }
 function addDock(wk, pid){
   var a = Math.abs(num($('dk-a-' + pid).value)), r = $('dk-r-' + pid).value.trim();
@@ -1048,6 +1072,7 @@ function stmtWeek(wk, pid){
   if (e.basis === 'price-work') lines.push(['Price work', gbp(num(e.priceTotal))]);
   else lines.push([num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' \u00d7 ' + gbp(num(e.rate)), gbp(num(e.days) * num(e.rate))]);
   if (num(e.otHours) > 0) lines.push(['Overtime ' + num(e.otHours) + 'h \u00d7 ' + gbp(num(e.otRate)), gbp(num(e.otHours) * num(e.otRate))]);
+  (e.extras || []).forEach(function(d){ lines.push(['Extra: ' + (d.reason || 'extra'), gbp(Math.abs(num(d.amt)))]); });
   (e.docks || []).forEach(function(d){ lines.push(['Less: ' + (d.reason || 'deduction'), '\u2212' + gbp(Math.abs(num(d.amt))), 'neg']); });
   lines.push(['Gross amount', gbp(g), 'sub']);
   lines.push([r ? 'CIS deduction (' + r + '%)' : 'CIS deduction (gross status)', '\u2212' + gbp(c), 'neg']);
@@ -1455,7 +1480,7 @@ window.A = {
   login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, downloadBackup:downloadBackup,
   calOpen:calOpen, calMove:calMove, calToday:calToday, weekCal:weekCal, calView:function(v){ ui.calView = v; render(); }, openDay:openDay, closeDay:closeDay, moveDay:moveDay, copyDay:copyDay, pasteDay:pasteDay, clearClip:clearClip, noteEdit:noteEdit,
   addEntry:addEntry, runToggle:runToggle, undo:doUndo, addDock:addDock, delDock:delDock, addPayPerson:addPayPerson, removePayPerson:removePayPerson,
-  payOpen:function(pid){ ui.payOpen = pid; render(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, pdfStmt:pdfStmt, waStmt:waStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
+  payOpen:function(pid){ ui.payOpen = pid; ui.addOpen = null; render(); }, addItem:addItem, delItem:delItem, addOpen:function(k){ ui.addOpen = k; render(); if (k) focusItem(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, pdfStmt:pdfStmt, waStmt:waStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
   removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
   payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, monthMove:monthMove,
