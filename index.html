@@ -1276,8 +1276,8 @@ function dirCalc(p,u){
     }); }
     weeks.push({mon:w, days:wd, ot:wo, otH:wh}); days += wd; ot += wo;
   });
-  var adj = num(rec.adjust);
-  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, total:base + ot + adj, rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
+  var adj = num(rec.adjust), xtra = extraTotal(rec), dock = dockTotal(rec);
+  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, xtra:xtra, dock:dock, total:base + ot + adj + xtra - dock, rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
 }
 function rPayDirectors(){
   if (!ui.payMonth) ui.payMonth = owedPayMonth();
@@ -1290,12 +1290,14 @@ function rPayDirectors(){
     var u = x.u, c = x.c, f = 'A.dirField(\'' + c.pk + '\',\'' + u + '\',';
     h += '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + USERS[u].ini + '</div><div><div class="card-t" style="font-size:18px">' + esc(nameOf(u)) + '</div><div class="small muted">' + daysTxt(c.days) + ' this pay month</div></div></div><div class="amt" style="font-size:22px">' + gbp(c.total) + '</div></div>';
     c.weeks.forEach(function(w){ h += '<div class="ln"><span>w/c ' + dm(w.mon) + '</span><span>' + daysTxt(w.days) + (w.otH > 0 ? ' <span class="tag ot" style="margin:0">+' + w.otH + 'h OT</span>' : '') + '</span></div>'; });
-    h += '<div class="g2" style="margin:12px 0 10px"><div><label class="lbl">Standard day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(dirRate(c.pk,u)) + '" onchange="' + f + '\'rate\',this.value)"></div><div><label class="lbl">Adjustment (\u00b1\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(c.rec.adjust || '') + '" placeholder="0" onchange="' + f + '\'adjust\',this.value)"></div></div>';
-    h += '<div class="fld"><input class="inp" value="' + esc(c.rec.adjustNote || '') + '" placeholder="Adjustment note (expenses, advance\u2026)" onchange="' + f + '\'adjustNote\',this.value)"></div>';
+    h += '<div class="fld" style="margin-top:12px"><label class="lbl">Standard day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(dirRate(c.pk,u)) + '" onchange="' + f + '\'rate\',this.value)"></div>';
+    h += dirItems(c.pk, u, 'extras') + dirItems(c.pk, u, 'docks');
     if (!c.groups.length) h += '<div class="ln"><span>No days on the calendar yet</span><span>' + gbp(0) + '</span></div>';
     c.groups.forEach(function(g){ h += '<div class="ln"><span>' + daysTxt(g.days) + ' \u00d7 ' + gbp(g.rate) + ' <span class="small muted">' + esc(g.label) + '</span></span><span>' + gbp(g.days * g.rate) + '</span></div>'; });
     if (c.ot) h += '<div class="ln"><span>Overtime (from calendar)</span><span>' + gbp(c.ot) + '</span></div>';
-    if (c.adj) h += '<div class="ln"><span>Adjustment</span><span>' + gbp(c.adj) + '</span></div>';
+    if (c.adj) h += '<div class="ln"><span>' + esc(c.rec.adjustNote || 'Adjustment') + ' <button class="link small" onclick="A.clearDirAdj(\'' + c.pk + '\',\'' + u + '\')">remove</button></span><span>' + gbp(c.adj) + '</span></div>';
+    (c.rec.extras || []).forEach(function(d){ h += '<div class="ln"><span>Extra: ' + esc(d.reason || 'extra') + '</span><span>+' + gbp(Math.abs(num(d.amt))) + '</span></div>'; });
+    (c.rec.docks || []).forEach(function(d){ h += '<div class="ln"><span class="red">Less: ' + esc(d.reason || 'deduction') + '</span><span class="red">\u2212' + gbp(Math.abs(num(d.amt))) + '</span></div>'; });
     h += '<div class="ln tot"><span>Total</span><span>' + gbp(c.total) + '</span></div>';
     h += '<button class="btn full ' + (c.rec.paid ? 'ok' : '') + '" style="margin-top:12px" onclick="A.dirPaid(\'' + c.pk + '\',\'' + u + '\')">' + (c.rec.paid ? IC.check.replace('<svg','<svg width="16" height="16"') + ' Paid ' + (c.rec.paidOn ? dm(parse(c.rec.paidOn)) : '') + ' \u00b7 tap to undo' : 'Mark as paid') + '</button></div>';
   });
@@ -1318,6 +1320,38 @@ function setJobRate(i, val){
   if (j) { S.jobs[j.id].dirRate = val; saveJob(j.id, {dirRate:val}, 'Job rate saved'); }
   else { var id = 'j' + Date.now(), o = {name:name, client:'', status:'active', createdAt:Date.now(), dirRate:val}; S.jobs[id] = o; saveJob(id, o, 'Job rate saved'); }
   render();
+}
+function dirItems(pk, u, kind){
+  var rec = dirRec(pk,u), isD = kind === 'docks', items = rec[kind] || [], key = 'dir:' + pk + ':' + u + ':' + kind, open = ui.addOpen === key, tot = isD ? dockTotal(rec) : extraTotal(rec);
+  var a = '\'' + pk + '\',\'' + u + '\',\'' + kind + '\'';
+  var h = '<div class="pi-h"><span class="lbl" style="margin:0">' + (isD ? 'Deductions' : 'Extras') + '</span>' + (items.length ? '<b class="small' + (isD ? ' red' : '') + '">' + (isD ? '\u2212' : '+') + gbp(tot) + '</b>' : '') + '</div>';
+  items.forEach(function(d, i){ h += '<div class="dock' + (isD ? '' : ' plus') + '"><b' + (isD ? ' class="red"' : '') + '>' + (isD ? '\u2212' : '+') + gbp(Math.abs(num(d.amt))) + '</b><span style="flex:1;min-width:0">' + esc(d.reason || (isD ? 'Deduction' : 'Extra')) + '</span><button class="ib" style="width:28px;height:28px" onclick="A.delDirItem(' + a + ',' + i + ')" aria-label="Remove">' + IC.x + '</button></div>'; });
+  if (open) h += '<div class="row" style="margin-top:4px"><input class="inp" id="pi-a" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3" style="max-width:96px"><input class="inp" id="pi-r" placeholder="' + (isD ? 'e.g. advance, sub' : 'e.g. travel, expenses, bonus') + '" onkeydown="if(event.key===\'Enter\')A.addDirItem(' + a + ')"><button class="btn" onclick="A.addDirItem(' + a + ')">Add</button></div><button class="link small" style="margin-top:6px" onclick="A.addOpen(null)">Done</button>';
+  else h += '<button class="btn sm ghost" onclick="A.addOpen(\'' + key + '\')">+ Add ' + (isD ? 'deduction' : 'extra') + '</button>';
+  return '<div class="pi">' + h + '</div>';
+}
+function saveDirList(pk, u, kind, list){
+  if (!S.dpay[pk]) S.dpay[pk] = {}; if (!S.dpay[pk][u]) S.dpay[pk][u] = {};
+  S.dpay[pk][u][kind] = list;
+  var o = {}; o[pk] = {}; o[pk][u] = {}; o[pk][u][kind] = list;
+  if (blank(S.dpay[pk][u].rate)) { o[pk][u].rate = dirRate(pk,u); S.dpay[pk][u].rate = o[pk][u].rate; }
+  return save('directorpay', o);
+}
+function addDirItem(pk, u, kind){
+  var a = Math.abs(num($('pi-a').value)), r = $('pi-r').value.trim();
+  if (!a) { $('pi-a').focus(); toast('Put in an amount'); return; }
+  var list = (dirRec(pk,u)[kind] || []).concat([{amt:a, reason:r}]);
+  saveDirList(pk, u, kind, list).then(function(ok){ if (ok) toast((kind === 'docks' ? 'Deducted ' : 'Added ') + gbp(a)); }); render(); focusItem();
+}
+function delDirItem(pk, u, kind, i){
+  var list = (dirRec(pk,u)[kind] || []).slice(), d = list.splice(i,1)[0];
+  saveDirList(pk, u, kind, list); render();
+  toastUndo((kind === 'docks' ? 'Deduction' : 'Extra') + ' removed', function(){ var l2 = (dirRec(pk,u)[kind] || []).slice(); l2.splice(i,0,d); saveDirList(pk, u, kind, l2); render(); });
+}
+function clearDirAdj(pk, u){
+  var r = dirRec(pk,u), old = r.adjust, note = r.adjustNote;
+  dirField(pk, u, 'adjust', '');
+  toastUndo('Adjustment removed', function(){ dirField(pk, u, 'adjust', old); dirField(pk, u, 'adjustNote', note); });
 }
 function dirField(pk,u,field,val){
   if (!S.dpay[pk]) S.dpay[pk] = {}; if (!S.dpay[pk][u]) S.dpay[pk][u] = {};
@@ -1488,7 +1522,7 @@ window.A = {
   payOpen:function(pid){ ui.payOpen = pid; ui.addOpen = null; render(); }, addItem:addItem, delItem:delItem, addOpen:function(k){ ui.addOpen = k; render(); if (k) focusItem(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, pdfStmt:pdfStmt, waStmt:waStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
   removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
-  payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, monthMove:monthMove,
+  payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, addDirItem:addDirItem, delDirItem:delDirItem, clearDirAdj:clearDirAdj, monthMove:monthMove,
   setTab:function(t){ ui.setTab = t; ui.colDraft = null; render(); }, editMember:editMember, saveMember:saveMember, addMember:addMember, removeMember:removeMember,
   addJob:function(){ addJob(); }, addUnlisted:addUnlisted, jobStatus:jobStatus, delJob:delJob, openJob:openJob,
   colLabel:colLabel, saveColours:saveColours, resetColours:resetColours
