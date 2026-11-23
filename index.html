@@ -563,9 +563,14 @@ function sortTodos(a,b){ return (a.due || '9999') < (b.due || '9999') ? -1 : (a.
 
 /* ==== HOME ==== */
 function nextPayDay(){ var t = noon(new Date()), L = lastFri(t.getFullYear(), t.getMonth()); if (ymd(t) > ymd(L)) { var n = new Date(t.getFullYear(), t.getMonth()+1, 1, 12); L = lastFri(n.getFullYear(), n.getMonth()); } return L; }
+/* The month you're owed for: stays on last month's pay until its pay day has passed. */
+function owedPayMonth(){
+  var now = noon(new Date()), p = payMonthOfWeek(mondayOf(now)), pv = new Date(p.y, p.m - 1, 1, 12), prev = {y:pv.getFullYear(), m:pv.getMonth()};
+  return ymd(now) <= ymd(payPeriod(prev).payDate) ? prev : p;
+}
 function monthTally(){
-  var now = noon(new Date()), p = payMonthOfWeek(mondayOf(now)), per = payPeriod(p), res = {p:p, per:per};
-  var n = Math.round((now - per.start) / 86400000) + 1;
+  var now = noon(new Date()), p = owedPayMonth(), per = payPeriod(p), res = {p:p, per:per};
+  var last = ymd(now) < ymd(per.end) ? now : per.end, n = Math.round((last - per.start) / 86400000) + 1;
   ['macauly','brad'].forEach(function(u){ res[u] = personDays(nameOf(u), per.start, n).days; });
   return res;
 }
@@ -1275,10 +1280,10 @@ function dirCalc(p,u){
   return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, total:base + ot + adj, rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
 }
 function rPayDirectors(){
-  if (!ui.payMonth) ui.payMonth = payMonthOfWeek(mondayOf(new Date()));
+  if (!ui.payMonth) ui.payMonth = owedPayMonth();
   var p = ui.payMonth, per = payPeriod(p), mName = fmt(new Date(p.y,p.m,1,12),{month:'long', year:'numeric'});
   var cs = ['macauly','brad'].map(function(u){ return {u:u, c:dirCalc(p,u)}; });
-  var h = '<div class="cal-nav"><button class="navb" onclick="A.monthMove(-1)">' + IC.left + '</button><div><div class="cal-m" style="font-size:20px">' + mName + ' pay</div><div class="small muted" style="text-align:center">Paid ' + short(per.payDate) + '</div></div><button class="navb" onclick="A.monthMove(1)">' + IC.right + '</button></div>';
+  var h = '<div class="cal-nav"><button class="navb" onclick="A.monthMove(-1)">' + IC.left + '</button><div><div class="cal-m" style="font-size:20px">' + mName + ' pay</div><div class="small muted" style="text-align:center">' + (ymd(per.payDate) < ymd(new Date()) ? 'Paid ' : 'Due ') + short(per.payDate) + '</div></div><button class="navb" onclick="A.monthMove(1)">' + IC.right + '</button></div>';
   h += '<div class="total"><div><div class="k">Directors total</div><div class="v">' + gbp(cs[0].c.total + cs[1].c.total) + '</div><div class="s">Covers ' + short(per.start) + ' \u2013 ' + short(per.end) + '</div></div></div>';
   h += '<div class="banner">Week in hand: <b>w/c ' + dm(per.inHand) + '</b> rolls into next month\u2019s pay.</div>';
   cs.forEach(function(x){
