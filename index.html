@@ -250,6 +250,8 @@ body.lock{overflow:hidden}
 .pi{border-top:1px solid #efe6d9;padding:12px 0 10px}
 .pi-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .dock.plus{background:#ede3d5}
+.tag.pwt{background:#1a1a1a;color:#f5ede3}
+button.tag{cursor:pointer}
 </style>
 </head>
 <body>
@@ -367,7 +369,7 @@ function gbp(n){ return '\u00a3' + (Math.round((n||0)*100)/100).toLocaleString('
 function fmt(d,o){ return d.toLocaleDateString('en-GB', o); }
 function short(d){ return fmt(d,{weekday:'short',day:'numeric',month:'short'}); }
 function dm(d){ return fmt(d,{day:'numeric',month:'short'}); }
-function daysTxt(n){ return (Math.round(n*10)/10) + (n === 1 ? ' day' : ' days'); }
+function daysTxt(n){ return (Math.round(n*100)/100) + (n === 1 ? ' day' : ' days'); }
 function other(u){ return u === 'macauly' ? 'brad' : 'macauly'; }
 function initials(name){ return String(name||'?').trim().split(/\s+/).map(function(p){ return p.charAt(0); }).join('').slice(0,2).toUpperCase(); }
 function memberById(id){ for (var i=0;i<S.team.length;i++) if (S.team[i].id === id) return S.team[i]; return null; }
@@ -645,7 +647,7 @@ function rCalendar(){
 }
 function entryChip(e){
   var c = colour(e.colourId||0), lab = (e.colourId||0) !== 1 ? ' &middot; ' + esc(colourLabel(e.colourId||0)) : '';
-  return '<div class="ec"><span class="sq" style="background:' + c.hex + '"></span><span class="et"><b>' + esc(personLabel(e.person)) + '</b> <span class="j">' + esc(e.job) + lab + '</span>' + (num(e.otHours) > 0 ? ' <span class="tag ot" style="margin:0">OT</span>' : '') + '</span></div>';
+  return '<div class="ec"><span class="sq" style="background:' + c.hex + '"></span><span class="et"><b>' + esc(personLabel(e.person)) + '</b> <span class="j">' + esc(e.job) + lab + '</span>' + (e.pw ? ' <span class="tag" style="margin:0">PW</span>' : '') + (num(e.hrs) > 0 ? ' <span class="tag" style="margin:0">' + num(e.hrs) + 'h</span>' : '') + (num(e.otHours) > 0 ? ' <span class="tag ot" style="margin:0">OT</span>' : '') + '</span></div>';
 }
 function rWeek(){
   var ws = parse(ui.weekStart), we = addDays(ws,6), tk = ymd(new Date()), thisWk = ui.weekStart === ymd(mondayOf(new Date()));
@@ -685,12 +687,13 @@ function rDaySheet(dk){
   if (!es.length) h += '<div class="empty" style="margin-bottom:8px">Nobody booked in yet.</div>';
   es.forEach(function(e, i){
     var c = colour(e.colourId||0), ot = num(e.otHours);
-    h += '<div class="entry" style="border-left-color:' + c.hex + ';background:#fffcf7"><div class="f"><div class="p">' + esc(personLabel(e.person, true)) + '</div><div class="j">' + esc(e.job) + '</div><br><span class="tag">' + esc(colourLabel(e.colourId||0)) + '</span>' +
+    h += '<div class="entry" style="border-left-color:' + c.hex + ';background:#fffcf7"><div class="f"><div class="p">' + esc(personLabel(e.person, true)) + '</div><div class="j">' + esc(e.job) + '</div><br><span class="tag">' + esc(colourLabel(e.colourId||0)) + '</span>' + (e.person !== GENERAL && payDaysOf(e.colourId||0) > 0 ? '<button class="tag' + (e.pw ? ' pwt' : '') + '" onclick="A.togglePw(' + i + ')">' + (e.pw ? 'Price work' : 'Day work') + ' \u21c4</button>' : '') +
+      (num(e.hrs) > 0 ? '<span class="tag">' + num(e.hrs) + 'h' + (e.pw ? ' day work' : '') + '</span>' : '') +
       (ot > 0 ? '<span class="tag ot">OT ' + ot + 'h' + (num(e.otRate) ? ' @ ' + gbp(num(e.otRate)) : '') + '</span>' : '') + '</div>' +
       '<button class="ib' + (ui.otEdit === i ? ' on' : '') + '" onclick="A.otOpen(' + i + ')" aria-label="Overtime">' + IC.clock + '</button>' +
       '<button class="ib" onclick="A.removeEntry(' + i + ')" aria-label="Remove">' + IC.x + '</button></div>';
     if (ui.otEdit === i) {
-      h += '<div style="background:#ede3d5;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Overtime for ' + esc(personLabel(e.person, true)) + '</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
+      h += '<div style="background:#ede3d5;border-radius:14px;padding:12px;margin:-4px 0 10px"><div class="lbl">Hours for ' + esc(personLabel(e.person, true)) + '</div><div class="fld"><input class="inp" id="ot-hrs" type="number" inputmode="decimal" step="0.5" placeholder="' + (e.pw ? 'Hours on day work (on top of price)' : 'Blank = full day') + '" value="' + esc(e.hrs || '') + '"></div><div class="lbl">Overtime</div><div class="g3"><input class="inp" id="ot-h" type="number" inputmode="decimal" step="0.5" placeholder="Hours" value="' + esc(e.otHours || '') + '"><input class="inp" id="ot-r" type="number" inputmode="decimal" step="0.01" placeholder="\u00a3 / hour" value="' + esc(e.otRate || '') + '"><button class="btn" onclick="A.otSave(' + i + ')">Save</button></div></div>';
     }
   });
   var people = [GENERAL].concat(S.team.map(function(m){ return m.name; }));
@@ -698,6 +701,8 @@ function rDaySheet(dk){
   h += '<div class="card" style="margin-top:12px"><div class="lbl">Add someone to this day</div>' +
     '<div class="g2 fld"><select class="inp" id="ce-person">' + people.map(function(p){ return '<option value="' + esc(p) + '"' + (p === ui.lastPerson ? ' selected' : '') + '>' + esc(personLabel(p, true)) + '</option>'; }).join('') + '</select>' +
     '<select class="inp" id="ce-colour">' + cols.map(function(c){ return '<option value="' + c.id + '"' + (c.id === (ui.lastColour || 1) ? ' selected' : '') + '>' + esc(c.label || ('Colour ' + c.id)) + '</option>'; }).join('') + '</select></div>' +
+    '<div class="seg" style="margin-bottom:10px"><button class="' + (ui.lastPw ? '' : 'on') + '" onclick="A.setPw(false)">Day work</button><button class="' + (ui.lastPw ? 'on' : '') + '" onclick="A.setPw(true)">Price work</button></div>' +
+    '<div class="row fld"><input class="inp" id="ce-hrs" type="number" inputmode="decimal" step="0.5" placeholder="Hours" style="max-width:110px" value="' + esc(ui.formHrs || '') + '"><span class="small muted">' + (ui.lastPw ? 'Optional \u2014 hours paid on top as day work (e.g. bumping)' : 'Optional \u2014 leave blank for a full day') + '</span></div>' +
     '<div class="row"><input class="inp" id="ce-job" list="job-list" placeholder="Job / site" value="' + esc(ui.lastJob || '') + '"><datalist id="job-list">' + activeJobs().map(function(j){ return '<option value="' + esc(j.name) + '">'; }).join('') + '</datalist><button class="btn" onclick="A.addEntry()">Add</button></div>' +
     '<label class="tgl"><input type="checkbox" id="ce-run"' + (ui.runOn ? ' checked' : '') + ' onchange="A.runToggle(this.checked)"> Book a run of days</label>' +
     (ui.runOn ? '<div class="g2" style="margin-top:8px"><div><label class="lbl">Until</label><input class="inp" type="date" id="ce-until" value="' + esc(ui.runUntil || ymd(addDays(parse(dk), 4))) + '"></div><div><label class="lbl">Days</label><select class="inp" id="ce-days"><option value="5"' + (ui.runDays !== '6' && ui.runDays !== '7' ? ' selected' : '') + '>Mon\u2013Fri</option><option value="6"' + (ui.runDays === '6' ? ' selected' : '') + '>Mon\u2013Sat</option><option value="7"' + (ui.runDays === '7' ? ' selected' : '') + '>Every day</option></select></div></div>' : '') + '</div>';
@@ -735,7 +740,7 @@ function calToday(){ ui.calY = null; render(); }
 function weekCal(n){ ui.weekStart = n === 0 ? ymd(mondayOf(new Date())) : ymd(addDays(parse(ui.weekStart), n * 7)); render(); }
 function saveDay(dk){ var o = {}; o[dk] = S.cal[dk] || []; return save('calendar', o); }
 function addEntry(){
-  var person = $('ce-person').value, job = $('ce-job').value.trim(), cid = parseInt($('ce-colour').value, 10);
+  var person = $('ce-person').value, job = $('ce-job').value.trim(), cid = parseInt($('ce-colour').value, 10), hrs = $('ce-hrs') ? Math.abs(num($('ce-hrs').value)) : 0;
   if (!job) { $('ce-job').focus(); toast('Add a job or site'); return; }
   ui.lastPerson = person; ui.lastJob = job; ui.lastColour = cid;
   if (ui.runOn) {
@@ -746,14 +751,14 @@ function addEntry(){
       var dow = d.getDay(); if (dset === '5' && (dow === 0 || dow === 6)) continue; if (dset === '6' && dow === 0) continue;
       var k = ymd(d), ex = S.cal[k] || [];
       if (ex.some(function(e){ return e.person === person && e.job === job; })) { skipped++; continue; }
-      S.cal[k] = ex.concat([{person:person, job:job, colourId:cid}]); o[k] = S.cal[k]; n++;
+      S.cal[k] = ex.concat([newEntry(person, job, cid, hrs)]); o[k] = S.cal[k]; n++;
     }
     if (!n) { toast('Already booked on those days'); return; }
     save('calendar', o, 'Booked ' + personLabel(person, true) + ' for ' + n + ' day' + (n === 1 ? '' : 's') + (skipped ? ' (' + skipped + ' already booked)' : ''));
     ui.runOn = false; render(); return;
   }
   if (!S.cal[ui.sel]) S.cal[ui.sel] = [];
-  S.cal[ui.sel].push({person:person, job:job, colourId:cid});
+  S.cal[ui.sel].push(newEntry(person, job, cid, hrs)); ui.formHrs = '';
   saveDay(ui.sel); render();
 }
 function removeEntry(i){
@@ -765,23 +770,27 @@ function otOpen(i){ ui.otEdit = ui.otEdit === i ? -1 : i; renderSheet(); }
 function otSave(i){
   var e = (S.cal[ui.sel] || [])[i]; if (!e) return;
   e.otHours = $('ot-h').value; e.otRate = $('ot-r').value;
-  ui.otEdit = -1; saveDay(ui.sel).then(function(ok){ if (ok) toast('Overtime saved \u2014 it feeds the pay log'); }); render();
+  var hv = Math.abs(num($('ot-hrs').value)); if (hv > 0) e.hrs = hv; else delete e.hrs;
+  ui.otEdit = -1; saveDay(ui.sel).then(function(ok){ if (ok) toast('Saved \u2014 it feeds the pay log'); }); render();
 }
+function newEntry(person, job, cid, hrs){ var o = {person:person, job:job, colourId:cid}; if (ui.lastPw && person !== GENERAL) o.pw = true; if (hrs > 0 && person !== GENERAL) o.hrs = hrs; return o; }
+function keepForm(){ var p = $('ce-person'), c = $('ce-colour'), j = $('ce-job'); if (p) ui.lastPerson = p.value; if (c) ui.lastColour = parseInt(c.value, 10); if (j) ui.lastJob = j.value; var hr = $('ce-hrs'); if (hr) ui.formHrs = hr.value; }
+function setPw(v){ keepForm(); ui.lastPw = v; renderSheet(); }
+function togglePw(i){ var e = (S.cal[ui.sel] || [])[i]; if (!e) return; if (e.pw) delete e.pw; else e.pw = true; saveDay(ui.sel); toast(personLabel(e.person, true) + ': ' + (e.pw ? 'price work' : 'day work')); render(); }
 function runToggle(v){
-  var p = $('ce-person'), c = $('ce-colour'), j = $('ce-job');
-  if (p) ui.lastPerson = p.value; if (c) ui.lastColour = parseInt(c.value, 10); if (j) ui.lastJob = j.value;
+  keepForm();
   ui.runOn = v; renderSheet();
 }
 function copyDay(){
   var es = S.cal[ui.sheetDay] || []; if (!es.length) return;
-  ui.clip = {from:ui.sheetDay, entries:es.map(function(e){ return {person:e.person, job:e.job, colourId:e.colourId}; })};
+  ui.clip = {from:ui.sheetDay, entries:es.map(function(e){ var o = {person:e.person, job:e.job, colourId:e.colourId}; if (e.pw) o.pw = true; if (num(e.hrs) > 0) o.hrs = e.hrs; return o; })};
   ls('pp_clip', JSON.stringify(ui.clip));
   toast('Copied \u2014 open any day and tap Paste'); render();
 }
 function pasteDay(){
   if (!ui.clip) return;
   var ex = S.cal[ui.sel] || [];
-  var add = ui.clip.entries.filter(function(se){ return !ex.some(function(e){ return e.person === se.person && e.job === se.job; }); }).map(function(se){ return {person:se.person, job:se.job, colourId:se.colourId}; });
+  var add = ui.clip.entries.filter(function(se){ return !ex.some(function(e){ return e.person === se.person && e.job === se.job; }); }).map(function(se){ var o = {person:se.person, job:se.job, colourId:se.colourId}; if (se.pw) o.pw = true; if (num(se.hrs) > 0) o.hrs = se.hrs; return o; });
   if (!add.length) { toast('Already on this day'); return; }
   S.cal[ui.sel] = ex.concat(add); saveDay(ui.sel); toast('Pasted ' + add.length + ' into ' + fmt(parse(ui.sel),{weekday:'short', day:'numeric', month:'short'})); render();
 }
@@ -857,23 +866,47 @@ function blank(v){ return v === '' || v === null || v === undefined; }
 function memberByName(n){ for (var i=0;i<S.team.length;i++) if (S.team[i].name === n) return S.team[i]; return null; }
 function dockTotal(e){ return (e.docks || []).reduce(function(s,d){ return s + Math.abs(num(d.amt)); }, 0); }
 function extraTotal(e){ return (e.extras || []).reduce(function(s,d){ return s + Math.abs(num(d.amt)); }, 0); }
-function calcEntry(e){ var base = e.basis === 'price-work' ? num(e.priceTotal) : num(e.days) * num(e.rate); return base + num(e.otHours) * num(e.otRate) + extraTotal(e) - dockTotal(e); }
+function hasDay(e){ return e.basis !== 'price-work'; }
+function hasPrice(e){ return e.basis === 'price-work' || e.basis === 'both' || e.basis === 'all'; }
+function dayPay(e){ return hasDay(e) ? num(e.days) * num(e.rate) : 0; }
+function pricePay(e){ return hasPrice(e) ? num(e.priceTotal) : 0; }
+function hrsPay(e){ return num(e.hrs) * num(e.hrRate); }
+function otPay(e){ return num(e.otHours) * num(e.otRate); }
+function basisTxt(e){
+  var a = [];
+  if (dayPay(e) || (hasDay(e) && num(e.days))) a.push(daysTxt(num(e.days)) + ' @ ' + gbp(num(e.rate)));
+  if (pricePay(e)) a.push('price work ' + gbp(pricePay(e)));
+  if (num(e.hrs)) a.push(num(e.hrs) + ' hrs');
+  var s = a.join(' + '); return s ? s.charAt(0).toUpperCase() + s.slice(1) : 'Nothing entered';
+}
+function calcEntry(e){ return dayPay(e) + pricePay(e) + hrsPay(e) + otPay(e) + extraTotal(e) - dockTotal(e); }
 function cisRate(e){ var c = e.cis; if (blank(c)) { var m = memberById(e.personId) || memberByName(e.name); c = m && !blank(m.cis) ? m.cis : '20'; } return num(c); }
 function cisAmt(e){ var g = calcEntry(e); return g > 0 ? Math.round(g * cisRate(e)) / 100 : 0; }
 function netAmt(e){ return calcEntry(e) - cisAmt(e); }
 function personDays(name, start, n){
-  var r = {days:0, otH:0, ot:0};
+  var r = {days:0, dw:0, pw:0, hrs:0, hrd:0, otH:0, ot:0};
   for (var i=0;i<n;i++) { (S.cal[ymd(addDays(start,i))] || []).forEach(function(e){
     if (e.person !== name) return;
-    r.days += payDaysOf(e.colourId||0);
+    var sp = entrySplit(e); r.days += sp.days; r.pw += sp.pw; r.dw += sp.dw; r.hrs += sp.h; r.hrd += sp.hd;
     var h = num(e.otHours); if (h > 0) { r.otH += h; r.ot += h * num(e.otRate); }
   }); }
   return r;
 }
+function hoursPerDay(job){ var j = jobByName(job); return j && num(j.hpd) > 0 ? num(j.hpd) : 8; }
+/* How a calendar entry counts: day work days, price work days, hours. Hours on day work replace the full day;
+   hours on price work are paid on top as day work. Hours are turned into days using the job's hours in a day. */
+function entrySplit(e){
+  var pv = payDaysOf(e.colourId||0), h = num(e.hrs);
+  if (pv <= 0) return {dw:0, pw:0, h:0, hd:0, days:0};
+  var hd = h > 0 ? h / hoursPerDay(e.job) : 0;
+  if (e.pw) return {dw:0, pw:pv, h:h, hd:hd, days:pv};
+  if (h > 0) return {dw:0, pw:0, h:h, hd:hd, days:hd};
+  return {dw:pv, pw:0, h:0, hd:0, days:pv};
+}
 function personJobs(name, mon, span){
   var m = {}, order = [];
   for (var i=0;i<(span||7);i++) (S.cal[ymd(addDays(mon,i))] || []).forEach(function(e){
-    if (e.person !== name) return; var pd = payDaysOf(e.colourId||0); if (pd <= 0) return;
+    if (e.person !== name) return; var pd = entrySplit(e).days; if (pd <= 0) return;
     var j = String(e.job || '').trim() || 'No job'; if (!(j in m)) { m[j] = 0; order.push(j); } m[j] += pd;
   });
   return order.map(function(j){ return {job:j, days:m[j]}; });
@@ -894,7 +927,7 @@ function weekEntries(wk){
     if (isDirName(name)) return;
     var m = memberByName(name);
     if (list.some(function(e){ return e.name === name || (m && e.personId === m.id); })) return;
-    list.push({personId: m ? m.id : slug(name), name:name, role: m ? (m.role || '') : 'Subcontractor', days:'', rate:'', basis:'day-rate', priceTotal:'', otHours:'', otRate:'', note:'', amount:0});
+    list.push({personId: m ? m.id : slug(name), name:name, role: m ? (m.role || '') : 'Subcontractor', days:'', rate:'', basis:'all', priceTotal:'', otHours:'', otRate:'', note:'', amount:0});
   });
   list.forEach(function(e){
     var m = memberById(e.personId) || memberByName(e.name);
@@ -902,7 +935,18 @@ function weekEntries(wk){
     if (!e.basis) e.basis = 'day-rate';
     var pd = personDays(e.name, mon, span); e._cal = pd; e._onCal = onCal.indexOf(e.name) >= 0;
     if (!e._dir) {
-      if (blank(e.days) && pd.days > 0) e.days = pd.days;
+      if (spanOf(wk) === 14) {
+        /* one-off move to the all-sections layout, keeping old totals exactly */
+        if (e.basis !== 'all') {
+          if (e.basis === 'price-work') { e.days = ''; e.daysManual = true; }
+          else if (e.basis === 'day-rate' || !e.basis) e.priceTotal = '';
+          if (e.daysManual === undefined) e.daysManual = !blank(e.days) && num(e.days) !== pd.days;
+          e.basis = 'all';
+        }
+        if (!e.daysManual) e.days = pd.dw > 0 ? Math.round(pd.dw * 1000) / 1000 : '';
+        if (!e.hrsManual) e.hrs = pd.hrs > 0 ? pd.hrs : '';
+        if (!e.hrRateManual) e.hrRate = pd.hrs > 0 && num(e.rate) > 0 ? Math.round(num(e.rate) * pd.hrd / pd.hrs * 100) / 100 : (e.hrRate || '');
+      } else if (blank(e.days) && pd.days > 0) e.days = pd.days;
       if (blank(e.rate) && m && num(m.dayRate) > 0) e.rate = m.dayRate;
       if (blank(e.otHours) && pd.otH > 0) { e.otHours = pd.otH; e.otRate = Math.round(pd.ot / pd.otH * 100) / 100; }
     }
@@ -944,18 +988,22 @@ function rPayTeam(){
     h += '<div class="card"><div class="card-h"><div class="row" style="min-width:0"><div class="mav">' + esc(initials(e.name)) + '</div><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(e.name) + '</div><div class="small muted">' + esc(e.role || '') + '</div></div></div><div style="text-align:right"><div class="amt" style="font-size:22px">' + gbp(g - c) + '</div><div class="small muted">net</div></div></div>';
     if (jobs.length) h += '<div class="small" style="margin:-2px 0 12px;color:#6f665a">' + jobs.map(function(j){ return '<b>' + esc(j.job) + '</b> ' + daysTxt(j.days); }).join(' &middot; ') + '</div>';
     if (ui.payOpen !== pid) {
-      var desc = g === 0 && !dockTotal(e) && !extraTotal(e) ? '<span class="red">Not filled in yet</span>' : (e.basis === 'price-work' ? 'Price work ' + gbp(num(e.priceTotal)) : num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' <span class="red">\u2212' + gbp(dockTotal(e)) + ' docked</span>' : '');
+      var desc = g === 0 && !dockTotal(e) && !extraTotal(e) ? '<span class="red">Not filled in yet</span>' : basisTxt(e) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' <span class="red">\u2212' + gbp(dockTotal(e)) + ' docked</span>' : '');
       h += '<div class="row small" style="justify-content:space-between;gap:8px;color:#5f574c;border-top:1px solid #efe6d9;padding-top:10px"><span>' + desc + '</span><span class="muted" style="white-space:nowrap">Gross ' + gbp(g) + ' \u00b7 ' + (cisRate(e) ? 'CIS ' + cisRate(e) + '%' : 'Gross status') + '</span></div>';
       h += '<div class="row" style="margin-top:12px"><button class="btn ghost" style="flex:1" onclick="A.payOpen(\'' + pid + '\')">' + IC.edit.replace('<svg','<svg width="14" height="14"') + ' Edit</button><button class="btn gold" style="flex:1" onclick="A.stmtWeek(\'' + wk + '\',\'' + pid + '\')">Send statement</button></div></div>';
       return;
     }
-    h += '<div class="seg" style="margin-bottom:12px"><button class="' + (e.basis !== 'price-work' ? 'on' : '') + '" onclick="' + f + '\'basis\',\'day-rate\')">Day rate</button><button class="' + (e.basis === 'price-work' ? 'on' : '') + '" onclick="' + f + '\'basis\',\'price-work\')">Price work</button></div>';
-    if (e.basis === 'price-work') {
-      h += '<div class="fld"><label class="lbl">Price work total (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.priceTotal) + '" onchange="' + f + '\'priceTotal\',this.value)"></div>';
-    } else {
-      h += '<div class="g2 fld"><div><label class="lbl">Days</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.days) + '" onchange="' + f + '\'days\',this.value)">' + (cd > 0 ? '<div class="hint" style="margin-top:4px">Calendar: ' + daysTxt(cd) + '</div>' : '') + '</div><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.rate) + '" onchange="' + f + '\'rate\',this.value)"></div></div>';
-    }
-    h += '<div class="g2 fld"><div><label class="lbl">OT hours</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.otHours) + '" onchange="' + f + '\'otHours\',this.value)"></div><div><label class="lbl">OT rate (\u00a3/hr)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.otRate) + '" onchange="' + f + '\'otRate\',this.value)"></div></div>';
+    var isF = spanOf(wk) === 14, cal = e._cal || {};
+    var sec = function(title, amt){ return '<div class="pi"><div class="pi-h"><span class="lbl" style="margin:0">' + title + '</span>' + (amt ? '<b class="small">' + gbp(amt) + '</b>' : '') + '</div>'; };
+    var useCal = function(fl){ return ' \u00b7 <button class="link small" onclick="A.payField(\'' + wk + '\',\'' + pid + '\',\'' + fl + '\',false)">Use calendar</button>'; };
+    h += sec('Day work', dayPay(e)) + '<div class="g2"><div><label class="lbl">Days</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.days) + '" onchange="' + f + '\'days\',this.value)">' +
+      (isF ? '<div class="hint" style="margin-top:4px">Calendar: ' + daysTxt(cal.dw || 0) + (e.daysManual ? useCal('daysManual') : ' \u00b7 auto') + '</div>' : '') + '</div><div><label class="lbl">Day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.rate) + '" onchange="' + f + '\'rate\',this.value)"></div></div></div>';
+    h += sec('Price work', pricePay(e)) + '<label class="lbl">Price work total (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.priceTotal) + '" onchange="' + f + '\'priceTotal\',this.value)">' +
+      (cal.pw ? '<div class="hint" style="margin-top:4px">' + daysTxt(cal.pw) + ' on price work on the calendar</div>' : '') + '</div>';
+    h += sec('Additional hours', hrsPay(e)) + '<div class="g2"><div><label class="lbl">Hours</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.hrs) + '" onchange="' + f + '\'hrs\',this.value)">' +
+      (isF ? '<div class="hint" style="margin-top:4px">Calendar: ' + (cal.hrs || 0) + ' hrs' + (e.hrsManual ? useCal('hrsManual') : ' \u00b7 auto') + '</div>' : '') + '</div><div><label class="lbl">\u00a3 per hour</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.hrRate) + '" onchange="' + f + '\'hrRate\',this.value)">' +
+      (isF && cal.hrs ? '<div class="hint" style="margin-top:4px">' + (e.hrRateManual ? 'Set by you' + useCal('hrRateManual') : 'Day rate \u00f7 job hours') + '</div>' : '') + '</div></div></div>';
+    h += sec('Overtime', otPay(e)) + '<div class="g2"><div><label class="lbl">OT hours</label><input class="inp" type="number" inputmode="decimal" step="0.5" value="' + esc(e.otHours) + '" onchange="' + f + '\'otHours\',this.value)"></div><div><label class="lbl">OT rate (\u00a3/hr)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(e.otRate) + '" onchange="' + f + '\'otRate\',this.value)"></div></div></div>';
     h += payItems(wk, e, 'extras') + payItems(wk, e, 'docks');
     h += '<div class="g2 fld"><div><label class="lbl">CIS</label>' + cisSelect(cisRate(e), f + '\'cis\',this.value)') + '</div><div><label class="lbl">Note</label><input class="inp" value="' + esc(e.note || '') + '" placeholder="Optional" onchange="' + f + '\'note\',this.value)"></div></div>';
     h += '<div class="ln"><span>Gross</span><span>' + gbp(g) + '</span></div><div class="ln"><span>CIS ' + cisRate(e) + '%</span><span>\u2212' + gbp(c) + '</span></div><div class="ln tot"><span>Net to pay</span><span>' + gbp(g - c) + '</span></div>';
@@ -971,7 +1019,7 @@ function rPayTeam(){
     past.slice(0,26).forEach(function(k){
       var es = (S.paylog[k] || []).filter(function(e){ return calcEntry(e) > 0 && !isDirName(e.name) && e.personId !== 'macauly' && e.personId !== 'brad'; }), t = es.reduce(function(s,e){ return s + netAmt(e); }, 0);
       h += '<details class="hist"><summary><span>' + (spanOf(k) === 14 ? 'Paid ' + short(payDayOf(k)) + ' <span class="small muted">' + keyLabel(k) + '</span>' : 'w/c ' + fmt(keyMon(k),{day:'numeric', month:'short', year:'numeric'}) + ' <span class="small muted">weekly</span>') + '</span><span class="amt">' + gbp(t) + '</span></summary>';
-      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + (e.basis === 'price-work' ? 'Price work' : num(e.days) + ' days @ ' + gbp(num(e.rate))) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
+      es.forEach(function(e){ h += '<div class="ln"><span>' + esc(e.name) + ' <span class="small muted">' + basisTxt(e) + (num(e.otHours) > 0 ? ' + ' + num(e.otHours) + 'h OT' : '') + (extraTotal(e) ? ' + ' + gbp(extraTotal(e)) + ' extras' : '') + (dockTotal(e) ? ' \u2212 ' + gbp(dockTotal(e)) + ' docked' : '') + '</span></span><b>' + gbp(netAmt(e)) + '</b></div>'; });
       if (!es.length) h += '<div class="empty">Nothing entered.</div>';
       h += '<div style="height:8px"></div></details>';
     });
@@ -979,10 +1027,32 @@ function rPayTeam(){
   }
   return h;
 }
+function dayHint(wk, e){
+  var c = e._cal; if (!c || (!c.dw && !c.pw && !e.daysManual)) return '';
+  var a = 'A.payField(\'' + wk + '\',\'' + e.personId + '\',\'daysManual\',false)';
+  var txt = 'Calendar: ' + daysTxt(c.dw) + ' day work' + (c.hrs ? ' (incl. ' + c.hrs + 'h)' : '');
+  if (spanOf(wk) === 14 && e.daysManual) txt += ' \u00b7 <button class="link small" onclick="' + a + '">Use calendar</button>';
+  else if (spanOf(wk) === 14) txt += ' \u00b7 auto';
+  return '<div class="hint" style="margin-top:4px">' + txt + '</div>';
+}
+function toggleBasis(wk, pid, which){
+  var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
+  var d = hasDay(e), pr = hasPrice(e);
+  if (which === 'day') d = !d; else pr = !pr;
+  if (!d && !pr) { toast('Pick at least one'); return; }
+  e.basis = d && pr ? 'both' : d ? 'day-rate' : 'price-work'; e.basisManual = true;
+  saveWeek(wk, list); render();
+}
 function findPay(list, pid){ return list.filter(function(x){ return x.personId === pid; })[0]; }
 function payField(wk, pid, field, val){
   var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
   e[field] = val;
+  if (field === 'days') e.daysManual = true;
+  if (field === 'daysManual' && val === false) { e.days = e._cal.dw > 0 ? Math.round(e._cal.dw * 1000) / 1000 : ''; }
+  if (field === 'hrs') e.hrsManual = true;
+  if (field === 'hrRate') e.hrRateManual = true;
+  if (field === 'hrsManual' && val === false) { e.hrs = e._cal.hrs > 0 ? e._cal.hrs : ''; }
+  if (field === 'hrRateManual' && val === false) { e.hrRate = e._cal.hrs > 0 && num(e.rate) > 0 ? Math.round(num(e.rate) * e._cal.hrd / e._cal.hrs * 100) / 100 : ''; }
   if (field === 'cis') { var m = memberById(pid) || memberByName(e.name); if (m && String(m.cis) !== String(val)) { m.cis = val; saveTeam(); } }
   saveWeek(wk, list).then(function(ok){ if (ok) toast('Saved'); }); render();
 }
@@ -1025,11 +1095,11 @@ function addPayPerson(wk){
   if (v === '__new') {
     var name = (prompt('Name of the person to add') || '').trim(); if (!name) return;
     e = list.filter(function(x){ return x.name === name; })[0];
-    if (!e) { var m0 = memberByName(name); e = {personId: m0 ? m0.id : slug(name), name:name, role: m0 ? m0.role || '' : 'Subcontractor', days:'', rate:'', basis:'price-work', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
+    if (!e) { var m0 = memberByName(name); e = {personId: m0 ? m0.id : slug(name), name:name, role: m0 ? m0.role || '' : 'Subcontractor', days:'', rate:'', basis:'all', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
   } else {
     var m = memberById(v); if (!m) return;
     e = findPay(list, v);
-    if (!e) { e = {personId:m.id, name:m.name, role:m.role || '', days:'', rate:m.dayRate || '', basis:'day-rate', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
+    if (!e) { e = {personId:m.id, name:m.name, role:m.role || '', days:'', rate:m.dayRate || '', basis:'all', priceTotal:'', otHours:'', otRate:'', note:'', amount:0}; list.push(e); }
   }
   e.manual = true; ui.payOpen = e.personId; saveWeek(wk, list).then(function(ok){ if (ok) toast(e.name + ' added to this week'); }); render();
 }
@@ -1074,9 +1144,10 @@ function stmtWeek(wk, pid){
   var list = weekEntries(wk), e = findPay(list, pid); if (!e) return;
   var mon = keyMon(wk), span = spanOf(wk), perTxt = dm(mon) + ' \u2013 ' + fmt(addDays(mon,13),{day:'numeric', month:'long', year:'numeric'}), g = calcEntry(e), c = cisAmt(e), r = cisRate(e), lines = [];
   personJobs(e.name, mon, spanOf(wk)).forEach(function(j){ lines.push([j.job, daysTxt(j.days), 'info']); });
-  if (e.basis === 'price-work') lines.push(['Price work', gbp(num(e.priceTotal))]);
-  else lines.push([num(e.days) + (num(e.days) === 1 ? ' day' : ' days') + ' \u00d7 ' + gbp(num(e.rate)), gbp(num(e.days) * num(e.rate))]);
-  if (num(e.otHours) > 0) lines.push(['Overtime ' + num(e.otHours) + 'h \u00d7 ' + gbp(num(e.otRate)), gbp(num(e.otHours) * num(e.otRate))]);
+  if (dayPay(e)) lines.push(['Day work: ' + daysTxt(num(e.days)) + ' \u00d7 ' + gbp(num(e.rate)), gbp(dayPay(e))]);
+  if (pricePay(e)) lines.push(['Price work', gbp(pricePay(e))]);
+  if (hrsPay(e)) lines.push(['Additional hours: ' + num(e.hrs) + ' \u00d7 ' + gbp(num(e.hrRate)), gbp(hrsPay(e))]);
+  if (num(e.otHours) > 0) lines.push(['Overtime: ' + num(e.otHours) + 'h \u00d7 ' + gbp(num(e.otRate)), gbp(num(e.otHours) * num(e.otRate))]);
   (e.extras || []).forEach(function(d){ lines.push(['Extra: ' + (d.reason || 'extra'), gbp(Math.abs(num(d.amt)))]); });
   (e.docks || []).forEach(function(d){ lines.push(['Less: ' + (d.reason || 'deduction'), '\u2212' + gbp(Math.abs(num(d.amt))), 'neg']); });
   lines.push(['Gross amount', gbp(g), 'sub']);
@@ -1265,7 +1336,7 @@ function dirCalc(p,u){
     var wd = 0, wo = 0, wh = 0;
     for (var i=0;i<7;i++) { (S.cal[ymd(addDays(w,i))] || []).forEach(function(e){
       if (e.person !== name) return;
-      var pd = payDaysOf(e.colourId||0), jn = String(e.job || '').trim();
+      var spl = entrySplit(e), pd = spl.dw + spl.pw + spl.hd, jn = String(e.job || '').trim();
       if (jn && pd > 0) jobs[jn.toLowerCase()] = jn;
       if (pd > 0) {
         var jr = jobDirRate(jn), r = jr || rate, key = jr ? 'j:' + jn.toLowerCase() : 'std';
@@ -1417,7 +1488,7 @@ function jobStats(){
   Object.keys(S.cal).forEach(function(k){ (S.cal[k] || []).forEach(function(e){
     var j = String(e.job || '').trim(); if (!j) return;
     var key = j.toLowerCase(); if (!map[key]) map[key] = {name:j, days:0, cost:0, ot:0, people:{}, first:k, last:k};
-    var s = map[key], pd = payDaysOf(e.colourId||0), otv = num(e.otHours) * num(e.otRate);
+    var spl = entrySplit(e), s = map[key], pd = spl.dw + spl.pw + spl.hd, otv = num(e.otHours) * num(e.otRate);
     s.days += pd; s.ot += otv; s.cost += pd * rateOfName(e.person) + otv;
     if (pd > 0) s.people[e.person] = (s.people[e.person] || 0) + pd;
     if (k < s.first) s.first = k; if (k > s.last) s.last = k;
@@ -1434,7 +1505,8 @@ function rJobs(){
   function jobCard(j){
     var s = st[j.name.trim().toLowerCase()] || {days:0, cost:0, ot:0, people:{}}, open = ui.openJob === j.id;
     var r = '<div class="card"><div class="card-h" style="margin-bottom:6px"><div style="min-width:0"><div class="card-t" style="font-size:18px">' + esc(j.name) + '</div><div class="small muted">' + esc(j.client || '') + (s.first ? (j.client ? ' \u00b7 ' : '') + dm(parse(s.first)) + ' \u2013 ' + dm(parse(s.last)) : '') + '</div></div>' + (j.status === 'finished' ? '<span class="tag g">Finished</span>' : '') + '</div>';
-    r += (num(j.dirRate) > 0 ? '<div class="small" style="color:#1a1a1a;font-weight:700">Director rate ' + gbp(num(j.dirRate)) + ' a day</div>' : '') + '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
+    r += (num(j.dirRate) > 0 ? '<div class="small" style="color:#1a1a1a;font-weight:700">Director rate ' + gbp(num(j.dirRate)) + ' a day</div>' : '') +
+      '<div class="row small" style="margin:8px 0 2px"><span style="font-weight:600">Hours in a day</span><input class="inp" style="max-width:80px;padding:6px 10px" type="number" inputmode="decimal" step="0.5" placeholder="8" value="' + esc(j.hpd || '') + '" onchange="A.jobHpd(\'' + j.id + '\',this.value)"><span class="muted">for hours on the calendar</span></div>' + '<div class="g2" style="margin:8px 0"><div><div class="lbl">Labour days</div><div class="amt" style="font-size:22px">' + (Math.round(s.days*10)/10) + '</div></div><div><div class="lbl">Labour cost</div><div class="amt" style="font-size:22px">' + gbp(s.cost) + '</div></div></div>';
     if (open) {
       var ppl = Object.keys(s.people);
       if (!ppl.length) r += '<div class="empty">Nobody booked on this job yet.</div>';
@@ -1518,13 +1590,14 @@ function openApp(){ ui.setTab = 'app'; go('settings'); }
 window.A = {
   login:login, logout:logout, go:go, toggleMenu:toggleMenu, closeMenu:closeMenu, openApp:openApp, downloadBackup:downloadBackup,
   calOpen:calOpen, calMove:calMove, calToday:calToday, weekCal:weekCal, calView:function(v){ ui.calView = v; render(); }, openDay:openDay, closeDay:closeDay, moveDay:moveDay, copyDay:copyDay, pasteDay:pasteDay, clearClip:clearClip, noteEdit:noteEdit,
-  addEntry:addEntry, runToggle:runToggle, undo:doUndo, addDock:addDock, delDock:delDock, addPayPerson:addPayPerson, removePayPerson:removePayPerson,
+  addEntry:addEntry, runToggle:runToggle, setPw:setPw, togglePw:togglePw, undo:doUndo, addDock:addDock, delDock:delDock, addPayPerson:addPayPerson, removePayPerson:removePayPerson,
   payOpen:function(pid){ ui.payOpen = pid; ui.addOpen = null; render(); }, addItem:addItem, delItem:delItem, addOpen:function(k){ ui.addOpen = k; render(); if (k) focusItem(); }, stmtWeek:stmtWeek, stmtCis:stmtCis, shareStmt:shareStmt, pdfStmt:pdfStmt, waStmt:waStmt, dlStmt:dlStmt, closeModal:closeModal, setCfg:function(k,v){ S.cfg[k] = v; var o = {}; o[k] = v; save('settings', o, 'Saved'); },
   removeEntry:removeEntry, otOpen:otOpen, otSave:otSave, saveNote:saveNote, setJobRate:setJobRate,
   taskWho:function(u){ ui.taskWho = u; if (ui.page !== 'tasks') go('tasks'); else render(); }, toggleTask:toggleTask, addTodo:addTodo, toggleTodo:toggleTodo, delTodo:delTodo,
-  payTab:function(t){ ui.payTab = t; render(); }, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, addDirItem:addDirItem, delDirItem:delDirItem, clearDirAdj:clearDirAdj, monthMove:monthMove,
+  payTab:function(t){ ui.payTab = t; render(); }, toggleBasis:toggleBasis, payField:payField, weekMove:weekMove, dirField:dirField, dirPaid:dirPaid, addDirItem:addDirItem, delDirItem:delDirItem, clearDirAdj:clearDirAdj, monthMove:monthMove,
   setTab:function(t){ ui.setTab = t; ui.colDraft = null; render(); }, editMember:editMember, saveMember:saveMember, addMember:addMember, removeMember:removeMember,
   addJob:function(){ addJob(); }, addUnlisted:addUnlisted, jobStatus:jobStatus, delJob:delJob, openJob:openJob,
+  jobHpd:function(id, v){ if (!S.jobs[id]) return; S.jobs[id].hpd = v; saveJob(id, {hpd:v}, 'Saved \u2014 ' + (num(v) || 8) + ' hours = 1 day'); render(); },
   colLabel:colLabel, saveColours:saveColours, resetColours:resetColours
 };
 window.__pp = {payPeriod:payPeriod, payMonthOfWeek:payMonthOfWeek, ymd:ymd, S:function(){ return S; }};
