@@ -968,7 +968,7 @@ function keyMon(k){ k = String(k); return parse(k.charAt(0) === 'f' ? k.slice(1)
 function periodStartOf(d){ var a = anchor(), w = Math.round((mondayOf(d) - a) / 604800000); return addDays(a, Math.floor(w / 2) * 14); }
 function payDayOf(k){ return addDays(keyMon(k), spanOf(k) === 14 ? 18 : 4); }
 function periodKey(off){ var t = noon(new Date()), s = periodStartOf(t); if (ymd(t) <= ymd(addDays(s, 4))) s = addDays(s, -14); return 'f' + ymd(addDays(s, (off || 0) * 14)); }
-function keyLabel(k){ return spanOf(k) === 14 ? dm(keyMon(k)) + ' \u2013 ' + dm(addDays(keyMon(k), 13)) : 'w/c ' + dm(keyMon(k)); }
+function keyLabel(k){ if (String(k).charAt(0) === 'd') { var ps = String(k).slice(1).split('-'); return fmt(new Date(+ps[0], +ps[1] - 1, 1, 12),{month:'long'}) + ' director pay'; } return spanOf(k) === 14 ? dm(keyMon(k)) + ' \u2013 ' + dm(addDays(keyMon(k), 13)) : 'w/c ' + dm(keyMon(k)); }
 function rPay(){
   var html = head('Wages', 'Pay Log');
   html += seg([['team','Team \u00b7 fortnightly'], ['directors','Directors \u00b7 monthly']], ui.payTab, 'payTab');
@@ -1123,6 +1123,17 @@ function cisMonth(tm){
       if (e._dir) return; var g = calcEntry(e); if (g <= 0) return;
       if (!per[e.name]) { per[e.name] = {name:e.name, pid:e.personId, gross:0, cis:0, rate:cisRate(e), weeks:[]}; order.push(e.name); }
       per[e.name].gross += g; per[e.name].cis += cisAmt(e); per[e.name].weeks.push({wk:k, gross:g, cis:cisAmt(e)});
+    });
+  });
+  [tm.start, tm.end].forEach(function(d, i){
+    var pm = {y:d.getFullYear(), m:d.getMonth()}, pdte = ymd(payPeriod(pm).payDate);
+    if (i === 1 && tm.start.getMonth() === tm.end.getMonth()) return;
+    if (pdte < s || pdte > en) return;
+    ['macauly','brad'].forEach(function(u){
+      var c = dirCalc(pm, u); if (c.gross <= 0 || !c.cis) return;
+      var nm = nameOf(u);
+      if (!per[nm]) { per[nm] = {name:nm, pid:u, gross:0, cis:0, rate:c.cisRate, weeks:[]}; order.push(nm); }
+      per[nm].gross += c.gross; per[nm].cis += c.cis; per[nm].weeks.push({wk:'d' + pmKey(pm), gross:c.gross, cis:c.cis});
     });
   });
   return order.map(function(n){ return per[n]; });
@@ -1329,7 +1340,15 @@ function jobByName(n){
   return null;
 }
 function jobDirRate(n){ var j = jobByName(n); return j && num(j.dirRate) > 0 ? num(j.dirRate) : 0; }
-function dirCalc(p,u){
+function dirCis(pk,u){
+  var r = dirRec(pk,u); if (!blank(r.cis)) return r.cis;
+  var prev = Object.keys(S.dpay).filter(function(k){ return k < pk && S.dpay[k] && S.dpay[k][u] && !blank(S.dpay[k][u].cis); }).sort().reverse()[0];
+  if (prev) return S.dpay[prev][u].cis;
+  var m = memberById(u); return m && !blank(m.cis) ? m.cis : '20';
+}
+function dirNet(c){ c.cis = c.gross > 0 ? Math.round(c.gross * c.cisRate) / 100 : 0; c.net = c.gross - c.cis; return c; }
+function dirCalc(p,u){ return dirNet(dirCalc0(p,u)); }
+function dirCalc0(p,u){
   var per = payPeriod(p), pk = pmKey(p), name = nameOf(u), rate = num(dirRate(pk,u)), rec = dirRec(pk,u);
   var groups = {}, order = [], weeks = [], days = 0, base = 0, ot = 0, jobs = {};
   per.weeks.forEach(function(w){
@@ -1348,20 +1367,21 @@ function dirCalc(p,u){
     weeks.push({mon:w, days:wd, ot:wo, otH:wh}); days += wd; ot += wo;
   });
   var adj = num(rec.adjust), xtra = extraTotal(rec), dock = dockTotal(rec);
-  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, xtra:xtra, dock:dock, total:base + ot + adj + xtra - dock, rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
+  return {per:per, pk:pk, weeks:weeks, days:days, rate:rate, base:base, ot:ot, adj:adj, xtra:xtra, dock:dock, total:base + ot + adj + xtra - dock, gross:base + ot + adj + xtra - dock, cisRate:num(dirCis(pk,u)), rec:rec, groups:order.map(function(k){ return groups[k]; }), jobs:jobs};
 }
 function rPayDirectors(){
   if (!ui.payMonth) ui.payMonth = owedPayMonth();
   var p = ui.payMonth, per = payPeriod(p), mName = fmt(new Date(p.y,p.m,1,12),{month:'long', year:'numeric'});
   var cs = ['macauly','brad'].map(function(u){ return {u:u, c:dirCalc(p,u)}; });
   var h = '<div class="cal-nav"><button class="navb" onclick="A.monthMove(-1)">' + IC.left + '</button><div><div class="cal-m" style="font-size:20px">' + mName + ' pay</div><div class="small muted" style="text-align:center">' + (ymd(per.payDate) < ymd(new Date()) ? 'Paid ' : 'Due ') + short(per.payDate) + '</div></div><button class="navb" onclick="A.monthMove(1)">' + IC.right + '</button></div>';
-  h += '<div class="total"><div><div class="k">Directors total</div><div class="v">' + gbp(cs[0].c.total + cs[1].c.total) + '</div><div class="s">Covers ' + short(per.start) + ' \u2013 ' + short(per.end) + '</div></div></div>';
+  h += '<div class="total"><div><div class="k">Directors net to pay</div><div class="v">' + gbp(cs[0].c.net + cs[1].c.net) + '</div><div class="s">Gross ' + gbp(cs[0].c.gross + cs[1].c.gross) + ' \u00b7 CIS ' + gbp(cs[0].c.cis + cs[1].c.cis) + ' \u00b7 covers ' + short(per.start) + ' \u2013 ' + short(per.end) + '</div></div></div>';
   h += '<div class="banner">Week in hand: <b>w/c ' + dm(per.inHand) + '</b> rolls into next month\u2019s pay.</div>';
   cs.forEach(function(x){
     var u = x.u, c = x.c, f = 'A.dirField(\'' + c.pk + '\',\'' + u + '\',';
-    h += '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + USERS[u].ini + '</div><div><div class="card-t" style="font-size:18px">' + esc(nameOf(u)) + '</div><div class="small muted">' + daysTxt(c.days) + ' this pay month</div></div></div><div class="amt" style="font-size:22px">' + gbp(c.total) + '</div></div>';
+    h += '<div class="card"><div class="card-h"><div class="row"><div class="mav">' + USERS[u].ini + '</div><div><div class="card-t" style="font-size:18px">' + esc(nameOf(u)) + '</div><div class="small muted">' + daysTxt(c.days) + ' this pay month</div></div></div><div style="text-align:right"><div class="amt" style="font-size:22px">' + gbp(c.net) + '</div><div class="small muted">net</div></div></div>';
     c.weeks.forEach(function(w){ h += '<div class="ln"><span>w/c ' + dm(w.mon) + '</span><span>' + daysTxt(w.days) + (w.otH > 0 ? ' <span class="tag ot" style="margin:0">+' + w.otH + 'h OT</span>' : '') + '</span></div>'; });
     h += '<div class="fld" style="margin-top:12px"><label class="lbl">Standard day rate (\u00a3)</label><input class="inp" type="number" inputmode="decimal" step="0.01" value="' + esc(dirRate(c.pk,u)) + '" onchange="' + f + '\'rate\',this.value)"></div>';
+    h += '<div class="fld"><label class="lbl">CIS</label>' + cisSelect(dirCis(c.pk,u), f + '\'cis\',this.value)') + '</div>';
     h += dirItems(c.pk, u, 'extras') + dirItems(c.pk, u, 'docks');
     if (!c.groups.length) h += '<div class="ln"><span>No days on the calendar yet</span><span>' + gbp(0) + '</span></div>';
     c.groups.forEach(function(g){ h += '<div class="ln"><span>' + daysTxt(g.days) + ' \u00d7 ' + gbp(g.rate) + ' <span class="small muted">' + esc(g.label) + '</span></span><span>' + gbp(g.days * g.rate) + '</span></div>'; });
@@ -1369,7 +1389,9 @@ function rPayDirectors(){
     if (c.adj) h += '<div class="ln"><span>' + esc(c.rec.adjustNote || 'Adjustment') + ' <button class="link small" onclick="A.clearDirAdj(\'' + c.pk + '\',\'' + u + '\')">remove</button></span><span>' + gbp(c.adj) + '</span></div>';
     (c.rec.extras || []).forEach(function(d){ h += '<div class="ln"><span>Extra: ' + esc(d.reason || 'extra') + '</span><span>+' + gbp(Math.abs(num(d.amt))) + '</span></div>'; });
     (c.rec.docks || []).forEach(function(d){ h += '<div class="ln"><span class="red">Less: ' + esc(d.reason || 'deduction') + '</span><span class="red">\u2212' + gbp(Math.abs(num(d.amt))) + '</span></div>'; });
-    h += '<div class="ln tot"><span>Total</span><span>' + gbp(c.total) + '</span></div>';
+    h += '<div class="ln" style="font-weight:700"><span>Gross</span><span>' + gbp(c.gross) + '</span></div>';
+    h += '<div class="ln"><span>' + (c.cisRate ? 'CIS ' + c.cisRate + '%' : 'CIS (gross status)') + '</span><span>\u2212' + gbp(c.cis) + '</span></div>';
+    h += '<div class="ln tot"><span>Net to pay</span><span>' + gbp(c.net) + '</span></div>';
     h += '<button class="btn full ' + (c.rec.paid ? 'ok' : '') + '" style="margin-top:12px" onclick="A.dirPaid(\'' + c.pk + '\',\'' + u + '\')">' + (c.rec.paid ? IC.check.replace('<svg','<svg width="16" height="16"') + ' Paid ' + (c.rec.paidOn ? dm(parse(c.rec.paidOn)) : '') + ' \u00b7 tap to undo' : 'Mark as paid') + '</button></div>';
   });
   var jn = {};
@@ -1435,7 +1457,7 @@ function dirPaid(pk,u){
   var r = dirRec(pk,u), now = !r.paid;
   if (!S.dpay[pk]) S.dpay[pk] = {}; if (!S.dpay[pk][u]) S.dpay[pk][u] = {};
   var calc = dirCalc(ui.payMonth, u);
-  var upd = {paid:now, paidOn:now ? ymd(new Date()) : '', rate:dirRate(pk,u), paidAmount:now ? Math.round(calc.total*100)/100 : 0};
+  var upd = {paid:now, paidOn:now ? ymd(new Date()) : '', rate:dirRate(pk,u), paidAmount:now ? Math.round(calc.net*100)/100 : 0, paidGross:now ? Math.round(calc.gross*100)/100 : 0, paidCis:now ? Math.round(calc.cis*100)/100 : 0, cis:dirCis(pk,u)};
   Object.assign(S.dpay[pk][u], upd);
   var o = {}; o[pk] = {}; o[pk][u] = upd; save('directorpay', o, now ? 'Marked as paid' : 'Marked as unpaid'); render();
 }
